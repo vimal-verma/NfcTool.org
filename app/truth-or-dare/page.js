@@ -6,11 +6,11 @@ export const metadata = {
     title: 'Truth or Dare — NFC Party Game | NfcTool',
     description: 'Play Truth or Dare with NFC tags! Tap a card to reveal a random challenge. Works with or without NFC — perfect for parties and groups.',
     keywords: ['NFC Truth or Dare', 'NFC party game', 'Truth or Dare browser', 'NFC card game', 'Web NFC game'],
-    alternates: { canonical: 'https://nfctool.org/games/truth-or-dare' },
+    alternates: { canonical: 'https://nfctool.org/truth-or-dare' },
     openGraph: {
         title: 'Truth or Dare — NFC Party Game | NfcTool',
         description: 'Play Truth or Dare with NFC tags. Tap a card to reveal a random challenge for any group size.',
-        url: 'https://nfctool.org/games/truth-or-dare',
+        url: 'https://nfctool.org/truth-or-dare',
         siteName: 'NfcTool',
         images: [{ url: '/og-logo.png', width: 1200, height: 630, alt: 'NFC Truth or Dare Game' }],
         type: 'website',

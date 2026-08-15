@@ -84,6 +84,16 @@ export default async function BlogPostPage({ params }) {
     'datePublished': post.date,
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    'itemListElement': [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://nfctool.org/blog' },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://nfctool.org/blog/${slug}` },
+    ],
+  };
+
   return (
     <div className={styles.container}>
       <Link href="/blog" className={styles.backLink}>← Back to Blog</Link>
@@ -110,6 +120,7 @@ export default async function BlogPostPage({ params }) {
         </div>
         <div className={styles.content} dangerouslySetInnerHTML={{ __html: post.content }} />
         <JsonLd data={jsonLd} />
+        <JsonLd data={breadcrumbSchema} />
         {post.tags && post.tags.length > 0 && (
           <div className={styles.tagsSection}>
             <strong>Tags:</strong>

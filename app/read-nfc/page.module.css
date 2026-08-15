@@ -195,6 +195,7 @@
 .log .success { color: var(--color-success); }
 .log .error { color: var(--color-danger); }
 .log .info { color: var(--text-primary); }
+.log .warning { color: var(--color-warning); }
 .log a { color: var(--primary-accent); text-decoration: underline; }
 
 /* Empty state */

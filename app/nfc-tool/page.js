@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 import NfcClientTool from './nfc-client-tool';
+import BrowserSupportNotice from '../components/BrowserSupportNotice';
 import { Fragment } from 'react';
 
 export const metadata = {
@@ -58,10 +59,12 @@ export default function NfcToolPage() {
           </div>
         </header>
 
-        <div className="toolCompatNote">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <span><strong>Requires Chrome on Android (v89+)</strong> with NFC enabled. For simpler read/write, try the <Link href="/read-nfc" style={{color:'inherit',textDecoration:'underline'}}>NFC Reader</Link> or <Link href="/write-nfc" style={{color:'inherit',textDecoration:'underline'}}>NFC Writer</Link>.</span>
-        </div>
+        <BrowserSupportNotice />
+
+        <p className="toolHint">
+          Looking for something simpler? Try the <Link href="/read-nfc">NFC Reader</Link> or{' '}
+          <Link href="/write-nfc">NFC Writer</Link>.
+        </p>
 
         <div className={styles.container} style={{width:'100%'}}>
           <NfcClientTool />

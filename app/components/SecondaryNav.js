@@ -9,7 +9,7 @@ export default function SecondaryNav() {
     const pathname = usePathname();
 
     return (
-        <nav className={styles.secondaryNav}>
+        <nav id="tools-nav" aria-label="Tools" className={styles.secondaryNav}>
             <div className={styles.scrollContainer}>
                 {tools.map((tool) => (
                     <Link key={tool.href} href={tool.href} className={`${styles.navLink} ${pathname === tool.href ? styles.active : ''}`} aria-current={pathname === tool.href ? 'page' : undefined}>

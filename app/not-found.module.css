@@ -28,8 +28,38 @@
   margin-bottom: 2rem;
 }
 
+.suggestions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 620px;
+  margin-bottom: 2rem;
+}
+
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  background: var(--card-background);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.suggestion:hover {
+  background: var(--card-background-hover);
+  border-color: var(--primary-accent);
+  transform: translateY(-2px);
+}
+
 .homeButton {
   display: inline-block;
+  min-height: 48px;
   background: var(--primary-accent);
   color: var(--button-primary-text);
   padding: 1rem 2rem;

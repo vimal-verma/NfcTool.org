@@ -75,6 +75,17 @@ export default function Home() {
     }
   };
 
+  const webSiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    'name': 'NfcTool',
+    'alternateName': 'NfcTool.org',
+    'url': 'https://nfctool.org',
+    'description': 'Free browser-based NFC tools to read, write, and manage NFC tags, plus QR code generators for vCards, WiFi, UPI, and more.',
+    'inLanguage': 'en',
+    'publisher': { '@type': 'Organization', 'name': 'NfcTool', 'url': 'https://nfctool.org' },
+  };
+
   const faqSchema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -179,7 +190,7 @@ export default function Home() {
             <p>With a simple tap, users can read information from a tag or write new data to it, creating seamless user experiences.</p>
           </div>
           <div className={styles.featureCard}>
-            <div className={styles.featureIcon}></div>
+            <div className={styles.featureIcon}>✨</div>
             <h3>Endless Possibilities</h3>
             <p>From digital business cards and smart posters to inventory management, Web NFC opens up a world of interactive applications.</p>
           </div>
@@ -254,6 +265,7 @@ export default function Home() {
       </section>
 
       <JsonLd data={organizationSchema} />
+      <JsonLd data={webSiteSchema} />
       <JsonLd data={faqSchema} />
     </div>
   );

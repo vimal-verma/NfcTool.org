@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useSyncExternalStore } from 'react';
+import { useNfcSupport } from '../lib/use-nfc-support';
 import styles from './page.module.css';
 
 const DURATIONS = [30, 60, 90];
@@ -10,17 +11,46 @@ const LS_KEY = 'webnfc_speedtap_scores';
 
 function loadScores() {
     try {
-        return JSON.parse(localStorage.getItem(LS_KEY)) || [];
+        const parsed = JSON.parse(localStorage.getItem(LS_KEY));
+        return Array.isArray(parsed) ? parsed : [];
     } catch {
         return [];
     }
 }
 
+/* ── Leaderboard store ──
+ * The high-score list lives in localStorage, which can only be read on the
+ * client. Exposing it as an external store keeps hydration clean and means
+ * saving a score immediately refreshes the leaderboard everywhere it's shown.
+ */
+const EMPTY_SCORES = [];
+let scoresCache = null;
+const scoreListeners = new Set();
+
+const subscribeScores = (listener) => {
+    scoreListeners.add(listener);
+    return () => scoreListeners.delete(listener);
+};
+
+// Cached so repeated reads return the same reference, as the store contract requires.
+const getScoresSnapshot = () => {
+    if (scoresCache === null) scoresCache = loadScores();
+    return scoresCache;
+};
+
+const getScoresServerSnapshot = () => EMPTY_SCORES;
+
 function saveScore(entry) {
-    const scores = loadScores();
-    scores.push(entry);
-    scores.sort((a, b) => b.score - a.score);
-    localStorage.setItem(LS_KEY, JSON.stringify(scores.slice(0, 10)));
+    const next = [...getScoresSnapshot(), entry]
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 10);
+    scoresCache = next;
+    try {
+        localStorage.setItem(LS_KEY, JSON.stringify(next));
+    } catch {
+        // Storage full or blocked — the score still shows for this session.
+    }
+    for (const listener of scoreListeners) listener();
 }
 
 export default function SpeedTapClient() {
@@ -31,19 +61,16 @@ export default function SpeedTapClient() {
     const [uniqueTags, setUniqueTags] = useState(new Set());
     const [lastTag, setLastTag] = useState(null);
     const [flash, setFlash] = useState(false);
-    const [scores, setScores] = useState([]);
-    const [nfcSupported, setNfcSupported] = useState(null);
+    const scores = useSyncExternalStore(subscribeScores, getScoresSnapshot, getScoresServerSnapshot);
+    const support = useNfcSupport();
+    // Keeps the original tri-state: null while unknown, then true/false.
+    const nfcSupported = support === 'unknown' ? null : support === 'supported';
     const [nfcError, setNfcError] = useState(null);
 
     const timerRef = useRef(null);
     const abortRef = useRef(null);
     const tapsRef = useRef(0);
     const uniqueRef = useRef(new Set());
-
-    useEffect(() => {
-        setNfcSupported('NDEFReader' in window);
-        setScores(loadScores());
-    }, []);
 
     const endGame = useCallback(() => {
         clearInterval(timerRef.current);

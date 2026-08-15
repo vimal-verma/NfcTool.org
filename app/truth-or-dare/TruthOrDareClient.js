@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { useNfcSupport } from '../lib/use-nfc-support';
 import styles from './page.module.css';
 
 const TRUTHS = [
@@ -74,7 +75,9 @@ export default function TruthOrDareClient() {
     const [currentPrompt, setCurrentPrompt] = useState(null);
     const [promptType, setPromptType] = useState(null); // 'truth' | 'dare'
     const [round, setRound] = useState(0);
-    const [nfcSupported, setNfcSupported] = useState(null);
+    const support = useNfcSupport();
+    // Keeps the original tri-state: null while unknown, then true/false.
+    const nfcSupported = support === 'unknown' ? null : support === 'supported';
     const [isFlipped, setIsFlipped] = useState(false);
     const [lastTag, setLastTag] = useState(null);
 
@@ -84,7 +87,6 @@ export default function TruthOrDareClient() {
     const abortRef = useRef(null);
 
     useEffect(() => {
-        setNfcSupported('NDEFReader' in window);
         return () => { if (abortRef.current) abortRef.current.abort(); };
     }, []);
 

@@ -29,10 +29,9 @@ export default function sitemap() {
         { url: `${baseUrl}/contact`, lastModified, changeFrequency: 'yearly', priority: 0.6 },
         { url: `${baseUrl}/showcase`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
         { url: `${baseUrl}/games`, lastModified, changeFrequency: 'weekly', priority: 0.8 },
-        { url: `${baseUrl}/games/truth-or-dare`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
-        { url: `${baseUrl}/games/speed-tap`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
+        { url: `${baseUrl}/truth-or-dare`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
+        { url: `${baseUrl}/speed-tap`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
         { url: `${baseUrl}/shufflehunt`, lastModified, changeFrequency: 'monthly', priority: 0.6 },
-        { url: `${baseUrl}/terms`, lastModified, changeFrequency: 'yearly', priority: 0.3 },
     ];
 
     const blogPostRoutes = posts.map((post) => ({

@@ -11,11 +11,8 @@ export default function robots() {
             {
                 userAgent: '*',
                 allow: '/',
-                disallow: [
-                    '/cart',
-                    '/checkout',
-                    '/redirect',
-                ],
+                // Per-tag utility route with no standalone content to index.
+                disallow: ['/redirect'],
             },
             // Allow Google's AI crawler
             {

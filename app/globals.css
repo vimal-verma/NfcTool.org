@@ -66,20 +66,45 @@ html,
 body {
   scroll-behavior: smooth;
   max-width: 100vw;
-  overflow-x: hidden;
+  /* `clip` instead of `hidden`: stops horizontal overflow without turning the
+     page into a scroll container, which would break `position: sticky`. */
+  overflow-x: clip;
 }
 
 body {
   background: var(--background);
   color: var(--text-primary);
-  font-family: var(--font-geist-sans), sans-serif; /* Using Geist font */
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+code, kbd, pre, samp {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img {
+  max-width: 100%;
+}
+
+::selection {
+  background: var(--primary-accent);
+  color: #fff;
+}
+
+/* Keep in-page anchors clear of the sticky header. */
+:target {
+  scroll-margin-top: 5rem;
 }
 
 .wrapper {
@@ -222,6 +247,46 @@ a, button, input, select, textarea {
 
 .toolCompatNote svg {
   flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.toolCompatNote.isOk {
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #065f46;
+}
+
+.dark .toolCompatNote.isOk {
+  background: #022c22;
+  border-color: #065f46;
+  color: #a7f3d0;
+}
+
+.toolCompatNoteLink {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.toolCompatNoteLink:hover {
+  opacity: 0.75;
+}
+
+.toolHint {
+  max-width: 760px;
+  width: calc(100% - 2rem);
+  margin: -0.75rem auto 1.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.toolHint a {
+  color: var(--primary-accent);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .toolHowTo {

@@ -1,5 +1,6 @@
 import { Suspense, Fragment } from 'react';
 import ReadNfcClient from './read-nfc-client';
+import BrowserSupportNotice from '../components/BrowserSupportNotice';
 import styles from './page.module.css';
 
 export const metadata = {
@@ -57,10 +58,7 @@ export default function ReadNfcPage() {
                     </div>
                 </header>
 
-                <div className="toolCompatNote">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    <span><strong>Browser requirement:</strong> Web NFC works only in <strong>Chrome on Android</strong> (v89+). Enable NFC in your phone&apos;s settings before scanning.</span>
-                </div>
+                <BrowserSupportNotice />
 
                 <div className={styles.toolContainer} style={{maxWidth: '700px', width: '100%', padding: '0 1rem'}}>
                     <Suspense fallback={<div style={{padding:'2rem',textAlign:'center',color:'var(--text-secondary)'}}>Loading scanner…</div>}>

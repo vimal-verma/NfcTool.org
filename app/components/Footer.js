@@ -5,23 +5,44 @@ import Link from 'next/link';
 import styles from './Footer.module.css';
 import Toast from './Toast';
 
+const SUBSCRIBE_FALLBACK = 'We couldn’t sign you up just now. Email support@nfctool.org and we’ll add you.';
+
 export default function Footer() {
     const [email, setEmail] = useState('');
     const [toastMessage, setToastMessage] = useState('');
+    const [status, setStatus] = useState('idle'); // idle | sending
 
     const handleSubscribe = async (e) => {
         e.preventDefault();
-        if (!email) return;
+        if (!email || status === 'sending') return;
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/subscribe`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email }),
-        });
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        if (!apiUrl) {
+            setToastMessage(SUBSCRIBE_FALLBACK);
+            return;
+        }
 
-        const data = await response.json();
-        setToastMessage(data.message);
-        if (response.ok) setEmail('');
+        setStatus('sending');
+        try {
+            const response = await fetch(`${apiUrl}/subscribe`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json().catch(() => ({}));
+            if (response.ok) {
+                setToastMessage(data.message || 'You’re subscribed — thanks!');
+                setEmail('');
+            } else {
+                setToastMessage(data.message || SUBSCRIBE_FALLBACK);
+            }
+        } catch {
+            // Offline, blocked, or the endpoint is unreachable.
+            setToastMessage(SUBSCRIBE_FALLBACK);
+        } finally {
+            setStatus('idle');
+        }
     };
 
     return (
@@ -68,9 +89,21 @@ export default function Footer() {
                     <h4>Subscribe to our Newsletter</h4>
                     <p>Get the latest on NFC tech, new products, and exclusive offers.</p>
                     <form className={styles.newsletterForm} onSubmit={handleSubscribe}>
-                        <input type="email" placeholder="Enter your email" aria-label="Email address for newsletter" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                        <button type="submit">Subscribe</button>
+                        <input
+                            type="email"
+                            placeholder="Enter your email"
+                            aria-label="Email address for newsletter"
+                            autoComplete="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={status === 'sending'}
+                            required
+                        />
+                        <button type="submit" disabled={status === 'sending' || !email}>
+                            {status === 'sending' ? 'Subscribing…' : 'Subscribe'}
+                        </button>
                     </form>
+                    <p aria-live="polite" className={styles.srOnly}>{toastMessage}</p>
                 </div>
             </div>
             <p className={styles.copyright}>&copy; {new Date().getFullYear()} NfcTool. All rights reserved.</p>

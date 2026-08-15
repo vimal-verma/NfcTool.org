@@ -122,6 +122,16 @@ export default async function DocumentationContent({ params }) {
         }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        'itemListElement': [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'Documentation', item: 'https://nfctool.org/documentation' },
+            { '@type': 'ListItem', position: 3, name: sections[slug], item: `https://nfctool.org/documentation/${slug}` },
+        ],
+    };
+
     return (
         <div className={styles.documentationContainer}>
             <article className={styles.guide}>
@@ -138,6 +148,7 @@ export default async function DocumentationContent({ params }) {
                     rel="noopener noreferrer"
                     className={styles.editLink}>✏️ Edit this page on GitHub</a>
                 <JsonLd data={jsonLd} />
+                <JsonLd data={breadcrumbSchema} />
                 <div className={styles.pagination}>
                     {prevSection && (
                         <Link href={`/documentation/${prevSection.slug}`} className={styles.prevLink}>

@@ -2,11 +2,25 @@
 
 import { useState, useCallback } from 'react';
 import PhonePreview from '../vcard/PhonePreview';
+import { useNfcLikelySupported } from '../lib/use-nfc-support';
 import styles from './page.module.css';
+
+// A tag can hold any string. Only ever treat plain web links as openable, so a
+// crafted tag can't slip a `javascript:` or `data:` URL into a link we render.
+const safeUrl = (value) => {
+    if (typeof value !== 'string' || !value) return null;
+    try {
+        const parsed = new URL(value);
+        return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.href : null;
+    } catch {
+        return null;
+    }
+};
 
 export default function ReadNfcClient() {
     const [log, setLog] = useState([]);
     const [isScanning, setIsScanning] = useState(false);
+    const isSupported = useNfcLikelySupported();
     const [lastScannedContent, setLastScannedContent] = useState(null);
     const [isVCard, setIsVCard] = useState(false);
     const [isWifi, setIsWifi] = useState(false);
@@ -148,8 +162,13 @@ export default function ReadNfcClient() {
                         case "url": {
                             const textDecoder = new TextDecoder();
                             currentRecordContent = textDecoder.decode(record.data);
-                            setScannedUrl(currentRecordContent);
-                            addToLog(`> URL: <a href="${currentRecordContent}" target="_blank" rel="noopener noreferrer">${currentRecordContent}</a>`, 'info');
+                            const openable = safeUrl(currentRecordContent);
+                            setScannedUrl(openable);
+                            if (openable) {
+                                addToLog(`> URL: ${openable} — use the “Open URL” button below.`, 'info');
+                            } else {
+                                addToLog(`> URL is not a standard web link, so it wasn't opened: ${currentRecordContent}`, 'warning');
+                            }
                             break;
                         }
                         case "mime":
@@ -231,13 +250,20 @@ export default function ReadNfcClient() {
     return (
         <div className={styles.toolContainer}>
             <div className={styles.actionButtonsContainer}>
-                <button onClick={handleRead} disabled={isScanning} className={styles.actionButton}>
-                    {isScanning ? (
-                        <span className={styles.scanningIndicator}>
-                            <span className={styles.scanPulse}></span>
-                            Scanning…
-                        </span>
-                    ) : '📡 Start Scan'}
+                <button
+                    onClick={handleRead}
+                    disabled={isScanning || !isSupported}
+                    className={styles.actionButton}
+                    title={!isSupported ? 'Web NFC is not available in this browser' : undefined}
+                >
+                    {!isSupported
+                        ? 'Scanning unavailable here'
+                        : isScanning ? (
+                            <span className={styles.scanningIndicator}>
+                                <span className={styles.scanPulse}></span>
+                                Scanning…
+                            </span>
+                        ) : '📡 Start Scan'}
                 </button>
                 {lastScannedContent && (
                     <button onClick={handleCopy} className={styles.copyButton}>
@@ -256,11 +282,22 @@ export default function ReadNfcClient() {
                 )}
             </div>
 
-            {!tagDetails && !isScanning && (
+            {!tagDetails && !isScanning && isSupported && (
                 <div className={styles.emptyState}>
                     <div className={styles.emptyStateIcon}>📱</div>
                     <p className={styles.emptyStateTitle}>Ready to scan</p>
                     <p className={styles.emptyStateHint}>Press &ldquo;Start Scan&rdquo;, then hold the back of your phone near an NFC tag (within 4 cm).</p>
+                </div>
+            )}
+
+            {!tagDetails && !isSupported && (
+                <div className={styles.emptyState}>
+                    <div className={styles.emptyStateIcon}>🔒</div>
+                    <p className={styles.emptyStateTitle}>This browser can&apos;t scan NFC tags</p>
+                    <p className={styles.emptyStateHint}>
+                        Web NFC only works in Chrome on Android (v89+). Open this page there to
+                        scan a tag — or use our <a href="/qr" style={{ color: 'var(--primary-accent)', textDecoration: 'underline' }}>QR code tools</a>, which work on any device.
+                    </p>
                 </div>
             )}
 

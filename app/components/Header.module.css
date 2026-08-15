@@ -113,9 +113,13 @@
 .hamburger {
   display: none;
   flex-direction: column;
-  justify-content: space-around;
-  width: 24px;
-  height: 24px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  /* 44px minimum touch target, while the bars stay visually 24px wide. */
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -134,7 +138,7 @@
 }
 
 .hamburgerOpen span:nth-child(1) {
-  transform: translateY(6px) rotate(45deg);
+  transform: translateY(7px) rotate(45deg);
 }
 
 .hamburgerOpen span:nth-child(2) {
@@ -142,28 +146,34 @@
 }
 
 .hamburgerOpen span:nth-child(3) {
-  transform: translateY(-6px) rotate(-45deg);
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 .themeToggler {
   display: flex;
   align-items: center;
+  gap: 2px;
   background: var(--button-secondary-hover);
   border-radius: 999px;
-  padding: 4px;
+  padding: 3px;
 }
 
 .themeToggler button {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.themeToggler button:hover {
+  background-color: var(--card-background-hover);
 }
 
 .activeTheme {
@@ -171,9 +181,9 @@
   border: 1px solid var(--primary-accent) !important;
 }
 
-.dark .nav a {
-    color: var(--text-primary);
-  }
+:global(.dark) .nav a {
+  color: var(--text-primary);
+}
 
 .overlay {
   position: fixed;
@@ -188,19 +198,42 @@
 }
 
 @media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 1rem;
+    /* Above the drawer so the close button is always reachable. */
+    z-index: 20;
+  }
+
   .nav {
     position: fixed;
     top: 0;
     left: -100%;
-    width: 70%;
+    width: min(80%, 320px);
     height: 100vh;
+    height: 100dvh; /* avoids the mobile address-bar gap */
+    padding: 5rem 1.25rem 2rem;
     background: var(--background);
+    border-right: 1px solid var(--card-border);
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    overflow-y: auto;
     transition: left 0.3s ease-in-out;
     z-index: 15;
+  }
+
+  /* Full-width rows with comfortable touch targets in the drawer. */
+  .nav a,
+  .nav .navButton {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    width: 100%;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    font-size: 1.05rem;
+    text-align: left;
   }
 
   .navOpen {

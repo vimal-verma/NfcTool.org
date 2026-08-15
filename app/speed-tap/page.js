@@ -6,11 +6,11 @@ export const metadata = {
     title: 'Speed Tap — NFC Tag Scanning Challenge | NfcTool',
     description: 'Tap as many different NFC tags as you can before the timer runs out! Track your high score and compete with friends in this fast-paced NFC challenge.',
     keywords: ['NFC Speed Tap', 'NFC tag game', 'NFC challenge', 'NFC scanner game', 'Web NFC speed game'],
-    alternates: { canonical: 'https://nfctool.org/games/speed-tap' },
+    alternates: { canonical: 'https://nfctool.org/speed-tap' },
     openGraph: {
         title: 'Speed Tap — NFC Tag Scanning Challenge | NfcTool',
         description: 'How many NFC tags can you tap in 60 seconds? Track your high score and challenge friends.',
-        url: 'https://nfctool.org/games/speed-tap',
+        url: 'https://nfctool.org/speed-tap',
         siteName: 'NfcTool',
         images: [{ url: '/og-logo.png', width: 1200, height: 630, alt: 'NFC Speed Tap Game' }],
         type: 'website',
