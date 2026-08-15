@@ -4,7 +4,7 @@ import { MetadataRoute } from 'next';
  * @returns {MetadataRoute.Robots}
  */
 export default function robots() {
-    const baseUrl = 'https://webnfc.org';
+    const baseUrl = 'https://nfctool.org';
 
     return {
         rules: [

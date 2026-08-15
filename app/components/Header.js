@@ -41,7 +41,7 @@ export default function Header() {
                 )}
                 <div className={styles.headerContent}>
                     <Link href="/" className={styles.logo}>
-                        WebNfc
+                        NfcTool
                     </Link>
 
                     <nav className={`${styles.nav} ${isNavOpen ? styles.navOpen : ''}`}>

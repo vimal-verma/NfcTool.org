@@ -1,4 +1,4 @@
-const CACHE_NAME = 'webnfc-cache-v2';
+const CACHE_NAME = 'nfctool-cache-v2';
 const urlsToCache = [
     '/',
     '/offline.html',

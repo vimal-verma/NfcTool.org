@@ -118,7 +118,7 @@ export default function UpiToolClient() {
 
     const handleDownloadQR = (isStylish = false) => {
         const base = payeeName.replace(/\s+/g, '_') || 'upi';
-        const filename = isStylish ? `${base}_stylish_webnfc.org_qr.png` : `${base}_webnfc.org_qr.png`;
+        const filename = isStylish ? `${base}_stylish_nfctool.org_qr.png` : `${base}_nfctool.org_qr.png`;
         downloadQRCode({
             qrCodeRef,
             filename,

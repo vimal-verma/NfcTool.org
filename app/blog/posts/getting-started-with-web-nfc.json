@@ -1,7 +1,7 @@
 {
     "slug": "getting-started-with-web-nfc",
     "title": "Getting Started with Web NFC: A Beginner's Guide",
-    "author": "WebNfc Team",
+    "author": "NfcTool Team",
     "date": "2025-03-04",
     "excerpt": "New to Web NFC? This guide will walk you through the essentials, from what you need to get started to reading and writing your first NFC tag directly from your browser.",
     "description": "A beginner-friendly guide to using Web NFC. Learn about browser and device compatibility and follow our step-by-step instructions for reading and writing NFC tags with our free online tools.",

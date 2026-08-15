@@ -124,7 +124,7 @@ export default function UrlToolClient() {
     };
 
     const handleDownloadQR = (isStylish = false) => {
-        const filename = isStylish ? 'url_stylish_webnfc.org_qr.png' : 'url_webnfc.org_qr.png';
+        const filename = isStylish ? 'url_stylish_nfctool.org_qr.png' : 'url_nfctool.org_qr.png';
         downloadQRCode({
             qrCodeRef,
             filename,

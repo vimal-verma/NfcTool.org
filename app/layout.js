@@ -7,27 +7,27 @@ import Script from "next/script";
 
 
 export const metadata = {
-  metadataBase: new URL('https://webnfc.org'),
+  metadataBase: new URL('https://nfctool.org'),
   title: {
-    default: 'WebNfc | NFC Tools & Guide',
-    template: '%s | WebNfc',
+    default: 'NfcTool | NFC Tools & Guide',
+    template: '%s | NfcTool',
   },
   description: "Leading Web NFC tools and resources to read, write, and manage NFC tags directly from your browser.",
   manifest: '/manifest.json',
   keywords: ['Web NFC', 'NFC tools', 'NFC tag reader', 'NFC tag writer', 'vCard generator', 'NFC business cards', 'WebNFC API', 'NFC tutorials'],
   openGraph: {
-    title: 'WebNfc | NFC Tools & Guide',
+    title: 'NfcTool | NFC Tools & Guide',
     description: 'Leading Web NFC tools and resources to read, write, and manage NFC tags directly from your browser.',
-    url: 'https://webnfc.org',
-    siteName: 'WebNfc',
-    images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'WebNfc — NFC Tools & Guide' }],
+    url: 'https://nfctool.org',
+    siteName: 'NfcTool',
+    images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NfcTool — NFC Tools & Guide' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'WebNfc | NFC Tools & Guide',
+    title: 'NfcTool | NFC Tools & Guide',
     description: 'Leading Web NFC tools and resources to read, write, and manage NFC tags directly from your browser.',
-    images: ['https://webnfc.org/og-logo.png'],
+    images: ['https://nfctool.org/og-logo.png'],
   },
   robots: {
     index: true,

@@ -4,39 +4,39 @@ import styles from './page.module.css';
 import JsonLd from '../components/JsonLd';
 
 export const metadata = {
-  title: 'About WebNfc | Our Mission & Story',
-  description: 'Learn about WebNFC.org — a free, open-source project on a mission to make Web NFC technology accessible to developers and enthusiasts worldwide.',
-  keywords: ['About WebNfc', 'Web NFC project', 'NFC open source', 'WebNFC mission', 'Vimal Kumar', 'NFC developer tools'],
+  title: 'About NfcTool | Our Mission & Story',
+  description: 'Learn about NfcTool.org — a free, open-source project on a mission to make Web NFC technology accessible to developers and enthusiasts worldwide.',
+  keywords: ['About NfcTool', 'Web NFC project', 'NFC open source', 'NfcTool mission', 'Vimal Kumar', 'NFC developer tools'],
   openGraph: {
-    title: 'About WebNfc | Our Mission & Story',
-    description: 'Learn about WebNFC.org — a free, open-source project on a mission to make Web NFC technology accessible to developers and enthusiasts worldwide.',
-    url: 'https://webnfc.org/about',
-    siteName: 'WebNfc',
-    images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'About WebNfc' }],
+    title: 'About NfcTool | Our Mission & Story',
+    description: 'Learn about NfcTool.org — a free, open-source project on a mission to make Web NFC technology accessible to developers and enthusiasts worldwide.',
+    url: 'https://nfctool.org/about',
+    siteName: 'NfcTool',
+    images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'About NfcTool' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About WebNfc | Our Mission & Story',
-    description: 'Learn about WebNFC.org — a free, open-source project on a mission to make Web NFC technology accessible.',
-    images: ['https://webnfc.org/og-logo.png'],
+    title: 'About NfcTool | Our Mission & Story',
+    description: 'Learn about NfcTool.org — a free, open-source project on a mission to make Web NFC technology accessible.',
+    images: ['https://nfctool.org/og-logo.png'],
   },
   alternates: {
-    canonical: 'https://webnfc.org/about',
+    canonical: 'https://nfctool.org/about',
   },
 };
 
 const aboutSchema = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    name: 'About WebNfc',
-    description: 'Learn about WebNFC.org — a free, open-source project on a mission to make Web NFC technology accessible to developers and enthusiasts worldwide.',
-    url: 'https://webnfc.org/about',
+    name: 'About NfcTool',
+    description: 'Learn about NfcTool.org — a free, open-source project on a mission to make Web NFC technology accessible to developers and enthusiasts worldwide.',
+    url: 'https://nfctool.org/about',
     publisher: {
         '@type': 'Organization',
-        name: 'WebNfc',
-        url: 'https://webnfc.org',
-        logo: 'https://webnfc.org/logo.png',
+        name: 'NfcTool',
+        url: 'https://nfctool.org',
+        logo: 'https://nfctool.org/logo.png',
         sameAs: ['https://github.com/vimal-verma/webnfc'],
     },
 };
@@ -48,7 +48,7 @@ export default function AboutPage() {
     return (
         <div className={styles.container}>
             <section className={styles.hero}>
-                <h1 className={styles.title}>About WebNFC.org</h1>
+                <h1 className={styles.title}>About NfcTool.org</h1>
                 <p className={styles.subtitle}>
                     On a mission to make Web NFC technology accessible and easy to use for developers and enthusiasts worldwide.
                 </p>
@@ -58,10 +58,10 @@ export default function AboutPage() {
                 <div className={styles.storyContent}>
                     <h2>Our Story</h2>
                     <p>
-                        WebNFC.org was born from a fascination with the power of Near Field Communication and a desire to bring its capabilities to the open web. The project started as a personal endeavor to explore the Web NFC API and build practical, open-source tools that anyone could use.
+                        NfcTool.org was born from a fascination with the power of Near Field Communication and a desire to bring its capabilities to the open web. The project started as a personal endeavor to explore the Web NFC API and build practical, open-source tools that anyone could use.
                     </p>
                     <p>
-                        Today, WebNFC.org serves as a resource for learning about Web NFC, offering free tools like an NFC reader/writer, a vCard generator, and guides for developers. Our goal is to foster a community around this technology and encourage innovation by making it more approachable.
+                        Today, NfcTool.org serves as a resource for learning about Web NFC, offering free tools like an NFC reader/writer, a vCard generator, and guides for developers. Our goal is to foster a community around this technology and encourage innovation by making it more approachable.
                     </p>
                 </div>
                 <div className={styles.storyImage}>

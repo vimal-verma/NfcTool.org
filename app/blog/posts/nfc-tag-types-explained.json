@@ -1,7 +1,7 @@
 {
     "slug": "nfc-tag-types-explained",
     "title": "A Guide to the Different NFC Tag Types",
-    "author": "WebNfc Team",
+    "author": "NfcTool Team",
     "date": "2025-12-10",
     "excerpt": "Ever wondered what the difference is between NFC Tag Types 1 through 5? This guide breaks down each type, explaining their memory, speed, and ideal use cases.",
     "description": "Learn about the 5 types of NFC tags as defined by the NFC Forum. Understand the differences in memory capacity, speed, and standards like ISO 14443 and ISO 15693 to choose the right tag for your needs.",

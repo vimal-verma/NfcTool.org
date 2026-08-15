@@ -270,7 +270,7 @@
 }
 
 .copyButton:hover {
-  background-color: var(--color-primary-light);
+  background-color: var(--button-secondary-hover);
 }
 
 
@@ -301,7 +301,7 @@
 
 .prevLink:hover,
 .nextLink:hover {
-  background-color: var(--card-background-hover);
+  background-color: var(--button-secondary-hover);
   border-color: var(--primary-accent);
 }
 
@@ -315,14 +315,14 @@
   padding: 0.6rem 1.2rem;
   border: 1px solid var(--card-border);
   border-radius: 6px;
-  color: #495057;
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.9rem;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .editLink:hover {
-  background-color: var(--card-background-hover);
+  background-color: var(--button-secondary-hover);
   color: var(--text-primary);
   border-color: var(--primary-accent);
 }

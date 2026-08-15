@@ -5,25 +5,25 @@ import { getAllPosts } from '../lib/posts';
 import JsonLd from '../components/JsonLd';
 
 export const metadata = {
-  title: 'Blog — NFC Insights, Guides & News | WebNfc',
-  description: 'Read the latest insights, tips, and stories on modern networking, NFC technology, and business card design from the WebNfc team.',
-  keywords: ['NFC blog', 'WebNFC articles', 'NFC technology news', 'Business card design tips', 'Digital networking strategies', 'NFC use cases', 'WebNfc updates', 'NFC trends', 'vCard tips', 'QR code insights', 'Contactless technology blog', 'NFC marketing strategies', 'NFC event ideas', 'NFC payment solutions', 'NFC access control', 'Smart home NFC applications', 'IoT and NFC', 'NFC programming tutorials', 'NFC development stories', 'NFC application examples', 'NFC solutions blog', 'WebNfc team stories', 'NFC industry news', 'NFC project highlights', 'NFC best practices', 'NFC case studies', 'NFC innovation', 'Future of NFC', 'NFC for businesses', 'NFC for consumers', 'NFC technology advancements'],
+  title: 'Blog — NFC Insights, Guides & News | NfcTool',
+  description: 'Read the latest insights, tips, and stories on modern networking, NFC technology, and business card design from the NfcTool team.',
+  keywords: ['NFC blog', 'Web NFC guides', 'NFC technology news', 'NFC tutorials', 'vCard tips', 'QR code insights', 'NFC use cases', 'NfcTool updates'],
   alternates: {
-    canonical: 'https://webnfc.org/blog',
+    canonical: 'https://nfctool.org/blog',
   },
   openGraph: {
-    title: 'Blog — NFC Insights, Guides & News | WebNfc',
-    description: 'Read the latest insights, tips, and stories on modern networking, NFC technology, and business card design from the WebNfc team.',
-    url: 'https://webnfc.org/blog',
-    siteName: 'WebNfc',
-    images: [{ url: '/og-logo.png', width: 1200, height: 630, alt: 'WebNfc Blog' }],
+    title: 'Blog — NFC Insights, Guides & News | NfcTool',
+    description: 'Read the latest insights, tips, and stories on modern networking, NFC technology, and business card design from the NfcTool team.',
+    url: 'https://nfctool.org/blog',
+    siteName: 'NfcTool',
+    images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NfcTool Blog' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog — NFC Insights, Guides & News | WebNfc',
-    description: 'Read the latest insights, tips, and stories on modern networking, NFC technology, and business card design from the WebNfc team.',
-    images: ['/og-logo.png'],
+    title: 'Blog — NFC Insights, Guides & News | NfcTool',
+    description: 'Read the latest insights, tips, and stories on modern networking, NFC technology, and business card design from the NfcTool team.',
+    images: ['https://nfctool.org/og-logo.png'],
   },
 };
 
@@ -37,24 +37,24 @@ export default function BlogPage() {
   const blogSchema = {
     '@context': 'https://schema.org',
     '@type': 'Blog',
-    'name': 'The WebNfc Blog',
+    'name': 'The NfcTool Blog',
     'description': 'Insights, tips, and stories on the future of networking.',
     'publisher': {
       '@type': 'Organization',
-      'name': 'WebNfc',
+      'name': 'NfcTool',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://webnfc.org/logo.png'
+        'url': 'https://nfctool.org/logo.png'
       }
     },
     'blogPost': blogPosts.map(post => ({
       '@type': 'BlogPosting',
       'mainEntityOfPage': {
         '@type': 'WebPage',
-        '@id': `https://webnfc.org/blog/${post.slug}`
+        '@id': `https://nfctool.org/blog/${post.slug}`
       },
       'headline': post.title,
-      'image': `https://webnfc.org${post.image}`,
+      'image': `https://nfctool.org${post.image}`,
       'datePublished': post.date,
       'author': {
         '@type': 'Person',
@@ -68,7 +68,7 @@ export default function BlogPage() {
     <div className={styles.container}>
       <header className={styles.hero}>
         <div className={styles.heroBadge}>{blogPosts.length} articles</div>
-        <h1 className={styles.title}>The WebNfc Blog</h1>
+        <h1 className={styles.title}>The NfcTool Blog</h1>
         <p className={styles.subtitle}>
           Insights, tips, and stories on NFC technology, digital networking, and the future of contactless communication.
         </p>

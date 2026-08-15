@@ -2,7 +2,7 @@ import LocationToolClient from './location-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free Location QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free Location QR Code Generator & NFC Writer | NfcTool',
     description: 'Generate a location QR code using GPS coordinates or DigiPin. Scan to open in Google Maps or any map app. Write to NFC tags. Free, no sign-up.',
     keywords: [
         'Location QR code generator', 'Geo QR generator', 'GPS QR code',
@@ -10,23 +10,23 @@ export const metadata = {
         'generate Location QR code', 'NFC Location QR code',
         'Free Location QR code generator', 'Geo URI QR', 'NFC Location writer',
         'Location to NFC tag', 'QR code for coordinates', 'DigiPin NFC',
-        'share location with QR code', 'WebNfc', 'maps QR code',
+        'share location with QR code', 'NfcTool', 'maps QR code',
     ],
     openGraph: {
-        title: 'Free Location QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Location QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a QR code for GPS coordinates or DigiPin. Scan to open in Maps. Write to NFC for tap-to-navigate.',
-        url: 'https://webnfc.org/location',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'Location QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/location',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Location QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free Location QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Location QR Code Generator & NFC Writer | NfcTool',
         description: 'Create a location QR code — scan to navigate. Supports GPS coordinates and DigiPin.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/location' },
+    alternates: { canonical: 'https://nfctool.org/location' },
 };
 
 export default function LocationPage() {
@@ -39,7 +39,7 @@ export default function LocationPage() {
         description: 'A free online tool to generate location QR codes using Geo URIs or DigiPin, and write them to NFC tags.',
         featureList: ['Generate Geo URI QR codes', 'DigiPin QR support', 'Write location to NFC tags', 'Google Maps compatible', 'Customize QR colors'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

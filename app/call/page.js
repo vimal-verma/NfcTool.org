@@ -2,30 +2,30 @@ import CallToolClient from './call-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free Phone Call QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free Phone Call QR Code Generator & NFC Writer | NfcTool',
     description: 'Generate a QR code that dials a phone number instantly when scanned. Download as PNG or write to an NFC tag. Free, no sign-up required.',
     keywords: [
         'Call QR code generator', 'phone number QR code', 'dial QR code',
         'generate Call QR code', 'create call QR code', 'NFC call QR code',
         'Free Call QR code generator', 'call link QR', 'NFC call writer',
         'WebNFC call', 'call to NFC tag', 'NFC dial tag',
-        'QR code to call phone', 'WebNfc', 'click to call QR',
+        'QR code to call phone', 'NfcTool', 'click to call QR',
     ],
     openGraph: {
-        title: 'Free Phone Call QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Phone Call QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a QR code that dials a number on scan. Download or write to NFC. Free, no sign-up.',
-        url: 'https://webnfc.org/call',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'Phone Call QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/call',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Phone Call QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free Phone Call QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Phone Call QR Code Generator & NFC Writer | NfcTool',
         description: 'Create a call QR code — scan to dial instantly. Free, no sign-up.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/call' },
+    alternates: { canonical: 'https://nfctool.org/call' },
 };
 
 export default function CallPage() {
@@ -38,7 +38,7 @@ export default function CallPage() {
         description: 'A free online tool to generate call QR codes that dial a phone number when scanned.',
         featureList: ['Generate call QR codes', 'Write call links to NFC tags', 'Customize QR colors', 'Add logo to QR code'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

@@ -3,23 +3,23 @@ import styles from './page.module.css';
 import JsonLd from '../components/JsonLd';
 
 export const metadata = {
-    title: 'NFC Games — Play Fun Games with Your NFC Tags | WebNfc',
+    title: 'NFC Games — Play Fun Games with Your NFC Tags | NfcTool',
     description: 'Play free browser-based games using NFC tags. Try Shuffle Hunt, Truth or Dare, Speed Tap Challenge, and more — no install needed, runs in Chrome on Android.',
     keywords: ['NFC games', 'NFC tag games', 'Web NFC game', 'browser NFC games', 'ShuffleHunt', 'NFC Truth or Dare', 'NFC Speed Tap', 'NFC party games'],
-    alternates: { canonical: 'https://webnfc.org/games' },
+    alternates: { canonical: 'https://nfctool.org/games' },
     openGraph: {
-        title: 'NFC Games — Play Fun Games with Your NFC Tags | WebNfc',
+        title: 'NFC Games — Play Fun Games with Your NFC Tags | NfcTool',
         description: 'Play free browser-based games using NFC tags. Shuffle Hunt, Truth or Dare, Speed Tap and more.',
-        url: 'https://webnfc.org/games',
-        siteName: 'WebNfc',
-        images: [{ url: '/og-logo.png', width: 1200, height: 630, alt: 'NFC Games' }],
+        url: 'https://nfctool.org/games',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NFC Games — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'NFC Games — Play Fun Games with Your NFC Tags | WebNfc',
+        title: 'NFC Games — Play Fun Games with Your NFC Tags | NfcTool',
         description: 'Play free browser-based NFC games. Shuffle Hunt, Truth or Dare, Speed Tap and more.',
-        images: ['/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
 };
 
@@ -103,8 +103,8 @@ const schema = {
     '@type': 'CollectionPage',
     name: 'NFC Games',
     description: 'A collection of free browser-based games playable with NFC tags.',
-    url: 'https://webnfc.org/games',
-    publisher: { '@type': 'Organization', name: 'WebNfc', url: 'https://webnfc.org' },
+    url: 'https://nfctool.org/games',
+    publisher: { '@type': 'Organization', name: 'NfcTool', url: 'https://nfctool.org' },
 };
 
 export default function GamesPage() {

@@ -2,30 +2,30 @@ import UpiToolClient from './upi-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free UPI QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free UPI QR Code Generator & NFC Writer | NfcTool',
     description: 'Instantly generate a UPI QR code for payments with optional fixed amount. Write to an NFC tag for tap-to-pay. Free, no sign-up required.',
     keywords: [
         'UPI QR code generator', 'UPI QR generator', 'UPI QR with fixed amount',
         'fixed amount UPI QR', 'generate UPI QR code', 'UPI payment QR code',
         'NFC UPI QR code', 'Free UPI QR code generator', 'UPI payment link',
         'NFC UPI writer', 'WebNFC UPI', 'UPI QR code for shops',
-        'UPI to NFC tag', 'UPI NFC tag writer', 'tap to pay NFC', 'WebNfc',
+        'UPI to NFC tag', 'UPI NFC tag writer', 'tap to pay NFC', 'NfcTool',
     ],
     openGraph: {
-        title: 'Free UPI QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free UPI QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a UPI payment QR code with optional fixed amount. Write to NFC for tap-to-pay. Free, no sign-up.',
-        url: 'https://webnfc.org/upi',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'UPI QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/upi',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'UPI QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free UPI QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free UPI QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a UPI payment QR code — set a fixed amount, download, or write to NFC.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/upi' },
+    alternates: { canonical: 'https://nfctool.org/upi' },
 };
 
 export default function UpiPage() {
@@ -38,7 +38,7 @@ export default function UpiPage() {
         description: 'A free online tool to generate UPI QR codes for payments and write them directly to NFC tags.',
         featureList: ['Generate UPI QR codes', 'Fixed amount UPI QR', 'Write UPI links to NFC tags', 'Customize QR colors', 'Add logo to QR code'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

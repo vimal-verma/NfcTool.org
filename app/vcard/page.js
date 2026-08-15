@@ -3,7 +3,7 @@ import VCardClientTool from './vcard-client-tool';
 import styles from './page.module.css';
 
 export const metadata = {
-    title: 'Free vCard Generator with QR Code & Shareable Link | WebNfc',
+    title: 'Free vCard Generator with QR Code & Shareable Link | NfcTool',
     description: 'Create a professional digital business card with our free vCard generator. Instantly generate a shareable link and a downloadable QR code for your contact details. You can also write your vCard directly to an NFC tag. No sign-up required.',
     keywords: [
         'vCard generator',
@@ -18,21 +18,21 @@ export const metadata = {
         '.vcf file generator',
     ],
     openGraph: {
-        title: 'Free vCard Generator with QR Code & Shareable Link | WebNfc',
+        title: 'Free vCard Generator with QR Code & Shareable Link | NfcTool',
         description: 'Instantly create and share your digital business card. Generate a vCard, QR code, and a shareable link for free.',
-        url: 'https://webnfc.org/vcard',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-vcard-tool.png', width: 1200, height: 630, alt: 'vCard Generator with QR Code — WebNfc' }],
+        url: 'https://nfctool.org/vcard',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-vcard-tool.png', width: 1200, height: 630, alt: 'vCard Generator with QR Code — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free vCard Generator with QR Code & Shareable Link | WebNfc',
+        title: 'Free vCard Generator with QR Code & Shareable Link | NfcTool',
         description: 'Create a digital business card, get a QR code and shareable link — free, no sign-up.',
-        images: ['https://webnfc.org/og-vcard-tool.png'],
+        images: ['https://nfctool.org/og-vcard-tool.png'],
     },
     alternates: {
-        canonical: 'https://webnfc.org/vcard',
+        canonical: 'https://nfctool.org/vcard',
     },
 };
 
@@ -59,7 +59,7 @@ export default function VCardPage() {
         },
         publisher: {
             '@type': 'Organization',
-            name: 'WebNfc'
+            name: 'NfcTool'
         }
     };
 

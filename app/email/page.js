@@ -2,30 +2,30 @@ import EmailToolClient from './email-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free Email QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free Email QR Code Generator & NFC Writer | NfcTool',
     description: 'Generate a QR code that opens an email with a pre-filled address, subject, and body. Scan to send — no typing. Also writes to NFC tags. Free.',
     keywords: [
         'Email QR code generator', 'Email QR with subject and body',
         'generate Email QR code', 'create email QR code', 'NFC Email QR code',
         'Free Email QR code generator', 'pre-filled email QR', 'NFC Email writer',
         'Email to NFC tag', 'QR code for email', 'send Email with QR code',
-        'mailto QR code', 'WebNfc', 'email link QR', 'WebNFC Email',
+        'mailto QR code', 'NfcTool', 'email link QR', 'WebNFC Email',
     ],
     openGraph: {
-        title: 'Free Email QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Email QR Code Generator & NFC Writer | NfcTool',
         description: 'Create an email QR code with pre-filled address, subject & body. Scan to open in mail app. Also writes to NFC tags.',
-        url: 'https://webnfc.org/email',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'Email QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/email',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Email QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free Email QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Email QR Code Generator & NFC Writer | NfcTool',
         description: 'Create an email QR code with pre-filled address, subject, and body. Free, no sign-up.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/email' },
+    alternates: { canonical: 'https://nfctool.org/email' },
 };
 
 export default function EmailPage() {
@@ -38,7 +38,7 @@ export default function EmailPage() {
         description: 'A free online tool to generate email QR codes with pre-filled mailto links.',
         featureList: ['Generate email QR codes', 'Pre-filled subject and body', 'Write email links to NFC tags', 'Customize QR colors'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

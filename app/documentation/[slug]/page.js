@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
     const { slug } = await params;
     const section = await getSectionContent(slug);
     const title = section?.title || sections[slug] || "Documentation";
-    const description = section?.description || `Learn about ${title.toLowerCase()} with the Web NFC API on WebNfc.org.`;
+    const description = section?.description || `Learn about ${title.toLowerCase()} with the Web NFC API on NfcTool.org.`;
     const image = section?.image || '/og-logo.png';
 
     let keywords = ["Web NFC", "NFC", "NFC tutorial", "WebNFC API", "NFC guide", title];
@@ -36,20 +36,20 @@ export async function generateMetadata({ params }) {
     }
 
     return {
-        title: `${title} | WebNfc.org`,
+        title: `${title} | NfcTool.org`,
         description: description,
         keywords: keywords,
         alternates: {
-            canonical: `https://webnfc.org/documentation/${slug}`,
+            canonical: `https://nfctool.org/documentation/${slug}`,
         },
         openGraph: {
-            title: `${title} | WebNfc.org`,
+            title: `${title} | NfcTool.org`,
             description: description,
-            url: `https://webnfc.org/documentation/${slug}`,
-            siteName: 'WebNfc.org',
+            url: `https://nfctool.org/documentation/${slug}`,
+            siteName: 'NfcTool.org',
             type: 'article',
             publishedTime: section?.date,
-            authors: section?.author ? [section.author] : ['WebNfc Team'],
+            authors: section?.author ? [section.author] : ['NfcTool Team'],
             images: [
                 {
                     url: image,
@@ -61,7 +61,7 @@ export async function generateMetadata({ params }) {
         },
         twitter: {
             card: 'summary_large_image',
-            title: `${title} | WebNfc.org`,
+            title: `${title} | NfcTool.org`,
             description: description,
             images: [image],
         },
@@ -103,22 +103,22 @@ export default async function DocumentationContent({ params }) {
         '@type': 'TechArticle',
         'headline': section.title,
         'description': section.description,
-        'url': `https://webnfc.org/documentation/${slug}`,
+        'url': `https://nfctool.org/documentation/${slug}`,
         'author': {
             '@type': 'Organization',
-            'name': 'WebNfc.org',
+            'name': 'NfcTool.org',
         },
         'publisher': {
             '@type': 'Organization',
-            'name': 'WebNfc.org',
+            'name': 'NfcTool.org',
             'logo': {
                 '@type': 'ImageObject',
-                'url': 'https://webnfc.org/logo.png'
+                'url': 'https://nfctool.org/logo.png'
             }
         },
         'mainEntityOfPage': {
             '@type': 'WebPage',
-            '@id': `https://webnfc.org/documentation/${slug}`
+            '@id': `https://nfctool.org/documentation/${slug}`
         }
     };
 

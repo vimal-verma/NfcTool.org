@@ -1,6 +1,6 @@
 {
-    "name": "WebNfc - NFC Tools & Guide",
-    "short_name": "WebNfc",
+    "name": "NfcTool - NFC Tools & Guide",
+    "short_name": "NfcTool",
     "description": "Read and write NFC tags, generate vCards, and create UPI QR codes directly in your browser.",
     "start_url": "/",
     "scope": "/",

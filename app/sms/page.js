@@ -2,30 +2,30 @@ import SmsToolClient from './sms-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free SMS QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free SMS QR Code Generator & NFC Writer | NfcTool',
     description: 'Generate an SMS QR code with a pre-filled phone number and message. Scan to open the SMS app with everything filled in. Also write to NFC tags. Free.',
     keywords: [
         'SMS QR code generator', 'SMS QR with pre-filled message', 'generate SMS QR code',
         'create SMS QR code', 'NFC SMS QR code', 'Free SMS QR code generator',
         'SMS link generator', 'NFC SMS writer', 'SMS to NFC tag',
-        'send SMS with QR code', 'QR code for text message', 'WebNfc',
+        'send SMS with QR code', 'QR code for text message', 'NfcTool',
         'SMS NFC tag writer', 'pre-filled SMS QR', 'WebNFC SMS',
     ],
     openGraph: {
-        title: 'Free SMS QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free SMS QR Code Generator & NFC Writer | NfcTool',
         description: 'Create an SMS QR code with a pre-filled number and message. Scan to send — no typing. Also writes to NFC tags.',
-        url: 'https://webnfc.org/sms',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'SMS QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/sms',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'SMS QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free SMS QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free SMS QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate an SMS QR code with a pre-filled number and message. Free, no sign-up.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/sms' },
+    alternates: { canonical: 'https://nfctool.org/sms' },
 };
 
 export default function SmsPage() {
@@ -38,7 +38,7 @@ export default function SmsPage() {
         description: 'A free online tool to generate SMS QR codes with pre-filled messages and write them to NFC tags.',
         featureList: ['Generate SMS QR codes', 'Pre-filled message support', 'Write SMS links to NFC tags', 'Customize QR colors'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

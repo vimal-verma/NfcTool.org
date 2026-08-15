@@ -112,7 +112,7 @@ export default function WIFIToolClient() {
 
     const handleDownloadQR = (isStylish = false) => {
         const base = `wifi_${ssid.replace(/\s+/g, '_') || 'network'}`;
-        const filename = isStylish ? `${base}_stylish_webnfc.org_qr.png` : `${base}_webnfc.org_qr.png`;
+        const filename = isStylish ? `${base}_stylish_nfctool.org_qr.png` : `${base}_nfctool.org_qr.png`;
         downloadQRCode({
             qrCodeRef,
             filename,

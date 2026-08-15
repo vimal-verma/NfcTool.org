@@ -205,7 +205,7 @@ export default function VCardClientTool() {
 
     const handleDownloadQR = (isStylish = false) => {
         const base = vCardData.name.replace(/\s+/g, '_') || 'vcard';
-        const filename = isStylish ? `${base}_stylish_webnfc.org_qr.png` : `${base}_webnfc.org_qr.png`;
+        const filename = isStylish ? `${base}_stylish_nfctool.org_qr.png` : `${base}_nfctool.org_qr.png`;
         downloadQRCode({
             qrCodeRef,
             filename,

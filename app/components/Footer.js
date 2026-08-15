@@ -29,7 +29,7 @@ export default function Footer() {
             <Toast message={toastMessage} onClose={() => setToastMessage('')} />
             <div className={styles.footerContent}>
                 <div className={styles.footerBrand}>
-                    <Link href="/" className={styles.logo}>WebNfc</Link>
+                    <Link href="/" className={styles.logo}>NfcTool</Link>
                     <p>Learn, build, and use Web NFC technology directly in your browser.</p>
                     <br />
                     <a href="https://github.com/vimal-verma/webnfc" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -73,7 +73,7 @@ export default function Footer() {
                     </form>
                 </div>
             </div>
-            <p className={styles.copyright}>&copy; {new Date().getFullYear()} WebNfc. All rights reserved.</p>
+            <p className={styles.copyright}>&copy; {new Date().getFullYear()} NfcTool. All rights reserved.</p>
         </footer>
     );
 }

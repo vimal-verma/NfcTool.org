@@ -5,7 +5,7 @@ const documentationSlugs = navItems.map(item => item.slug);
 
 export default function sitemap() {
     const posts = getAllPosts();
-    const baseUrl = 'https://webnfc.org';
+    const baseUrl = 'https://nfctool.org';
     const lastModified = new Date().toISOString(); // Or a static date of last deployment
 
     const staticRoutes = [

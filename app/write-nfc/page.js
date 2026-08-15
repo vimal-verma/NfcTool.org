@@ -3,30 +3,29 @@ import WriteTagClient from './write-tag-client';
 import styles from './page.module.css';
 
 export const metadata = {
-    title: 'Write to NFC Tag Online | Free Web NFC Writer | WebNfc',
+    title: 'Write to NFC Tag Online | Free Web NFC Writer | NfcTool',
     description: 'Use our free online tool to write text, URLs, or contact cards (vCards) to any NFC tag directly in your browser. No app installation required.',
     keywords: [
-        'Write NFC', 'NFC tag writer online', 'NFC tag writer', 'Free NFC tag writer',
-        'NFC Writer', 'Web NFC Writer', 'Program NFC Tag', 'NFC Data Writer', 'Online NFC Tool',
-        'Write vCard to NFC', 'Write URL to NFC', 'WebNFC', 'NFC Tag Encoder',
-        'NFC Tag Programmer', 'NFC Tag Editor', 'NFC Tag Tool', 'NFC Tag Manager',
+        'NFC tag writer online', 'write NFC tag', 'free NFC writer',
+        'Web NFC writer', 'write vCard to NFC', 'write URL to NFC',
+        'program NFC tag', 'NFC tag encoder', 'WebNFC',
     ],
     openGraph: {
-        title: 'Write to NFC Tag Online | Free Web NFC Writer | WebNfc',
+        title: 'Write to NFC Tag Online | Free Web NFC Writer | NfcTool',
         description: 'Write text, URLs, or vCards to any NFC tag with a single tap — directly in your browser. No app required.',
-        url: 'https://webnfc.org/write-nfc',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'NFC Tag Writer — WebNfc' }],
+        url: 'https://nfctool.org/write-nfc',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NFC Tag Writer — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Write to NFC Tag Online | Free Web NFC Writer | WebNfc',
+        title: 'Write to NFC Tag Online | Free Web NFC Writer | NfcTool',
         description: 'Write text, URLs, or vCards to any NFC tag in your browser. Free, no app needed.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
     alternates: {
-        canonical: 'https://webnfc.org/write-nfc',
+        canonical: 'https://nfctool.org/write-nfc',
     },
 };
 
@@ -41,7 +40,7 @@ export default function WriteTagPage() {
         description: 'A free online tool to write text, URLs, and vCards to NFC tags directly in your browser.',
         featureList: ['Write text to NFC tags', 'Write URLs to NFC tags', 'Write vCard contacts to NFC tags', 'Automatic tag size suggestion'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

@@ -132,7 +132,7 @@ END:VCALENDAR`;
     };
 
     const handleDownloadQR = (isStylish = false) => {
-        const base = `event_${title.replace(/\s+/g, '_')}_webnfc.org_qr.png`;
+        const base = `event_${title.replace(/\s+/g, '_')}_nfctool.org_qr.png`;
         const filename = isStylish ? `stylish_${base}` : base;
         downloadQRCode({
             qrCodeRef,

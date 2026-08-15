@@ -5,25 +5,25 @@ import { getLatestPosts } from "./lib/posts";
 import JsonLd from "./components/JsonLd";
 
 export const metadata = {
-  title: "WebNfc | Learn, Build, and Use Web NFC Technology",
+  title: "NfcTool | Learn, Build, and Use Web NFC Technology",
   description: "Your ultimate resource for Web NFC. Explore our free online tools to read and write NFC tags, generate vCards, and learn everything about Near Field Communication.",
   keywords: ['Web NFC', 'NFC tag reader', 'NFC tag writer', 'vCard generator', 'NFC tools', 'WebNFC API', 'Near Field Communication', 'NFC tutorials'],
   openGraph: {
-    title: 'WebNfc | Learn, Build, and Use Web NFC Technology',
+    title: 'NfcTool | Learn, Build, and Use Web NFC Technology',
     description: 'The ultimate resource for learning and using Web NFC technology directly in your browser.',
-    url: 'https://webnfc.org',
-    siteName: 'WebNfc',
-    images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'WebNfc — Learn, Build, and Use Web NFC Technology' }],
+    url: 'https://nfctool.org',
+    siteName: 'NfcTool',
+    images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NfcTool — Learn, Build, and Use Web NFC Technology' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'WebNfc | Learn, Build, and Use Web NFC Technology',
+    title: 'NfcTool | Learn, Build, and Use Web NFC Technology',
     description: 'The ultimate resource for learning and using Web NFC technology directly in your browser.',
-    images: ['https://webnfc.org/og-logo.png'],
+    images: ['https://nfctool.org/og-logo.png'],
   },
   alternates: {
-    canonical: 'https://webnfc.org',
+    canonical: 'https://nfctool.org',
   },
 };
 
@@ -64,14 +64,14 @@ export default function Home() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    'name': 'WebNfc',
-    'url': 'https://webnfc.org',
-    'logo': 'https://webnfc.org/logo.png',
+    'name': 'NfcTool',
+    'url': 'https://nfctool.org',
+    'logo': 'https://nfctool.org/logo.png',
     'sameAs': ['https://github.com/vimal-verma/webnfc'],
     'contactPoint': {
       '@type': 'ContactPoint',
       'contactType': 'customer service',
-      'email': 'support@webnfc.org'
+      'email': 'support@nfctool.org'
     }
   };
 

@@ -4,31 +4,29 @@ import NfcClientTool from './nfc-client-tool';
 import { Fragment } from 'react';
 
 export const metadata = {
-  title: 'Advanced NFC Tool — Read, Write, Clone, Erase & Lock | WebNfc',
+  title: 'Advanced NFC Tool — Read, Write, Clone, Erase & Lock | NfcTool',
   description: 'All-in-one Web NFC tool to read, write, clone, erase, format, and lock NFC tags directly from your browser. Supports text, URL, and vCard records. No installation needed.',
   keywords: [
-    'NFC', 'Web NFC', 'NFC Tool', 'NFC Reader', 'NFC Writer', 'Clone NFC', 'Erase NFC',
-    'vCard NFC', 'NFC Formatting', 'Lock NFC Tags', 'NFC for IoT', 'NFC Development',
-    'NFC Programming', 'WebNfc', 'NFC Online Tool', 'NFC Tag Management',
-    'NFC Tag Cloner', 'NFC Tag Eraser', 'NFC Tag Formatter', 'NFC Tag Locker',
-    'advanced NFC tool', 'NFC tag operations', 'NDEF tag tool'
+    'advanced NFC tool', 'NFC tag reader writer', 'clone NFC tag',
+    'erase NFC tag', 'lock NFC tag', 'Web NFC browser tool',
+    'NDEF tag tool', 'NFC tag manager', 'NfcTool',
   ],
   openGraph: {
-    title: 'Advanced NFC Tool — Read, Write, Clone, Erase & Lock | WebNfc',
+    title: 'Advanced NFC Tool — Read, Write, Clone, Erase & Lock | NfcTool',
     description: 'All-in-one Web NFC tool for reading, writing, cloning, erasing, formatting, and locking NFC tags directly in your browser.',
-    url: 'https://webnfc.org/nfc-tool',
-    siteName: 'WebNfc',
-    images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'Advanced NFC Tool — WebNfc' }],
+    url: 'https://nfctool.org/nfc-tool',
+    siteName: 'NfcTool',
+    images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Advanced NFC Tool — NfcTool' }],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Advanced NFC Tool — Read, Write, Clone, Erase & Lock | WebNfc',
+    title: 'Advanced NFC Tool — Read, Write, Clone, Erase & Lock | NfcTool',
     description: 'All-in-one NFC tool: read, write, clone, erase, format, lock — right in your browser.',
-    images: ['https://webnfc.org/og-logo.png'],
+    images: ['https://nfctool.org/og-logo.png'],
   },
   alternates: {
-    canonical: 'https://webnfc.org/nfc-tool',
+    canonical: 'https://nfctool.org/nfc-tool',
   },
 };
 
@@ -43,7 +41,7 @@ export default function NfcToolPage() {
     description: 'An all-in-one Web NFC tool to read, write, clone, erase, format, and lock NFC tags directly from your browser.',
     featureList: ['Read NFC tags', 'Write NFC tags', 'Clone NFC tags', 'Erase NFC tags', 'Format NFC tags', 'Lock NFC tags'],
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    publisher: { '@type': 'Organization', name: 'WebNfc' }
+    publisher: { '@type': 'Organization', name: 'NfcTool' }
   };
 
   return (

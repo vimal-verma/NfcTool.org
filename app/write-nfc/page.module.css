@@ -117,7 +117,7 @@
 .formGroup select:focus {
     outline: none;
     border-color: var(--primary-accent);
-    box-shadow: 0 0 0 2px var(--primary-accent-glow);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .actionButton {
@@ -197,11 +197,11 @@
 }
 
 .log .success {
-    color: #28a745;
+    color: var(--color-success);
 }
 
 .log .error {
-    color: #dc3545;
+    color: var(--color-danger);
 }
 
 .log .info {

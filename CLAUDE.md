@@ -21,7 +21,7 @@ npm run lint
 
 ## Architecture Overview
 
-**WebNFC.org** is a Next.js 16 App Router project — a browser-based NFC tooling platform using the Web NFC API (Chrome Android only).
+**NfcTool.org** is a Next.js 16 App Router project — a browser-based NFC tooling platform using the Web NFC API (Chrome Android only).
 
 ### Server / Client Split
 

@@ -75,7 +75,7 @@ const BlogPostCard = ({ title, backgroundImage }) => {
     return React.createElement('div', { style: cardStyle }, [
         React.createElement('h1', { key: 'title', style: titleStyle }, title),
         React.createElement('div', { key: 'branding-container', style: brandingContainerStyle }, [
-            React.createElement('p', { key: 'main-branding', style: mainBrandingStyle }, 'WebNfc.org'),
+            React.createElement('p', { key: 'main-branding', style: mainBrandingStyle }, 'NfcTool.org'),
             React.createElement('p', { key: 'sub-branding', style: subBrandingStyle }, 'Learn, Build, and Use Web NFC')
         ])
     ]

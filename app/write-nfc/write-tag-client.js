@@ -138,7 +138,7 @@ export default function WriteTagClient() {
                 return (
                     <div className={styles.formGroup}>
                         <label htmlFor="url-data">URL</label>
-                        <input id="url-data" type="url" value={urlData} onChange={(e) => setUrlData(e.target.value)} placeholder="e.g., https://webnfc.org" />
+                        <input id="url-data" type="url" value={urlData} onChange={(e) => setUrlData(e.target.value)} placeholder="e.g., https://nfctool.org" />
                     </div>
                 );
             case 'vcard':

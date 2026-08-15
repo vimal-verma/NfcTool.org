@@ -23,27 +23,27 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${post.title} | WebNfc Blog`,
+    title: `${post.title} | NfcTool Blog`,
     description: post.description,
     keywords: post.keywords,
     alternates: {
-      canonical: `https://webnfc.org/blog/${slug}`,
+      canonical: `https://nfctool.org/blog/${slug}`,
     },
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `https://webnfc.org/blog/${slug}`,
-      siteName: 'WebNfc',
+      url: `https://nfctool.org/blog/${slug}`,
+      siteName: 'NfcTool',
       type: 'article',
       publishedTime: post.date,
       authors: [post.author],
-      images: [{ url: `https://webnfc.org${post.image}`, width: 1200, height: 630, alt: post.title }],
+      images: [{ url: `https://nfctool.org${post.image}`, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
-      images: [`https://webnfc.org${post.image}`],
+      images: [`https://nfctool.org${post.image}`],
     },
   };
 }
@@ -68,17 +68,17 @@ export default async function BlogPostPage({ params }) {
     '@type': 'Article',
     'headline': post.title,
     'description': post.description,
-    'image': `https://webnfc.org${post.image}`,
+    'image': `https://nfctool.org${post.image}`,
     'author': {
       '@type': 'Person',
       'name': post.author,
     },
     'publisher': {
       '@type': 'Organization',
-      'name': 'WebNfc',
+      'name': 'NfcTool',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://webnfc.org/logo.png'
+        'url': 'https://nfctool.org/logo.png'
       }
     },
     'datePublished': post.date,

@@ -2,25 +2,25 @@ import Link from 'next/link';
 import styles from './page.module.css';
 
 export const metadata = {
-    title: 'Free QR Code Generators & NFC Writers | WebNfc',
+    title: 'Free QR Code Generators & NFC Writers | NfcTool',
     description: 'Explore our comprehensive collection of free tools to generate QR codes and write to NFC tags for URLs, WiFi, vCards, UPI, and more.',
-    keywords: ['QR Code Generator', 'NFC Writer', 'Free QR Tools', 'WebNfc QR', 'WiFi QR', 'vCard QR', 'UPI QR', 'URL QR', 'Email QR', 'SMS QR', 'Call QR', 'Event QR', 'Location QR'],
+    keywords: ['QR Code Generator', 'NFC Writer', 'Free QR Tools', 'NfcTool QR', 'WiFi QR', 'vCard QR', 'UPI QR', 'URL QR', 'Email QR', 'SMS QR', 'Call QR', 'Event QR', 'Location QR'],
     openGraph: {
-        title: 'Free QR Code Generators & NFC Writers | WebNfc',
+        title: 'Free QR Code Generators & NFC Writers | NfcTool',
         description: 'Explore our comprehensive collection of free tools to generate QR codes and write to NFC tags for URLs, WiFi, vCards, UPI, and more.',
-        url: 'https://webnfc.org/qr',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'Free QR Code Generators — WebNfc' }],
+        url: 'https://nfctool.org/qr',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Free QR Code Generators — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free QR Code Generators & NFC Writers | WebNfc',
+        title: 'Free QR Code Generators & NFC Writers | NfcTool',
         description: 'Explore our comprehensive collection of free tools to generate QR codes and write to NFC tags.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
     alternates: {
-        canonical: 'https://webnfc.org/qr',
+        canonical: 'https://nfctool.org/qr',
     },
 };
 

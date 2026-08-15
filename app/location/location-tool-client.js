@@ -141,8 +141,8 @@ export default function LocationToolClient() {
 
     const handleDownloadQR = (isStylish = false) => {
         const filenameBase = mode === 'coords'
-            ? `location_${latitude}_${longitude}_webnfc.org_qr.png`
-            : `digipin_${digipin}_webnfc.org_qr.png`;
+            ? `location_${latitude}_${longitude}_nfctool.org_qr.png`
+            : `digipin_${digipin}_nfctool.org_qr.png`;
         const filename = isStylish ? `stylish_${filenameBase}` : filenameBase;
         downloadQRCode({
             qrCodeRef,

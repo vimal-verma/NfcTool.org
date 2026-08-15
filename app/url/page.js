@@ -2,30 +2,30 @@ import UrlToolClient from './url-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free URL QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free URL QR Code Generator & NFC Writer | NfcTool',
     description: 'Generate a QR code for any website URL — or add multiple URLs in one QR. Write the link directly to an NFC tag. Free, instant, no sign-up.',
     keywords: [
         'URL QR code generator', 'URL QR generator', 'website QR code',
         'generate URL QR code', 'create URL QR code', 'NFC URL QR code',
         'Free URL QR code generator', 'URL NFC writer', 'WebNFC URL',
         'URL to NFC tag', 'NFC URL tag writer', 'QR code for website',
-        'open website with QR code', 'multi-URL QR code', 'WebNfc',
+        'open website with QR code', 'multi-URL QR code', 'NfcTool',
     ],
     openGraph: {
-        title: 'Free URL QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free URL QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a QR code for one or more website URLs. Download as PNG or write to an NFC tag. Free, no sign-up.',
-        url: 'https://webnfc.org/url',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'URL QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/url',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'URL QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free URL QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free URL QR Code Generator & NFC Writer | NfcTool',
         description: 'Create a QR code for any website URL — or stack multiple URLs in one QR.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/url' },
+    alternates: { canonical: 'https://nfctool.org/url' },
 };
 
 export default function UrlPage() {
@@ -38,7 +38,7 @@ export default function UrlPage() {
         description: 'A free online tool to generate URL QR codes and write them directly to NFC tags.',
         featureList: ['Generate URL QR codes', 'Multi-URL QR support', 'Write URL links to NFC tags', 'Customize QR colors', 'Add logo to QR code'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

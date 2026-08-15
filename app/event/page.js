@@ -2,30 +2,30 @@ import EventToolClient from './event-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free Event QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free Event QR Code Generator & NFC Writer | NfcTool',
     description: 'Generate a calendar event QR code (vEvent / iCal format). Scan to add the event to any calendar app. Also write to NFC tags. Free, no sign-up.',
     keywords: [
         'Event QR code generator', 'Calendar QR generator', 'vEvent QR code', 'iCal QR code',
         'generate Event QR code', 'create calendar QR code', 'NFC Event QR code',
         'Free Event QR code generator', 'Calendar link QR', 'NFC Event writer',
         'Event to NFC tag', 'QR code for calendar event', 'share event with QR code',
-        'add event QR code', 'WebNfc', 'event NFC tag writer', 'WebNFC Event',
+        'add event QR code', 'NfcTool', 'event NFC tag writer', 'WebNFC Event',
     ],
     openGraph: {
-        title: 'Free Event QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Event QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a vEvent QR code — scan to add to calendar. Works with Google, Apple, and Outlook. Also writes to NFC.',
-        url: 'https://webnfc.org/event',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'Event QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/event',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Event QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free Event QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free Event QR Code Generator & NFC Writer | NfcTool',
         description: 'Create a calendar event QR code — scan to add to Google Calendar, iCal, or Outlook.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/event' },
+    alternates: { canonical: 'https://nfctool.org/event' },
 };
 
 export default function EventPage() {
@@ -38,7 +38,7 @@ export default function EventPage() {
         description: 'A free online tool to generate calendar event QR codes (vEvent) and write them to NFC tags.',
         featureList: ['Generate vEvent QR codes', 'Write event data to NFC tags', 'Compatible with Google Calendar, iCal, Outlook', 'Customize QR colors'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

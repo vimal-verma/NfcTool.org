@@ -211,7 +211,7 @@
 
 .downloadButton {
     width: 100%;
-    background: var(--button-secondary-bg);
+    background: var(--button-secondary-hover);
     border: 1px solid var(--button-secondary-border);
     color: var(--text-primary);
     padding: 0.875rem 1.5rem;
@@ -240,7 +240,7 @@
 }
 
 .vcfButton {
-    background: var(--button-secondary-bg);
+    background: var(--button-secondary-hover);
     border: 1px solid var(--button-secondary-border);
 }
 .shareSection {
@@ -330,7 +330,7 @@
     padding: 0.5rem 1rem;
     border-radius: 8px;
     border: 1px solid var(--button-secondary-border);
-    background: var(--button-secondary-bg);
+    background: var(--button-secondary-hover);
     color: var(--text-primary);
     cursor: pointer;
 }
@@ -405,8 +405,8 @@
     color: var(--text-secondary);
 }
 
-.success { color: #28a745; }
-.error { color: #dc3545; }
+.success { color: var(--color-success); }
+.error { color: var(--color-danger); }
 .info { color: var(--text-secondary); }
 @media (min-width: 768px) {
     .formGrid {

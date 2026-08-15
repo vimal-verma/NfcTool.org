@@ -1,26 +1,42 @@
 import styles from './page.module.css';
 import ContactFormClient from './ContactFormClient';
+import JsonLd from '../components/JsonLd';
+
+const contactSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: 'Contact NfcTool',
+    description: 'Get in touch with the NfcTool team for questions, bug reports, or ideas about NFC technology.',
+    url: 'https://nfctool.org/contact',
+    publisher: {
+        '@type': 'Organization',
+        name: 'NfcTool',
+        url: 'https://nfctool.org',
+        email: 'support@nfctool.org',
+        sameAs: ['https://github.com/vimal-verma/webnfc'],
+    },
+};
 
 export const metadata = {
-    title: 'Contact Us | WebNfc',
-    description: 'Get in touch with the WebNfc team. Ask questions, report issues, or share your ideas about NFC technology and our tools.',
-    keywords: ['contact WebNfc', 'NFC support', 'WebNFC contact', 'NFC help', 'contact NFC team', 'WebNfc feedback'],
+    title: 'Contact Us | NfcTool',
+    description: 'Get in touch with the NfcTool team. Ask questions, report issues, or share your ideas about NFC technology and our tools.',
+    keywords: ['contact NfcTool', 'NFC support', 'NfcTool contact', 'NFC help', 'contact NFC team', 'NfcTool feedback'],
     alternates: {
-        canonical: 'https://webnfc.org/contact',
+        canonical: 'https://nfctool.org/contact',
     },
     openGraph: {
-        title: 'Contact Us | WebNfc',
-        description: 'Get in touch with the WebNfc team. Ask questions, report issues, or share your ideas about NFC technology.',
-        url: 'https://webnfc.org/contact',
-        siteName: 'WebNfc',
-        images: [{ url: '/og-logo.png', width: 1200, height: 630, alt: 'WebNfc' }],
+        title: 'Contact Us | NfcTool',
+        description: 'Get in touch with the NfcTool team. Ask questions, report issues, or share your ideas about NFC technology.',
+        url: 'https://nfctool.org/contact',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'Contact NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Contact Us | WebNfc',
-        description: 'Get in touch with the WebNfc team. Ask questions, report issues, or share your ideas.',
-        images: ['/og-logo.png'],
+        title: 'Contact Us | NfcTool',
+        description: 'Get in touch with the NfcTool team. Ask questions, report issues, or share your ideas.',
+        images: ['https://nfctool.org/og-logo.png'],
     },
 };
 
@@ -34,6 +50,7 @@ export default function ContactPage() {
                 </p>
                 <ContactFormClient />
             </div>
+            <JsonLd data={contactSchema} />
         </div>
     );
 }

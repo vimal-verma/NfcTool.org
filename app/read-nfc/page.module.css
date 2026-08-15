@@ -66,7 +66,7 @@
 }
 
 .copyButton {
-    background: var(--button-secondary-bg);
+    background: var(--button-secondary-hover);
     color: var(--text-primary);
     border: 1px solid var(--button-secondary-border);
     padding: 0.8rem 1.5rem;
@@ -82,15 +82,15 @@
 }
 
 .saveVcfButton {
-    background-color: #e8f5e9; /* A light green to differentiate */
-    border-color: #a5d6a7;
-    color: #155724;
+    background-color: var(--color-info-bg);
+    border-color: var(--color-info-border);
+    color: var(--color-info-text);
 }
 
 .openUrlButton {
-    background-color: #e3f2fd; /* A light blue to differentiate */
-    border-color: #90caf9;
-    color: #0d47a1;
+    background-color: var(--color-info-bg);
+    border-color: var(--color-info-border);
+    color: var(--color-info-text);
 }
 
 .tagInfoContainer {
@@ -192,8 +192,8 @@
     word-break: break-all;
 }
 
-.log .success { color: #28a745; }
-.log .error { color: #dc3545; }
+.log .success { color: var(--color-success); }
+.log .error { color: var(--color-danger); }
 .log .info { color: var(--text-primary); }
 .log a { color: var(--primary-accent); text-decoration: underline; }
 

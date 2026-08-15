@@ -3,7 +3,7 @@ import ReadNfcClient from './read-nfc-client';
 import styles from './page.module.css';
 
 export const metadata = {
-    title: 'Read NFC Tag Online | Free Web NFC Reader | WebNfc',
+    title: 'Read NFC Tag Online | Free Web NFC Reader | NfcTool',
     description: 'Use our free online tool to read data from any NFC tag directly in your browser. Supports text, URLs, contact cards (vCards), WiFi credentials, and more. No app required.',
     keywords: [
         'NFC tag reader online', 'read NFC tag', 'free NFC reader',
@@ -11,21 +11,21 @@ export const metadata = {
         'NFC tag scanner', 'NFC contact card reader', 'WebNFC',
     ],
     openGraph: {
-        title: 'Read NFC Tag Online | Free Web NFC Reader | WebNfc',
+        title: 'Read NFC Tag Online | Free Web NFC Reader | NfcTool',
         description: 'Use our free online tool to read data from any NFC tag directly in your browser. Supports text, URLs, contact cards (vCards), WiFi credentials, and more.',
-        url: 'https://webnfc.org/read-nfc',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'NFC Tag Reader — WebNfc' }],
+        url: 'https://nfctool.org/read-nfc',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NFC Tag Reader — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Read NFC Tag Online | Free Web NFC Reader | WebNfc',
+        title: 'Read NFC Tag Online | Free Web NFC Reader | NfcTool',
         description: 'Instantly read any NFC tag in your browser — text, URL, vCard, WiFi. No app required.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
     alternates: {
-        canonical: 'https://webnfc.org/read-nfc',
+        canonical: 'https://nfctool.org/read-nfc',
     },
 };
 
@@ -39,7 +39,7 @@ export default function ReadNfcPage() {
         browserRequirements: 'Chrome on Android (version 89+). Web NFC API required.',
         description: 'A free online tool to read data from any NFC tag directly in your browser — supports text, URL, vCard, and WiFi records.',
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

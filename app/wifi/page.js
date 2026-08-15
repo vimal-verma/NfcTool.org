@@ -2,30 +2,30 @@ import WIFIToolClient from './wifi-tool-client';
 import { Fragment } from 'react';
 
 export const metadata = {
-    title: 'Free WiFi QR Code Generator & NFC Writer | WebNfc',
+    title: 'Free WiFi QR Code Generator & NFC Writer | NfcTool',
     description: 'Instantly generate a WiFi QR code to share your network credentials. Scan to connect — no typing required. Also write directly to an NFC tag. Free, no sign-up.',
     keywords: [
         'WiFi QR code generator', 'WiFi QR generator', 'WiFi QR code',
         'generate WiFi QR code', 'share WiFi password QR', 'WiFi network QR code',
         'NFC WiFi setup', 'NFC WiFi writer', 'WiFi to NFC tag',
-        'connect to WiFi with QR code', 'Free WiFi QR code generator', 'WebNfc',
+        'connect to WiFi with QR code', 'Free WiFi QR code generator', 'NfcTool',
         'WiFi NFC tag writer', 'custom WiFi QR code', 'WebNFC WiFi',
     ],
     openGraph: {
-        title: 'Free WiFi QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free WiFi QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a WiFi QR code to share network credentials. Scan to connect instantly — or write to an NFC tag.',
-        url: 'https://webnfc.org/wifi',
-        siteName: 'WebNfc',
-        images: [{ url: 'https://webnfc.org/og-logo.png', width: 1200, height: 630, alt: 'WiFi QR Code Generator — WebNfc' }],
+        url: 'https://nfctool.org/wifi',
+        siteName: 'NfcTool',
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'WiFi QR Code Generator — NfcTool' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Free WiFi QR Code Generator & NFC Writer | WebNfc',
+        title: 'Free WiFi QR Code Generator & NFC Writer | NfcTool',
         description: 'Generate a WiFi QR code — share your network in one scan. Free, no sign-up.',
-        images: ['https://webnfc.org/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
-    alternates: { canonical: 'https://webnfc.org/wifi' },
+    alternates: { canonical: 'https://nfctool.org/wifi' },
 };
 
 export default function WIFIPage() {
@@ -38,7 +38,7 @@ export default function WIFIPage() {
         description: 'A free online tool to generate WiFi QR codes and write WiFi credentials to NFC tags.',
         featureList: ['Generate WiFi QR codes', 'Write WiFi data to NFC tags', 'Customize QR colors', 'Add logo to QR code'],
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-        publisher: { '@type': 'Organization', name: 'WebNfc' }
+        publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
     return (

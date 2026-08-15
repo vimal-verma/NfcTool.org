@@ -116,7 +116,7 @@ export default function EmailToolClient() {
 
     const handleDownloadQR = (isStylish = false) => {
         const base = email || 'email';
-        const filename = isStylish ? `${base}_stylish_webnfc.org_qr.png` : `${base}_webnfc.org_qr.png`;
+        const filename = isStylish ? `${base}_stylish_nfctool.org_qr.png` : `${base}_nfctool.org_qr.png`;
         downloadQRCode({
             qrCodeRef,
             filename,
