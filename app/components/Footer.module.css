@@ -23,10 +23,15 @@
 }
 
 .footerBrand .logo {
-  font-weight: bold;
-  font-size: 24px;
-  margin-bottom: 0.5rem;
+  font-weight: 800;
+  font-size: 1.375rem;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.65rem;
   display: block;
+  background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .footerBrand p {
@@ -123,6 +128,19 @@
   color: var(--button-primary-text);
   border-radius: 0 8px 8px 0;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.newsletterForm button:hover:not(:disabled) {
+  background-color: var(--primary-accent-hover);
+}
+
+.newsletterForm button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .copyright {
@@ -139,9 +157,14 @@
 }
 
 @media (max-width: 768px) {
+  .footer {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+
   .footerContent {
     grid-template-columns: 1fr;
     text-align: center;
+    padding: 1rem 0;
   }
 
   .footerBrand {
@@ -153,13 +176,20 @@
     grid-template-columns: 1fr 1fr;
     gap: 1rem 2rem;
     width: 100%;
-    max-width: 350px;
+    max-width: 360px;
     text-align: left;
-    margin: 2rem 0;
+    margin: 1.5rem auto;
   }
 
   .newsletter {
     align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .newsletterForm {
+    width: 100%;
   }
 }
 /* Visually hidden, still announced by screen readers (paired with aria-live). */

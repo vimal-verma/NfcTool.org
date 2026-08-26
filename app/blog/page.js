@@ -94,7 +94,7 @@ export default function BlogPage() {
                   ))}
                 </div>
               )}
-              <h3 className={styles.postTitle}>{post.title}</h3>
+              <h2 className={styles.postTitle}>{post.title}</h2>
               <p className={styles.postExcerpt}>{post.excerpt}</p>
               <div className={styles.postMeta}>
                 <span className={styles.postAuthor}>By {post.author}</span>

@@ -4,6 +4,7 @@ import Header from "../app/components/Header";
 import Footer from "../app/components/Footer";
 import { ThemeProvider } from "./context/ThemeContext";
 import ServiceWorkerRegistrar from "./components/ServiceWorkerRegistrar";
+import ScrollToTop from "./components/ScrollToTop";
 import Script from "next/script";
 
 const geistSans = Geist({
@@ -92,6 +93,7 @@ export default function RootLayout({ children }) {
           <Header />
           <main id="main-content" className="main-content">{children}</main>
           <Footer />
+          <ScrollToTop />
           <ServiceWorkerRegistrar />
         </ThemeProvider>
         <Script

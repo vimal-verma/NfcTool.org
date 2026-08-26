@@ -6,7 +6,10 @@ const documentationSlugs = navItems.map(item => item.slug);
 export default function sitemap() {
     const posts = getAllPosts();
     const baseUrl = 'https://nfctool.org';
-    const lastModified = new Date().toISOString(); // Or a static date of last deployment
+    // Use a static date for static pages to avoid signalling a change on every crawl.
+    // Update this when you make meaningful content changes.
+    const staticLastModified = '2026-08-01T00:00:00.000Z';
+    const lastModified = staticLastModified;
 
     const staticRoutes = [
         { url: `${baseUrl}/`, lastModified, changeFrequency: 'weekly', priority: 1.0 },
