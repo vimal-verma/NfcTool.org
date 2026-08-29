@@ -49,7 +49,11 @@ export const metadata = {
 const allTools = [
   { name: "Read NFC", icon: "📖", href: "/read-nfc", desc: "Scan any NFC tag" },
   { name: "Write NFC", icon: "✍️", href: "/write-nfc", desc: "Program tags instantly" },
-  { name: "Advanced NFC", icon: "⚡", href: "/nfc-tool", desc: "Clone, erase & lock" },
+  { name: "Clone NFC", icon: "📋", href: "/clone-nfc", desc: "Duplicate NDEF tags" },
+  { name: "Erase NFC", icon: "🗑️", href: "/erase-nfc", desc: "Wipe tag payload" },
+  { name: "Format NFC", icon: "🛠️", href: "/format-nfc", desc: "Initialize NDEF" },
+  { name: "Lock NFC", icon: "🔒", href: "/lock-nfc", desc: "Make read-only" },
+  { name: "Advanced NFC", icon: "⚡", href: "/nfc-tool", desc: "Full NFC suite" },
   { name: "vCard", icon: "📇", href: "/vcard", desc: "Digital business card" },
   { name: "UPI QR", icon: "💳", href: "/upi", desc: "Tap-to-pay QR code" },
   { name: "URL QR", icon: "🔗", href: "/url", desc: "Link to any website" },

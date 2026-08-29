@@ -67,12 +67,13 @@ export default function Footer() {
                     </div>
                     <div className={styles.linkColumn}>
                         <h4>NFC Tools</h4>
-                        <Link href="/vcard">vCard Generator</Link>
-                        <Link href="/upi">UPI QR Generator</Link>
-                        <Link href="/qr">QR Tools</Link>
                         <Link href="/read-nfc">Read NFC Tag</Link>
                         <Link href="/write-nfc">Write NFC Tag</Link>
-                        <Link href="/nfc-tool">Advanced NFC Tool</Link>
+                        <Link href="/clone-nfc">Clone NFC Tag</Link>
+                        <Link href="/erase-nfc">Erase NFC Tag</Link>
+                        <Link href="/format-nfc">Format NFC Tag</Link>
+                        <Link href="/lock-nfc">Lock NFC Tag</Link>
+                        <Link href="/nfc-tool">Advanced Suite</Link>
                     </div>
                     <div className={styles.linkColumn}>
                         <h4>QR & Communication</h4>

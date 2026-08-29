@@ -1,0 +1,303 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1rem;
+    min-height: calc(100vh - 200px);
+    width: 100%;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    max-width: 800px;
+}
+
+.title {
+    font-size: clamp(2.5rem, 5vw, 3.6rem);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    letter-spacing: -0.04em;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: clamp(1.05rem, 2.5vw, 1.2rem);
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.toolContainer {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.cloneCard {
+    background: var(--card-background-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 2.5rem 2rem;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.cloneCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary-gradient);
+}
+
+.stepProgress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.25rem;
+}
+
+.stepBadge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.1rem;
+    border-radius: 9999px;
+    background: var(--background);
+    border: 1px solid var(--card-border);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.stepBadge span {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--card-border);
+    color: var(--text-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+}
+
+.activeStep {
+    border-color: var(--primary-accent);
+    color: var(--text-primary);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+.activeStep span {
+    background: var(--primary-gradient);
+    color: #ffffff;
+}
+
+.completedStep {
+    border-color: #10b981;
+    color: #10b981;
+}
+
+.completedStep span {
+    background: #10b981;
+    color: #ffffff;
+}
+
+.stepConnector {
+    width: 40px;
+    height: 2px;
+    background: var(--card-border);
+}
+
+.stepContent {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.stepIcon {
+    font-size: 3.2rem;
+    line-height: 1;
+}
+
+.stepTitle {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.stepDesc {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+.actionButton {
+    background: var(--primary-gradient);
+    color: #ffffff;
+    padding: 1rem 2.25rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 220px;
+}
+
+.actionButton:hover:not(:disabled) {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+}
+
+.actionButton:disabled {
+    background: var(--button-secondary-border);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+.secondaryButton {
+    background: var(--background);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    padding: 0.9rem 1.6rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.secondaryButton:hover {
+    background: var(--card-border);
+}
+
+/* ── Developer Console Terminal Log ── */
+.logContainer {
+    background: #090d16;
+    border: 1px solid #1e293b;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+}
+
+.logHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    background: #0f172a;
+    border-bottom: 1px solid #1e293b;
+}
+
+.logTitleWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.logDots {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.logDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.logDot.red { background: #ef4444; }
+.logDot.yellow { background: #f59e0b; }
+.logDot.green { background: #10b981; }
+
+.logHeader h3 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: var(--font-geist-mono), monospace;
+}
+
+.clearLogButton {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #94a3b8;
+    padding: 0.35rem 0.8rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-family: var(--font-geist-mono), monospace;
+    transition: all 0.2s ease;
+}
+
+.clearLogButton:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.12);
+    color: #f8fafc;
+}
+
+.clearLogButton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.log {
+    height: 260px;
+    overflow-y: auto;
+    font-family: var(--font-geist-mono), monospace;
+    font-size: 0.88rem;
+    line-height: 1.65;
+    padding: 1.25rem;
+    color: #cbd5e1;
+    white-space: pre-wrap;
+    word-break: break-all;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 #090d16;
+}
+
+.log::-webkit-scrollbar {
+    width: 6px;
+}
+
+.log::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 3px;
+}
+
+.log .success { color: #34d399; font-weight: 600; }
+.log .error { color: #f87171; font-weight: 600; }
+.log .info { color: #f8fafc; }
+.log .warning { color: #fbbf24; }
