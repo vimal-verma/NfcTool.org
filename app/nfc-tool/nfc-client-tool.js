@@ -291,167 +291,246 @@ export default function NfcClientTool() {
     return (
         <>
             <div className={styles.toolGrid}>
+                {/* Read Tag */}
                 <div className={`${styles.toolSection} ${isScanning ? styles.scanning : ''}`}>
-                    <h3 className={styles.sectionTitle}>Read Tag</h3>
-                    <button onClick={handleRead} disabled={isScanning} className={styles.actionButton}>
-                        {isScanning ? 'Scanning...' : 'Start Scan'}
-                    </button>
+                    <div>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.sectionIcon}>📡</div>
+                            <h3 className={styles.sectionTitle}>Read Tag</h3>
+                        </div>
+                        <p className={styles.sectionDescription}>Scan any NDEF formatted NFC tag to read text, URLs, contacts, or MIME data.</p>
+                        <button onClick={handleRead} disabled={isScanning} className={styles.actionButton}>
+                            {isScanning ? '⏳ Scanning Tag...' : '📡 Start Scan'}
+                        </button>
+                    </div>
                     <div className={styles.logContainer}>
                         <div className={styles.logHeader}>
-                            <h3>Read Log</h3>
+                            <div className={styles.logTitleWrapper}>
+                                <div className={styles.logDots}>
+                                    <span className={`${styles.logDot} ${styles.red}`}></span>
+                                    <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                                    <span className={`${styles.logDot} ${styles.green}`}></span>
+                                </div>
+                                <h3>Read Console</h3>
+                            </div>
                             <button onClick={() => setReadLog([])} className={styles.clearLogButton} disabled={readLog.length === 0}>
                                 Clear
                             </button>
                         </div>
                         <div className={styles.log}>
-                            {readLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity yet.</p> : readLog.map((entry, i) => <p key={i}>{entry}</p>)}
+                            {readLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity logged yet.</p> : readLog.map((entry, i) => <p key={i}>{entry}</p>)}
                         </div>
                     </div>
                 </div>
 
+                {/* Write Tag */}
                 <div className={styles.toolSection}>
-                    <h3 className={styles.sectionTitle}>Write Tag</h3>
-                    <div className={styles.writeInputGroup}>
-                        <select
-                            value={recordType}
-                            onChange={(e) => setRecordType(e.target.value)}
-                            className={styles.recordTypeSelect}
-                        >
-                            <option value="text">Text</option>
-                            <option value="url">URL</option>
-                            <option value="vcard">Contact (vCard)</option>
-                        </select>
-                        {recordType !== 'vcard' && (
-                            <input
-                                type="text"
-                                value={writeData}
-                                onChange={(e) => setWriteData(e.target.value)}
-                                placeholder={recordTypeDetails[recordType].placeholder}
-                                className={styles.writeInput}
-                            />
-                        )}
-                    </div>
-                    {recordType === 'vcard' && (
-                        <div className={styles.vcardForm}>
-                            <div className={styles.formGroup}>
-                                <label htmlFor="vcard-name">Name</label>
-                                <input id="vcard-name" type="text" value={vCardData.name} onChange={(e) => setVCardData({ ...vCardData, name: e.target.value })} placeholder="John Doe" />
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label htmlFor="vcard-phone">Phone</label>
-                                <input id="vcard-phone" type="tel" value={vCardData.phone} onChange={(e) => setVCardData({ ...vCardData, phone: e.target.value })} placeholder="9876543210" />
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label htmlFor="vcard-email">Email</label>
-                                <input id="vcard-email" type="email" value={vCardData.email} onChange={(e) => setVCardData({ ...vCardData, email: e.target.value })} placeholder="john.doe@example.com" />
-                            </div>
+                    <div>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.sectionIcon}>✍️</div>
+                            <h3 className={styles.sectionTitle}>Write Tag</h3>
                         </div>
-                    )}
-                    <p className={styles.instructionText}>
-                        {recordTypeDetails[recordType].instruction}
-                    </p>
-                    <button onClick={handleWrite} className={`${styles.actionButton} ${styles.writeButton}`} disabled={recordType === 'vcard' && !vCardData.name}>
-                        Write to Tag
-                    </button>
+                        <div className={styles.writeInputGroup}>
+                            <select
+                                value={recordType}
+                                onChange={(e) => setRecordType(e.target.value)}
+                                className={styles.recordTypeSelect}
+                            >
+                                <option value="text">📝 Text Record</option>
+                                <option value="url">🔗 URL Link</option>
+                                <option value="vcard">📇 Contact (vCard)</option>
+                            </select>
+                            {recordType !== 'vcard' && (
+                                <input
+                                    type="text"
+                                    value={writeData}
+                                    onChange={(e) => setWriteData(e.target.value)}
+                                    placeholder={recordTypeDetails[recordType].placeholder}
+                                    className={styles.writeInput}
+                                />
+                            )}
+                        </div>
+                        {recordType === 'vcard' && (
+                            <div className={styles.vcardForm}>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="vcard-name">Full Name *</label>
+                                    <input id="vcard-name" type="text" value={vCardData.name} onChange={(e) => setVCardData({ ...vCardData, name: e.target.value })} placeholder="John Doe" />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="vcard-phone">Phone Number</label>
+                                    <input id="vcard-phone" type="tel" value={vCardData.phone} onChange={(e) => setVCardData({ ...vCardData, phone: e.target.value })} placeholder="+1 234 567 890" />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label htmlFor="vcard-email">Email Address</label>
+                                    <input id="vcard-email" type="email" value={vCardData.email} onChange={(e) => setVCardData({ ...vCardData, email: e.target.value })} placeholder="john@example.com" />
+                                </div>
+                            </div>
+                        )}
+                        <p className={styles.instructionText}>
+                            {recordTypeDetails[recordType].instruction}
+                        </p>
+                        <button onClick={handleWrite} className={`${styles.actionButton} ${styles.writeButton}`} disabled={recordType === 'vcard' && !vCardData.name}>
+                            ✍️ Write to Tag
+                        </button>
+                    </div>
                     <div className={styles.logContainer}>
                         <div className={styles.logHeader}>
-                            <h3>Write Log</h3>
+                            <div className={styles.logTitleWrapper}>
+                                <div className={styles.logDots}>
+                                    <span className={`${styles.logDot} ${styles.red}`}></span>
+                                    <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                                    <span className={`${styles.logDot} ${styles.green}`}></span>
+                                </div>
+                                <h3>Write Console</h3>
+                            </div>
                             <button onClick={() => setWriteLog([])} className={styles.clearLogButton} disabled={writeLog.length === 0}>
                                 Clear
                             </button>
                         </div>
                         <div className={styles.log}>
-                            {writeLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity yet.</p> : writeLog.map((entry, i) => <p key={i}>{entry}</p>)}
+                            {writeLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity logged yet.</p> : writeLog.map((entry, i) => <p key={i}>{entry}</p>)}
                         </div>
                     </div>
                 </div>
 
+                {/* Clone Tag */}
                 <div className={`${styles.toolSection} ${cloneStatus.className}`}>
-                    <h3 className={styles.sectionTitle}>Clone Tag</h3>
-                    <p className={styles.cloneStatusMessage}>{cloneStatus.message}</p>
-                    <div className={styles.cloneSteps}>
-                        <button onClick={handleCloneRead} disabled={isCloning || clonedMessage} className={`${styles.actionButton} ${styles.cloneButton}`}>
-                            {isCloning ? 'Reading...' : 'Step 1: Read Source Tag'}
-                        </button>
-                        <button onClick={handleCloneWrite} disabled={!clonedMessage} className={`${styles.actionButton} ${styles.cloneButton}`}>
-                            Step 2: Write to New Tag
+                    <div>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.sectionIcon}>📋</div>
+                            <h3 className={styles.sectionTitle}>Clone Tag</h3>
+                        </div>
+                        <p className={styles.cloneStatusMessage}>{cloneStatus.message}</p>
+                        <div className={styles.cloneSteps}>
+                            <button onClick={handleCloneRead} disabled={isCloning || clonedMessage} className={styles.actionButton}>
+                                {isCloning ? '⏳ Reading Source...' : 'Step 1: Read Source Tag'}
+                            </button>
+                            <button onClick={handleCloneWrite} disabled={!clonedMessage} className={styles.actionButton}>
+                                Step 2: Write to Target Tag
+                            </button>
+                        </div>
+                        <button
+                            onClick={() => { setClonedMessage(null); setCloneLog([]); setIsCloning(false); }}
+                            className={styles.resetCloneButton}
+                            disabled={!clonedMessage && cloneLog.length === 0 && !isCloning}
+                        >
+                            Reset Clone Process
                         </button>
                     </div>
-                    <button
-                        onClick={() => { setClonedMessage(null); setCloneLog([]); setIsCloning(false); }}
-                        className={styles.resetCloneButton}
-                        disabled={!clonedMessage && cloneLog.length === 0 && !isCloning}
-                    >
-                        Reset Clone
-                    </button>
                     <div className={styles.logContainer}>
                         <div className={styles.logHeader}>
-                            <h3>Clone Log</h3>
+                            <div className={styles.logTitleWrapper}>
+                                <div className={styles.logDots}>
+                                    <span className={`${styles.logDot} ${styles.red}`}></span>
+                                    <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                                    <span className={`${styles.logDot} ${styles.green}`}></span>
+                                </div>
+                                <h3>Clone Console</h3>
+                            </div>
                             <button onClick={() => setCloneLog([])} className={styles.clearLogButton} disabled={cloneLog.length === 0}>
                                 Clear
                             </button>
                         </div>
                         <div className={styles.log}>
-                            {cloneLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity yet.</p> : cloneLog.map((entry, i) => <p key={i}>{entry}</p>)}
+                            {cloneLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity logged yet.</p> : cloneLog.map((entry, i) => <p key={i}>{entry}</p>)}
                         </div>
                     </div>
                 </div>
 
+                {/* Erase Tag */}
                 <div className={styles.toolSection}>
-                    <h3 className={styles.sectionTitle}>Erase Tag</h3>
-                    <p className={styles.sectionDescription}>This will remove all NDEF data from your tag.</p>
-                    <button onClick={() => setShowEraseConfirmation(true)} className={`${styles.actionButton} ${styles.eraseButton}`}>
-                        Erase NFC Tag
-                    </button>
+                    <div>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.sectionIcon}>🧹</div>
+                            <h3 className={styles.sectionTitle}>Erase Tag</h3>
+                        </div>
+                        <p className={styles.sectionDescription}>Removes all NDEF payload records from your tag, restoring it to a clean blank state.</p>
+                        <button onClick={() => setShowEraseConfirmation(true)} className={`${styles.actionButton} ${styles.eraseButton}`}>
+                            🧹 Erase NFC Tag
+                        </button>
+                    </div>
                     <div className={styles.logContainer}>
                         <div className={styles.logHeader}>
-                            <h3>Erase Log</h3>
+                            <div className={styles.logTitleWrapper}>
+                                <div className={styles.logDots}>
+                                    <span className={`${styles.logDot} ${styles.red}`}></span>
+                                    <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                                    <span className={`${styles.logDot} ${styles.green}`}></span>
+                                </div>
+                                <h3>Erase Console</h3>
+                            </div>
                             <button onClick={() => setEraseLog([])} className={styles.clearLogButton} disabled={eraseLog.length === 0}>
                                 Clear
                             </button>
                         </div>
                         <div className={styles.log}>
-                            {eraseLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity yet.</p> : eraseLog.map((entry, i) => <p key={i}>{entry}</p>)}
+                            {eraseLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity logged yet.</p> : eraseLog.map((entry, i) => <p key={i}>{entry}</p>)}
                         </div>
                     </div>
                 </div>
 
+                {/* Format Tag */}
                 <div className={styles.toolSection}>
-                    <h3 className={styles.sectionTitle}>Format Tag</h3>
-                    <p className={styles.sectionDescription}>Prepare a new or non-NDEF tag for use by formatting it.</p>
-                    <button onClick={handleFormat} className={`${styles.actionButton} ${styles.formatButton}`}>
-                        Format Tag to NDEF
-                    </button>
+                    <div>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.sectionIcon}>⚙️</div>
+                            <h3 className={styles.sectionTitle}>Format Tag</h3>
+                        </div>
+                        <p className={styles.sectionDescription}>Formats a fresh or non-NDEF uninitialized tag so it can be written to using NDEF standard.</p>
+                        <button onClick={handleFormat} className={`${styles.actionButton} ${styles.formatButton}`}>
+                            ⚙️ Format Tag to NDEF
+                        </button>
+                    </div>
                     <div className={styles.logContainer}>
                         <div className={styles.logHeader}>
-                            <h3>Format Log</h3>
+                            <div className={styles.logTitleWrapper}>
+                                <div className={styles.logDots}>
+                                    <span className={`${styles.logDot} ${styles.red}`}></span>
+                                    <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                                    <span className={`${styles.logDot} ${styles.green}`}></span>
+                                </div>
+                                <h3>Format Console</h3>
+                            </div>
                             <button onClick={() => setFormatLog([])} className={styles.clearLogButton} disabled={formatLog.length === 0}>
                                 Clear
                             </button>
                         </div>
                         <div className={styles.log}>
-                            {formatLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity yet.</p> : formatLog.map((entry, i) => <p key={i}>{entry}</p>)}
+                            {formatLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity logged yet.</p> : formatLog.map((entry, i) => <p key={i}>{entry}</p>)}
                         </div>
                     </div>
                 </div>
 
+                {/* Lock Tag */}
                 <div className={styles.toolSection}>
-                    <h3 className={styles.sectionTitle}>Lock Tag (Make Read-Only)</h3>
-                    <p className={styles.sectionDescription}>
-                        <strong>Warning:</strong> This will make the tag permanently read-only. This action cannot be undone.
-                    </p>
-                    <button onClick={() => setShowLockConfirmation(true)} className={`${styles.actionButton} ${styles.lockButton}`}>
-                        Lock NFC Tag
-                    </button>
+                    <div>
+                        <div className={styles.sectionHeader}>
+                            <div className={styles.sectionIcon}>🔒</div>
+                            <h3 className={styles.sectionTitle}>Lock Tag</h3>
+                        </div>
+                        <p className={styles.sectionDescription}>
+                            <strong>Warning:</strong> Permanently locks the NFC tag. It will become read-only forever and cannot be modified again.
+                        </p>
+                        <button onClick={() => setShowLockConfirmation(true)} className={`${styles.actionButton} ${styles.lockButton}`}>
+                            🔒 Lock Tag (Read-Only)
+                        </button>
+                    </div>
                     <div className={styles.logContainer}>
                         <div className={styles.logHeader}>
-                            <h3>Lock Log</h3>
+                            <div className={styles.logTitleWrapper}>
+                                <div className={styles.logDots}>
+                                    <span className={`${styles.logDot} ${styles.red}`}></span>
+                                    <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                                    <span className={`${styles.logDot} ${styles.green}`}></span>
+                                </div>
+                                <h3>Lock Console</h3>
+                            </div>
                             <button onClick={() => setLockLog([])} className={styles.clearLogButton} disabled={lockLog.length === 0}>
                                 Clear
                             </button>
                         </div>
                         <div className={styles.log}>
-                            {lockLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity yet.</p> : lockLog.map((entry, i) => <p key={i}>{entry}</p>)}
+                            {lockLog.length === 0 ? <p className={styles.emptyLogMessage}>No activity logged yet.</p> : lockLog.map((entry, i) => <p key={i}>{entry}</p>)}
                         </div>
                     </div>
                 </div>

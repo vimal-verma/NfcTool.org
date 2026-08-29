@@ -178,13 +178,22 @@ export default function WriteTagClient() {
 
             <div className={styles.logContainer}>
                 <div className={styles.logHeader}>
-                    <h3>Write Log</h3>
+                    <div className={styles.logTitleWrapper}>
+                        <div className={styles.logDots}>
+                            <span className={`${styles.logDot} ${styles.red}`}></span>
+                            <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                            <span className={`${styles.logDot} ${styles.green}`}></span>
+                        </div>
+                        <h3>Write Console Output</h3>
+                    </div>
                     <button onClick={() => setLog([])} className={styles.clearLogButton} disabled={log.length === 0}>
                         Clear
                     </button>
                 </div>
                 {log.length === 0 ? (
-                    <p style={{color:'var(--text-secondary)',fontSize:'0.85rem',padding:'0.25rem 0'}}>Fill in the form and press Write. The log will appear here.</p>
+                    <div className={styles.log}>
+                        <span style={{color:'#64748b', fontStyle:'italic'}}>Fill in the form and press Write. Output will display here...</span>
+                    </div>
                 ) : (
                     <div className={styles.log} dangerouslySetInnerHTML={{ __html: log.join('<br />') }} aria-live="polite" />
                 )}

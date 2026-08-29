@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0 1.5rem;
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* ── Hero ── */
@@ -12,24 +14,26 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 85vh;
+  min-height: 82vh;
   width: 100%;
-  background: var(--hero-background);
+  position: relative;
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 5rem 1rem 3.5rem;
+  background: radial-gradient(circle at 50% 20%, rgba(99, 102, 241, 0.12) 0%, rgba(217, 70, 239, 0.04) 50%, transparent 80%);
 }
 
 .heroContent {
-  max-width: 640px;
+  max-width: 760px;
+  margin: 0 auto;
 }
 
 .title {
-  font-size: clamp(2.5rem, 6vw, 3.75rem);
+  font-size: clamp(2.6rem, 6.5vw, 4rem);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.12;
   margin-bottom: 1.25rem;
-  letter-spacing: -0.05em;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-accent) 100%);
+  letter-spacing: -0.04em;
+  background: var(--primary-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -44,11 +48,11 @@
 }
 
 .subtitle {
-  font-size: 1.15rem;
+  font-size: clamp(1.05rem, 2.5vw, 1.25rem);
   color: var(--text-secondary);
-  margin-bottom: 2.25rem;
+  margin-bottom: 2.5rem;
   line-height: 1.75;
-  max-width: 520px;
+  max-width: 580px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -56,52 +60,65 @@
 .heroBadge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: var(--card-background);
+  gap: 0.55rem;
+  background: var(--card-background-glass);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--card-border);
   border-radius: 9999px;
-  padding: 0.35rem 1rem;
-  font-size: 0.82rem;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-bottom: 1.75rem;
-  font-weight: 500;
+  margin-bottom: 1.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
 }
 
 .heroBadgeDot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: var(--color-success);
+  background-color: #10b981;
   display: inline-block;
   flex-shrink: 0;
+  box-shadow: 0 0 8px #10b981;
 }
 
 .heroStats {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.5rem;
-  margin-top: 2.5rem;
+  gap: 2rem;
+  margin-top: 3rem;
   flex-wrap: wrap;
+  background: var(--card-background-glass);
+  backdrop-filter: blur(12px);
+  padding: 1.25rem 2rem;
+  border-radius: 20px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  display: inline-flex;
 }
 
 .heroStat {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem;
+  gap: 0.2rem;
 }
 
 .heroStat strong {
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: var(--primary-accent);
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .heroStatZero {
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: var(--color-success) !important;
+  color: #10b981 !important;
+  -webkit-text-fill-color: #10b981 !important;
 }
 
 .heroStat span {
@@ -109,7 +126,7 @@
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .heroStatDivider {
@@ -128,66 +145,93 @@
 }
 
 a.primary {
-  background: linear-gradient(135deg, var(--primary-accent) 0%, #6366f1 100%);
-  color: var(--button-primary-text);
-  padding: 0.85rem 1.75rem;
+  background: var(--primary-gradient);
+  color: #ffffff;
+  padding: 0.95rem 2rem;
   border-radius: 9999px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: inline-block;
-  box-shadow: 0 4px 18px rgba(0, 112, 243, 0.35);
+  font-weight: 700;
+  font-size: 1.05rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
   letter-spacing: 0.01em;
+  text-decoration: none;
 }
 
 a.secondary {
-  border: 1px solid var(--button-secondary-border);
-  background-color: transparent;
+  border: 1px solid var(--card-border);
+  background: var(--card-background-glass);
+  backdrop-filter: blur(12px);
   color: var(--text-primary);
-  padding: 0.85rem 1.75rem;
+  padding: 0.95rem 2rem;
   border-radius: 9999px;
-  font-weight: 500;
-  font-size: 1rem;
-  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-  display: inline-block;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm);
 }
 
 /* ── All Tools at a Glance ── */
 .allToolsSection {
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   padding: 5rem 1rem 4rem;
   text-align: center;
 }
 
 .allToolsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1rem;
-  margin-top: 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1.25rem;
+  margin-top: 2.75rem;
 }
 
 .toolItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  padding: 1.25rem 0.75rem 1rem;
-  background: var(--card-background);
+  gap: 0.45rem;
+  padding: 1.35rem 0.85rem 1.1rem;
+  background: var(--card-background-glass);
+  backdrop-filter: blur(12px);
   border: 1px solid var(--card-border);
-  border-radius: 14px;
+  border-radius: 18px;
   text-align: center;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background-color 0.22s ease;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: var(--shadow-sm);
   text-decoration: none;
   color: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.toolItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--primary-gradient);
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .toolItem:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   box-shadow: var(--shadow-md);
   border-color: var(--primary-accent);
   background: var(--card-background-hover);
+}
+
+.toolItem:hover::before {
+  opacity: 1;
 }
 
 .toolItemIcon {

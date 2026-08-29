@@ -45,7 +45,7 @@ export default function Header() {
                 )}
                 <div className={styles.headerContent}>
                     <Link href="/" className={styles.logo} aria-label="NfcTool — home">
-                        NfcTool
+                        <span className={styles.logoIcon}>📡</span> NfcTool
                     </Link>
 
                     <nav

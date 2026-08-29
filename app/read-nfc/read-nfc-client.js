@@ -257,17 +257,17 @@ export default function ReadNfcClient() {
                     title={!isSupported ? 'Web NFC is not available in this browser' : undefined}
                 >
                     {!isSupported
-                        ? 'Scanning unavailable here'
+                        ? '🚫 Scanning unavailable here'
                         : isScanning ? (
                             <span className={styles.scanningIndicator}>
                                 <span className={styles.scanPulse}></span>
-                                Scanning…
+                                Scanning for Tag…
                             </span>
                         ) : '📡 Start Scan'}
                 </button>
                 {lastScannedContent && (
                     <button onClick={handleCopy} className={styles.copyButton}>
-                        Copy Content
+                        📋 Copy Content
                     </button>
                 )}
                 {isVCard && lastScannedContent && (
@@ -277,7 +277,7 @@ export default function ReadNfcClient() {
                 )}
                 {scannedUrl && (
                     <a href={scannedUrl} target="_blank" rel="noopener noreferrer" className={`${styles.copyButton} ${styles.openUrlButton}`}>
-                        🔗 Open URL
+                        🔗 Open Link
                     </a>
                 )}
             </div>
@@ -285,38 +285,43 @@ export default function ReadNfcClient() {
             {!tagDetails && !isScanning && isSupported && (
                 <div className={styles.emptyState}>
                     <div className={styles.emptyStateIcon}>📱</div>
-                    <p className={styles.emptyStateTitle}>Ready to scan</p>
-                    <p className={styles.emptyStateHint}>Press &ldquo;Start Scan&rdquo;, then hold the back of your phone near an NFC tag (within 4 cm).</p>
+                    <p className={styles.emptyStateTitle}>Ready to Scan Tag</p>
+                    <p className={styles.emptyStateHint}>Tap &ldquo;Start Scan&rdquo; and place the back of your smartphone against any NFC tag (within 4 cm).</p>
                 </div>
             )}
 
             {!tagDetails && !isSupported && (
                 <div className={styles.emptyState}>
                     <div className={styles.emptyStateIcon}>🔒</div>
-                    <p className={styles.emptyStateTitle}>This browser can&apos;t scan NFC tags</p>
+                    <p className={styles.emptyStateTitle}>NFC Sensor Unsupported</p>
                     <p className={styles.emptyStateHint}>
-                        Web NFC only works in Chrome on Android (v89+). Open this page there to
-                        scan a tag — or use our <a href="/qr" style={{ color: 'var(--primary-accent)', textDecoration: 'underline' }}>QR code tools</a>, which work on any device.
+                        Web NFC API requires Chrome on Android (v89+). Access this link on your Android smartphone to
+                        scan tags — or check our <a href="/qr" style={{ color: 'var(--primary-accent)', textDecoration: 'underline' }}>QR Code Generator</a>.
                     </p>
                 </div>
             )}
 
             {isScanning && !tagDetails && (
                 <div className={styles.emptyState}>
-                    <div className={styles.emptyStateIcon} style={{animation:'pulse 1.5s ease-in-out infinite'}}>🔍</div>
-                    <p className={styles.emptyStateTitle}>Waiting for a tag…</p>
-                    <p className={styles.emptyStateHint}>Hold your phone&apos;s back close to an NFC tag. Keep it steady until you hear a notification.</p>
+                    <div className={styles.radarWrapper}>
+                        <div className={styles.radarPulseRing}></div>
+                        <div className={styles.radarPulseRing}></div>
+                        <div className={styles.radarPulseRing}></div>
+                        <div className={styles.radarCenterIcon}>📡</div>
+                    </div>
+                    <p className={styles.emptyStateTitle}>Searching for NFC Tag...</p>
+                    <p className={styles.emptyStateHint}>Hold your device close to the tag. Do not move away until reading is complete.</p>
                 </div>
             )}
 
             {tagDetails && (
                 <div className={styles.tagInfoContainer}>
-                    <p><strong>Serial Number:</strong> <span>{tagDetails.serialNumber}</span></p>
-                    <p><strong>Data Size:</strong> <span>{tagDetails.size} bytes</span></p>
-                    <p><strong>Est. Tag Type:</strong> <span>{tagDetails.type}</span></p>
-                    <p><strong>Writable:</strong> <span style={{color: tagDetails.isWritable === 'Yes' ? '#22c55e' : tagDetails.isWritable === 'No' ? '#ef4444' : 'inherit'}}>{tagDetails.isWritable}</span></p>
-                    <p><strong>Record Count:</strong> <span>{tagDetails.recordCount}</span></p>
-                    <p><strong>Record Types:</strong> <span>{tagDetails.recordTypes}</span></p>
+                    <p><strong>Serial Number</strong> <span>{tagDetails.serialNumber}</span></p>
+                    <p><strong>Payload Size</strong> <span>{tagDetails.size} bytes</span></p>
+                    <p><strong>Tag IC Type</strong> <span>{tagDetails.type}</span></p>
+                    <p><strong>Writable State</strong> <span style={{color: tagDetails.isWritable === 'Yes' ? 'var(--color-success)' : tagDetails.isWritable === 'No' ? 'var(--color-danger)' : 'inherit'}}>{tagDetails.isWritable}</span></p>
+                    <p><strong>Total Records</strong> <span>{tagDetails.recordCount}</span></p>
+                    <p><strong>Record Types</strong> <span>{tagDetails.recordTypes}</span></p>
                 </div>
             )}
             {scannedVCardData && (
@@ -330,34 +335,43 @@ export default function ReadNfcClient() {
                         <span>📶</span>
                         <h3>WiFi Network Detected</h3>
                     </div>
-                    <div className={styles.tagInfoContainer} style={{marginTop:0, borderRadius:'0 0 12px 12px', borderTop:'none'}}>
-                        <p><strong>Network (SSID):</strong> <span>{scannedWifiData.ssid}</span></p>
-                        <p><strong>Password:</strong> <span>{scannedWifiData.password || 'No Password'}</span></p>
-                        <p><strong>Security:</strong> <span>{scannedWifiData.encryption || 'Unknown'}</span></p>
+                    <div className={styles.tagInfoContainer} style={{marginTop:0, borderRadius:'0 0 16px 16px', borderTop:'none'}}>
+                        <p><strong>Network SSID</strong> <span>{scannedWifiData.ssid}</span></p>
+                        <p><strong>WPA Password</strong> <span>{scannedWifiData.password || 'No Password'}</span></p>
+                        <p><strong>Encryption</strong> <span>{scannedWifiData.encryption || 'Unknown'}</span></p>
                     </div>
                     {scannedWifiData.password && (
                         <button onClick={() => {
                             navigator.clipboard.writeText(scannedWifiData.password);
                             addToLog('✅ Password copied to clipboard!', 'success');
-                        }} className={styles.copyButton} style={{marginTop:'0.75rem'}}>
-                            Copy Password
+                        }} className={styles.copyButton} style={{marginTop:'1rem'}}>
+                            📋 Copy Password
                         </button>
                     )}
-                    <p className={styles.instructionText} style={{ marginTop: '0.75rem' }}>
-                        Browsers cannot connect to WiFi automatically. Copy the password and connect in your device settings.
+                    <p className={styles.instructionText} style={{ marginTop: '0.85rem' }}>
+                        Browsers cannot auto-connect to Wi-Fi. Copy the password to join in Wi-Fi settings.
                     </p>
                 </div>
             )}
 
             <div className={styles.logContainer}>
                 <div className={styles.logHeader}>
-                    <h3>Scan Log</h3>
+                    <div className={styles.logTitleWrapper}>
+                        <div className={styles.logDots}>
+                            <span className={`${styles.logDot} ${styles.red}`}></span>
+                            <span className={`${styles.logDot} ${styles.yellow}`}></span>
+                            <span className={`${styles.logDot} ${styles.green}`}></span>
+                        </div>
+                        <h3>Scan Console Output</h3>
+                    </div>
                     <button onClick={() => setLog([])} className={styles.clearLogButton} disabled={log.length === 0}>
                         Clear
                     </button>
                 </div>
                 {log.length === 0 ? (
-                    <p style={{color:'var(--text-secondary)',fontSize:'0.85rem',padding:'0.5rem 0'}}>Log is empty. Scan a tag to see output here.</p>
+                    <div className={styles.log}>
+                        <span style={{color:'#64748b', fontStyle:'italic'}}>Console output ready. Click Start Scan to begin...</span>
+                    </div>
                 ) : (
                     <div className={styles.log} dangerouslySetInnerHTML={{ __html: log.join('<br />') }} aria-live="polite" />
                 )}

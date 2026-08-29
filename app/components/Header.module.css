@@ -29,17 +29,31 @@
 
 .logo {
   font-weight: 800;
-  font-size: 1.375rem;
+  font-size: 1.35rem;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: opacity 0.2s ease;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.logoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  background: var(--primary-gradient);
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .logo:hover {
-  opacity: 0.85;
+  transform: translateY(-1px);
+  opacity: 0.9;
 }
 
 .nav {
