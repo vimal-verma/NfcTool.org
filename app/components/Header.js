@@ -12,9 +12,15 @@ export default function Header() {
     const { theme, toggleTheme } = useTheme();
     const [isNavOpen, setIsNavOpen] = useState(false);
     const pathname = usePathname();
-    const toolPaths = useMemo(() => tools.map(t => t.href), []);
+    const isToolPage = useMemo(() => {
+        const normPath = pathname.toLowerCase().replace(/\/$/, '') || '/';
+        return tools.some(t => {
+            const normHref = t.href.toLowerCase().replace(/\/$/, '');
+            return normPath === normHref || (normHref !== '' && normPath.startsWith(normHref + '/'));
+        });
+    }, [pathname]);
 
-    const [isToolsNavVisible, setIsToolsNavVisible] = useState(toolPaths.includes(pathname));
+    const [isToolsNavVisible, setIsToolsNavVisible] = useState(isToolPage);
 
     useEffect(() => {
         document.body.style.overflow = isNavOpen ? 'hidden' : 'unset';
@@ -30,8 +36,8 @@ export default function Header() {
     }, [isNavOpen]);
 
     useEffect(() => {
-        setIsToolsNavVisible(toolPaths.includes(pathname));
-    }, [pathname, toolPaths]);
+        setIsToolsNavVisible(isToolPage);
+    }, [isToolPage]);
 
     return (
         <>

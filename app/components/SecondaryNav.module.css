@@ -38,6 +38,8 @@
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    scroll-behavior: smooth;
+    scroll-padding: 0 1rem;
 }
 
 .scrollContainer::-webkit-scrollbar {
@@ -68,6 +70,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
+    scroll-margin: 0 1rem;
 }
 
 .navLink:hover {
@@ -86,6 +89,7 @@
     background: var(--primary-gradient);
     color: #ffffff;
     border-color: transparent;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
 }
 
