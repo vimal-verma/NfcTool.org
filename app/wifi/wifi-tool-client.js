@@ -5,6 +5,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styles from './wifi.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
+import { useNfcLikelySupported } from '../lib/use-nfc-support';
 
 const availableBackgrounds = Array.from(
     { length: 1 },
@@ -14,6 +15,7 @@ const availableBackgrounds = Array.from(
 export default function WIFIToolClient() {
     const [ssid, setSsid] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [encryption, setEncryption] = useState('WPA');
     const [hidden, setHidden] = useState(false);
     const [log, setLog] = useState([]);
@@ -26,6 +28,7 @@ export default function WIFIToolClient() {
     const [stylishBg, setStylishBg] = useState(null);
     const [stylishText, setStylishText] = useState('Scan to Connect');
     const [stylishTextColor, setStylishTextColor] = useState('#000000');
+    const isNfcSupported = useNfcLikelySupported();
     const qrCodeRef = useRef(null);
 
     // Load state from localStorage on component mount
@@ -44,7 +47,6 @@ export default function WIFIToolClient() {
                 setQrLogoSize(data.qrLogoSize || 40);
                 setStylishText(data.stylishText || 'Scan to Connect');
                 setStylishTextColor(data.stylishTextColor || '#000000');
-                // Not loading stylishBg from localStorage to avoid storing large data URLs unnecessarily on every change.
             }
         } catch (error) {
             console.error("Failed to load data from localStorage", error);
@@ -78,7 +80,7 @@ export default function WIFIToolClient() {
 
     const handleWriteNfc = async () => {
         if (!wifiString) {
-            addToLog('Please fill in the SSID (Network Name) first.', 'error');
+            addToLog('Please fill in the Network Name (SSID) first.', 'error');
             return;
         }
 
@@ -103,7 +105,7 @@ export default function WIFIToolClient() {
             if (error.name === 'NotAllowedError') {
                 addToLog('Write operation cancelled by user.', 'error');
             } else {
-                addToLog(`Error: ${error.message}` + 'Refresh the page and try again.', 'error');
+                addToLog(`Error: ${error.message}`, 'error');
             }
         } finally {
             setIsWriting(false);
@@ -137,8 +139,8 @@ export default function WIFIToolClient() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>WiFi QR & NFC Writer</h1>
-                <p>Generate a WiFi QR code to easily share your network.</p>
+                <h1>WiFi QR &amp; NFC Writer</h1>
+                <p>Generate a instant Wi-Fi QR code for tap-to-connect or scan-to-connect network sharing.</p>
             </div>
 
             <div className={styles.toolLayout}>
@@ -152,27 +154,48 @@ export default function WIFIToolClient() {
                             value={ssid}
                             onChange={(e) => setSsid(e.target.value)}
                             aria-required="true"
-                            placeholder="MyWiFiNetwork"
+                            placeholder="e.g. Home_WiFi_5G"
                             required
                         />
                     </div>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="password">Password</label>
-                        <input
-                            id="password"
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Your WiFi Password"
-                            disabled={encryption === 'nopass'}
-                        />
+                        <label htmlFor="password">WiFi Password</label>
+                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                            <input
+                                id="password"
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                placeholder="Enter WiFi Password"
+                                disabled={encryption === 'nopass'}
+                                style={{ width: '100%', paddingRight: '2.5rem' }}
+                            />
+                            {encryption !== 'nopass' && (
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    style={{
+                                        position: 'absolute',
+                                        right: '0.5rem',
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        fontSize: '1rem',
+                                        color: 'var(--text-secondary)'
+                                    }}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? '👁️' : '🙈'}
+                                </button>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="encryption">Encryption</label>
+                        <label htmlFor="encryption">Encryption Type</label>
                         <select id="encryption" value={encryption} onChange={(e) => setEncryption(e.target.value)}>
-                            <option value="WPA">WPA/WPA2</option>
-                            <option value="WEP">WEP</option>
-                            <option value="nopass">No Encryption</option>
+                            <option value="WPA">WPA / WPA2 / WPA3 (Recommended)</option>
+                            <option value="WEP">WEP (Legacy)</option>
+                            <option value="nopass">Open Network (No Password)</option>
                         </select>
                     </div>
                     <div className={styles.inputGroup}>
@@ -182,7 +205,7 @@ export default function WIFIToolClient() {
                                 checked={hidden}
                                 onChange={(e) => setHidden(e.target.checked)}
                             />
-                            Hidden Network
+                            Hidden Network (SSID is not broadcast)
                         </label>
                     </div>
 
@@ -212,7 +235,7 @@ export default function WIFIToolClient() {
                                 value={wifiString}
                                 size={256}
                                 includeMargin={true}
-                                level="H" // High error correction for logo
+                                level="H"
                                 bgColor={qrBgColor}
                                 fgColor={qrFgColor}
                                 imageSettings={qrLogo ? {
@@ -224,7 +247,8 @@ export default function WIFIToolClient() {
                             />
                         ) : (
                             <div className={styles.qrPlaceholder}>
-                                <p>Fill in required fields to generate QR Code</p>
+                                <span style={{ fontSize: '2.5rem', marginBottom: '0.5rem', display: 'block' }}>📶</span>
+                                <p>Fill in Network Name (SSID) to generate WiFi QR &amp; NFC string</p>
                             </div>
                         )}
                     </div>
@@ -232,24 +256,25 @@ export default function WIFIToolClient() {
                     <div className={styles.buttonGroup}>
                         <button
                             onClick={handleWriteNfc}
-                            disabled={isWriting || !wifiString}
+                            disabled={isWriting || !wifiString || !isNfcSupported}
                             className={styles.actionButton}
+                            title={!isNfcSupported ? 'Web NFC requires Chrome on Android' : undefined}
                         >
-                            {isWriting ? 'Writing...' : 'Write to NFC Tag'}
+                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? 'Writing to Tag…' : '📡 Write to NFC Tag'}
                         </button>
                         <button
                             onClick={() => handleDownloadQR(false)}
                             disabled={!wifiString}
                             className={styles.downloadButton}
                         >
-                            Download QR
+                            📥 Download QR
                         </button>
                         <button
                             onClick={handleCopyLink}
                             disabled={!wifiString}
                             className={styles.copyButton}
                         >
-                            Copy WiFi String
+                            📋 Copy WiFi Code
                         </button>
                     </div>
                 </div>
@@ -258,12 +283,12 @@ export default function WIFIToolClient() {
             {/* Log Output */}
             <div className={styles.logContainer}>
                 <p className={styles.privacyNote}>
-                    🔒 All information is stored locally in your browser. Nothing is shared with our servers. Always verify generated QR codes and links before sharing.
+                    🔒 WiFi passwords are kept entirely private in your browser memory. Nothing is sent over the network.
                 </p>
                 <div className={styles.logHeader}>
-                    <h3>Log</h3>
+                    <h3>Log Console</h3>
                     <button onClick={() => setLog([])} className={styles.clearLogButton} disabled={log.length === 0}>
-                        Clear
+                        Clear Log
                     </button>
                 </div>
                 <div className={styles.log} dangerouslySetInnerHTML={{ __html: log.join('<br />') }} aria-live="polite" />

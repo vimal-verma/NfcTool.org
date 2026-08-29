@@ -5,6 +5,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styles from './url.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
+import { useNfcLikelySupported } from '../lib/use-nfc-support';
 
 const availableBackgrounds = Array.from(
     { length: 1 },
@@ -23,6 +24,7 @@ export default function UrlToolClient() {
     const [stylishBg, setStylishBg] = useState(null);
     const [stylishText, setStylishText] = useState('Scan to Visit');
     const [stylishTextColor, setStylishTextColor] = useState('#000000');
+    const isNfcSupported = useNfcLikelySupported();
     const qrCodeRef = useRef(null);
 
     const handleUrlChange = (index, value) => {
@@ -81,17 +83,17 @@ export default function UrlToolClient() {
     }, []);
 
     const redirectUrl = useMemo(() => {
-        const validUrls = urls.map(u => u.trim()).filter(u => u !== '' && u.startsWith('http'));
+        const validUrls = urls.map(u => u.trim()).filter(u => u !== '' && (u.startsWith('http://') || u.startsWith('https://')));
         if (validUrls.length === 0) return '';
         if (validUrls.length === 1) return validUrls[0];
 
         const encodedUrls = btoa(JSON.stringify(validUrls));
-        return `${process.env.NEXT_PUBLIC_FRONTEND_URL}/redirect?urls=${encodedUrls}`;
+        return `${process.env.NEXT_PUBLIC_FRONTEND_URL || ''}/redirect?urls=${encodedUrls}`;
     }, [urls]);
 
     const handleWriteNfc = async () => {
         if (!redirectUrl) {
-            addToLog('Please fill in at least one valid Website URL.', 'error');
+            addToLog('Please fill in at least one valid Website URL (starting with http:// or https://).', 'error');
             return;
         }
 
@@ -149,8 +151,8 @@ export default function UrlToolClient() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>URL QR & NFC Writer</h1>
-                <p>Generate a QR code for one or more websites and write it to an NFC tag.</p>
+                <h1>URL QR &amp; NFC Writer</h1>
+                <p>Generate a QR code for one or more websites and write it directly to an NFC tag.</p>
             </div>
 
             <div className={styles.toolLayout}>
@@ -158,7 +160,7 @@ export default function UrlToolClient() {
                 <div className={styles.form}>
                     {urls.map((url, index) => (
                         <div key={index} className={styles.inputGroup}>
-                            <label htmlFor={`url-${index}`}>Website URL {index + 1} *</label>
+                            <label htmlFor={`url-${index}`}>Website URL {urls.length > 1 ? index + 1 : ''} *</label>
                             <div className={styles.urlInputWrapper}>
                                 <input
                                     id={`url-${index}`}
@@ -175,7 +177,7 @@ export default function UrlToolClient() {
                             </div>
                         </div>
                     ))}
-                    <button onClick={addUrlInput} className={styles.addUrlButton}>+ Add another URL</button>
+                    <button onClick={addUrlInput} className={styles.addUrlButton}>+ Add another URL (Multi-link)</button>
 
                     <AdvancedQrEditor
                         isExpanded={isQrEditorExpanded}
@@ -203,7 +205,7 @@ export default function UrlToolClient() {
                                 value={redirectUrl}
                                 size={256}
                                 includeMargin={true}
-                                level="H" // High error correction for logo
+                                level="H"
                                 bgColor={qrBgColor}
                                 fgColor={qrFgColor}
                                 imageSettings={qrLogo ? {
@@ -215,7 +217,8 @@ export default function UrlToolClient() {
                             />
                         ) : (
                             <div className={styles.qrPlaceholder}>
-                                <p>Fill in at least one URL to generate QR Code</p>
+                                <span style={{ fontSize: '2.5rem', marginBottom: '0.5rem', display: 'block' }}>🔗</span>
+                                <p>Fill in a website URL to generate QR code and program NFC tag</p>
                             </div>
                         )}
                     </div>
@@ -223,31 +226,25 @@ export default function UrlToolClient() {
                     <div className={styles.buttonGroup}>
                         <button
                             onClick={handleWriteNfc}
-                            disabled={isWriting || !redirectUrl}
+                            disabled={isWriting || !redirectUrl || !isNfcSupported}
                             className={styles.actionButton}
+                            title={!isNfcSupported ? 'Web NFC requires Chrome on Android' : undefined}
                         >
-                            {isWriting ? 'Writing...' : 'Write to NFC Tag'}
+                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? 'Writing to Tag…' : '📡 Write to NFC Tag'}
                         </button>
                         <button
                             onClick={() => handleDownloadQR(false)}
                             disabled={!redirectUrl}
                             className={styles.downloadButton}
                         >
-                            Download QR
+                            📥 Download QR
                         </button>
                         <button
                             onClick={handleCopyLink}
                             disabled={!redirectUrl}
                             className={styles.copyButton}
                         >
-                            Copy URL
-                        </button>
-                        <button
-                            onClick={() => window.open(redirectUrl, '_blank')}
-                            disabled={!redirectUrl}
-                            className={styles.copyButton}
-                        >
-                            Open URL
+                            📋 Copy URL
                         </button>
                     </div>
                 </div>
@@ -256,12 +253,12 @@ export default function UrlToolClient() {
             {/* Log Output */}
             <div className={styles.logContainer}>
                 <p className={styles.privacyNote}>
-                    🔒 All information is stored locally in your browser. Nothing is shared with our servers. Always verify generated QR codes and links before sharing.
+                    🔒 All processing occurs in your browser. No website URLs are saved to external servers.
                 </p>
                 <div className={styles.logHeader}>
-                    <h3>Log</h3>
+                    <h3>Log Console</h3>
                     <button onClick={() => setLog([])} className={styles.clearLogButton} disabled={log.length === 0}>
-                        Clear
+                        Clear Log
                     </button>
                 </div>
                 <div className={styles.log} dangerouslySetInnerHTML={{ __html: log.join('<br />') }} aria-live="polite" />

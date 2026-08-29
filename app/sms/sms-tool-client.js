@@ -5,6 +5,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styles from './sms.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
+import { useNfcLikelySupported } from '../lib/use-nfc-support';
 
 const availableBackgrounds = Array.from(
     { length: 1 },
@@ -24,6 +25,7 @@ export default function SmsToolClient() {
     const [stylishBg, setStylishBg] = useState(null);
     const [stylishText, setStylishText] = useState('Scan to Send SMS');
     const [stylishTextColor, setStylishTextColor] = useState('#000000');
+    const isNfcSupported = useNfcLikelySupported();
     const qrCodeRef = useRef(null);
 
     // Load state from localStorage on component mount
@@ -40,7 +42,6 @@ export default function SmsToolClient() {
                 setQrLogoSize(data.qrLogoSize || 40);
                 setStylishText(data.stylishText || 'Scan to Send SMS');
                 setStylishTextColor(data.stylishTextColor || '#000000');
-                // Not loading stylishBg from localStorage to avoid storing large data URLs unnecessarily on every change.
             }
         } catch (error) {
             console.error("Failed to load data from localStorage", error);
@@ -92,7 +93,7 @@ export default function SmsToolClient() {
             addToLog('Scan started. Bring a tag close to your device to write.', 'info');
 
             await ndef.write({
-                records: [{ recordType: "url", data: process.env.NEXT_PUBLIC_FRONTEND_URL + '/redirect?url=' + smsUrl }]
+                records: [{ recordType: "url", data: (process.env.NEXT_PUBLIC_FRONTEND_URL || '') + '/redirect?url=' + encodeURIComponent(smsUrl) }]
             });
 
             addToLog(`✅ Successfully wrote SMS link to NFC tag!`, 'success');
@@ -136,33 +137,33 @@ export default function SmsToolClient() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>SMS QR & NFC Writer</h1>
-                <p>Generate an SMS QR code and write it to an NFC tag.</p>
+                <h1>SMS QR &amp; NFC Writer</h1>
+                <p>Generate an instant SMS QR code or write SMS action triggers to NFC tags.</p>
             </div>
 
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="phoneNumber">Phone Number *</label>
+                        <label htmlFor="phoneNumber">Recipient Phone Number *</label>
                         <input
                             id="phoneNumber"
                             type="tel"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             aria-required="true"
-                            placeholder="+1234567890"
+                            placeholder="e.g. +1234567890"
                             required
                         />
                     </div>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="message">Message (Optional)</label>
+                        <label htmlFor="message">Pre-filled Message Body (Optional)</label>
                         <input
                             id="message"
                             type="text"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Hello!"
+                            placeholder="e.g. Hi! I want to inquire about..."
                         />
                     </div>
 
@@ -192,7 +193,7 @@ export default function SmsToolClient() {
                                 value={smsUrl}
                                 size={256}
                                 includeMargin={true}
-                                level="H" // High error correction for logo
+                                level="H"
                                 bgColor={qrBgColor}
                                 fgColor={qrFgColor}
                                 imageSettings={qrLogo ? {
@@ -204,7 +205,8 @@ export default function SmsToolClient() {
                             />
                         ) : (
                             <div className={styles.qrPlaceholder}>
-                                <p>Fill in required fields to generate QR Code</p>
+                                <span style={{ fontSize: '2.5rem', marginBottom: '0.5rem', display: 'block' }}>💬</span>
+                                <p>Fill in Phone Number to generate SMS QR &amp; NFC action</p>
                             </div>
                         )}
                     </div>
@@ -212,31 +214,25 @@ export default function SmsToolClient() {
                     <div className={styles.buttonGroup}>
                         <button
                             onClick={handleWriteNfc}
-                            disabled={isWriting || !smsUrl}
+                            disabled={isWriting || !smsUrl || !isNfcSupported}
                             className={styles.actionButton}
+                            title={!isNfcSupported ? 'Web NFC requires Chrome on Android' : undefined}
                         >
-                            {isWriting ? 'Writing...' : 'Write to NFC Tag'}
+                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? 'Writing to Tag…' : '📡 Write to NFC Tag'}
                         </button>
                         <button
                             onClick={() => handleDownloadQR(false)}
                             disabled={!smsUrl}
                             className={styles.downloadButton}
                         >
-                            Download QR
+                            📥 Download QR
                         </button>
                         <button
                             onClick={handleCopyLink}
                             disabled={!smsUrl}
                             className={styles.copyButton}
                         >
-                            Copy SMS Link
-                        </button>
-                        <button
-                            onClick={() => window.open(smsUrl, '_self')}
-                            disabled={!smsUrl}
-                            className={styles.copyButton}
-                        >
-                            Open SMS Link
+                            📋 Copy SMS Link
                         </button>
                     </div>
                 </div>
@@ -245,12 +241,12 @@ export default function SmsToolClient() {
             {/* Log Output */}
             <div className={styles.logContainer}>
                 <p className={styles.privacyNote}>
-                    🔒 All information is stored locally in your browser. Nothing is shared with our servers. Always verify generated QR codes and links before sharing.
+                    🔒 Phone numbers and message drafts stay local to your browser.
                 </p>
                 <div className={styles.logHeader}>
-                    <h3>Log</h3>
+                    <h3>Log Console</h3>
                     <button onClick={() => setLog([])} className={styles.clearLogButton} disabled={log.length === 0}>
-                        Clear
+                        Clear Log
                     </button>
                 </div>
                 <div className={styles.log} dangerouslySetInnerHTML={{ __html: log.join('<br />') }} aria-live="polite" />

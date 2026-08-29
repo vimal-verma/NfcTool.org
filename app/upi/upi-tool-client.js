@@ -5,6 +5,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styles from './upi.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
+import { useNfcLikelySupported } from '../lib/use-nfc-support';
 
 const availableBackgrounds = Array.from(
     { length: 4 },
@@ -26,6 +27,7 @@ export default function UpiToolClient() {
     const [stylishBg, setStylishBg] = useState(null);
     const [stylishText, setStylishText] = useState('Scan to Pay');
     const [stylishTextColor, setStylishTextColor] = useState('#000000');
+    const isNfcSupported = useNfcLikelySupported();
     const qrCodeRef = useRef(null);
 
     // Load state from localStorage on component mount
@@ -44,7 +46,6 @@ export default function UpiToolClient() {
                 setQrLogoSize(data.qrLogoSize || 40);
                 setStylishText(data.stylishText || 'Scan to Pay');
                 setStylishTextColor(data.stylishTextColor || '#000000');
-                // Not loading stylishBg from localStorage to avoid storing large data URLs unnecessarily on every change.
             }
         } catch (error) {
             console.error("Failed to load data from localStorage", error);
@@ -73,7 +74,7 @@ export default function UpiToolClient() {
     const upiUrl = useMemo(() => {
         if (!upiId || !payeeName) return '';
         const url = new URL('upi://pay');
-        url.searchParams.set('pa', upiId); // Payee VPA (Virtual Payment Address)
+        url.searchParams.set('pa', upiId); // Payee VPA
         url.searchParams.set('pn', payeeName); // Payee Name
         if (amount) url.searchParams.set('am', amount); // Amount
         if (note) url.searchParams.set('tn', note); // Transaction Note
@@ -115,7 +116,6 @@ export default function UpiToolClient() {
         }
     };
 
-
     const handleDownloadQR = (isStylish = false) => {
         const base = payeeName.replace(/\s+/g, '_') || 'upi';
         const filename = isStylish ? `${base}_stylish_nfctool.org_qr.png` : `${base}_nfctool.org_qr.png`;
@@ -143,8 +143,8 @@ export default function UpiToolClient() {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <h1>UPI QR & NFC Writer</h1>
-                <p>Generate a UPI payment QR code and write it to an NFC tag.</p>
+                <h1>UPI QR &amp; NFC Writer</h1>
+                <p>Generate a instant UPI payment QR code and program tap-to-pay NFC tags.</p>
             </div>
 
             <div className={styles.toolLayout}>
@@ -158,7 +158,7 @@ export default function UpiToolClient() {
                             value={upiId}
                             onChange={(e) => setUpiId(e.target.value)}
                             aria-required="true"
-                            placeholder="yourname@bank"
+                            placeholder="e.g. merchant@upi or 9876543210@paytm"
                             required
                         />
                     </div>
@@ -170,19 +170,58 @@ export default function UpiToolClient() {
                             value={payeeName}
                             onChange={(e) => setPayeeName(e.target.value)}
                             aria-required="true"
-                            placeholder="John Doe"
+                            placeholder="e.g. John Doe or Store Name"
                             required
                         />
                     </div>
                     <div className={styles.inputGroup}>
-                        <label htmlFor="amount">Amount (Optional)</label>
+                        <label htmlFor="amount">Amount (INR, Optional)</label>
                         <input
                             id="amount"
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                            placeholder="10.00"
+                            placeholder="e.g. 500"
                         />
+                        <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
+                            {['50', '100', '200', '500', '1000'].map((preset) => (
+                                <button
+                                    key={preset}
+                                    type="button"
+                                    onClick={() => setAmount(preset)}
+                                    style={{
+                                        padding: '0.25rem 0.6rem',
+                                        fontSize: '0.8rem',
+                                        borderRadius: '999px',
+                                        border: '1px solid var(--card-border)',
+                                        background: amount === preset ? 'var(--primary-accent)' : 'var(--card-background)',
+                                        color: amount === preset ? '#ffffff' : 'var(--text-secondary)',
+                                        cursor: 'pointer',
+                                        fontWeight: '500'
+                                    }}
+                                >
+                                    ₹{preset}
+                                </button>
+                            ))}
+                            {amount && (
+                                <button
+                                    type="button"
+                                    onClick={() => setAmount('')}
+                                    style={{
+                                        padding: '0.25rem 0.6rem',
+                                        fontSize: '0.8rem',
+                                        borderRadius: '999px',
+                                        border: '1px solid var(--card-border)',
+                                        background: 'transparent',
+                                        color: 'var(--color-danger)',
+                                        cursor: 'pointer',
+                                        fontWeight: '500'
+                                    }}
+                                >
+                                    Clear Amount
+                                </button>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.inputGroup}>
                         <label htmlFor="note">Transaction Note (Optional)</label>
@@ -191,7 +230,7 @@ export default function UpiToolClient() {
                             type="text"
                             value={note}
                             onChange={(e) => setNote(e.target.value)}
-                            placeholder="Payment for coffee"
+                            placeholder="e.g. Order #1234 or Coffee"
                         />
                     </div>
 
@@ -221,7 +260,7 @@ export default function UpiToolClient() {
                                 value={upiUrl}
                                 size={256}
                                 includeMargin={true}
-                                level="H" // High error correction for logo
+                                level="H"
                                 bgColor={qrBgColor}
                                 fgColor={qrFgColor}
                                 imageSettings={qrLogo ? {
@@ -233,7 +272,8 @@ export default function UpiToolClient() {
                             />
                         ) : (
                             <div className={styles.qrPlaceholder}>
-                                <p>Fill in required fields to generate QR Code</p>
+                                <span style={{ fontSize: '2.5rem', marginBottom: '0.5rem', display: 'block' }}>💳</span>
+                                <p>Fill in UPI ID &amp; Payee Name to generate instant payment QR Code</p>
                             </div>
                         )}
                     </div>
@@ -241,31 +281,25 @@ export default function UpiToolClient() {
                     <div className={styles.buttonGroup}>
                         <button
                             onClick={handleWriteNfc}
-                            disabled={isWriting || !upiUrl}
+                            disabled={isWriting || !upiUrl || !isNfcSupported}
                             className={styles.actionButton}
+                            title={!isNfcSupported ? 'Web NFC requires Chrome on Android' : undefined}
                         >
-                            {isWriting ? 'Writing...' : 'Write to NFC Tag'}
+                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? 'Writing to Tag…' : '📡 Write to NFC Tag'}
                         </button>
                         <button
                             onClick={() => handleDownloadQR(false)}
                             disabled={!upiUrl}
                             className={styles.downloadButton}
                         >
-                            Download QR
+                            📥 Download QR
                         </button>
                         <button
                             onClick={handleCopyLink}
                             disabled={!upiUrl}
                             className={styles.copyButton}
                         >
-                            Copy UPI Link
-                        </button>
-                        <button
-                            onClick={() => window.open(upiUrl, '_blank')}
-                            disabled={!upiUrl}
-                            className={styles.copyButton}
-                        >
-                            Open UPI Link
+                            📋 Copy UPI Link
                         </button>
                     </div>
                 </div>
@@ -274,12 +308,12 @@ export default function UpiToolClient() {
             {/* Log Output */}
             <div className={styles.logContainer}>
                 <p className={styles.privacyNote}>
-                    🔒 All information is stored locally in your browser. Nothing is shared with our servers. Always verify generated QR codes and links before sharing.
+                    🔒 All information is processed locally in your browser. Nothing is sent to external servers. Always verify generated payment links before sharing.
                 </p>
                 <div className={styles.logHeader}>
-                    <h3>Log</h3>
+                    <h3>Log Console</h3>
                     <button onClick={() => setLog([])} className={styles.clearLogButton} disabled={log.length === 0}>
-                        Clear
+                        Clear Log
                     </button>
                 </div>
                 <div className={styles.log} dangerouslySetInnerHTML={{ __html: log.join('<br />') }} aria-live="polite" />
