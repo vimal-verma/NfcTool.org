@@ -1,6 +1,8 @@
 import { getAllPosts } from './lib/posts';
 import { navItems } from './documentation/nav-items';
 
+export const dynamic = 'force-static';
+
 const documentationSlugs = navItems.map(item => item.slug);
 
 export default function sitemap() {
