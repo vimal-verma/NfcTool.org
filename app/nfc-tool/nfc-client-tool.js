@@ -145,13 +145,14 @@ export default function NfcClientTool() {
 
             let record;
             if (recordType === 'url') {
-                record = { recordType: 'url', data: writeData };
+                const normalized = /^https?:\/\//i.test(writeData.trim()) ? writeData.trim() : `https://${writeData.trim()}`;
+                record = { recordType: 'url', data: normalized };
             } else if (recordType === 'vcard') {
-                if (!vCardData.name) {
+                if (!vCardData.name.trim()) {
                     addToLog(setWriteLog, 'Please enter at least a name for the vCard.');
                     return;
                 }
-                const vCardString = `BEGIN:VCARD\nVERSION:3.0\nFN:${vCardData.name}\nTEL;TYPE=CELL:${vCardData.phone}\nEMAIL:${vCardData.email}\nEND:VCARD`;
+                const vCardString = `BEGIN:VCARD\nVERSION:3.0\nFN:${vCardData.name.trim()}\nTEL;TYPE=CELL:${vCardData.phone.trim()}\nEMAIL:${vCardData.email.trim()}\nEND:VCARD`;
                 record = { recordType: 'mime', mediaType: 'text/vcard', data: vCardString };
             } else {
                 record = { recordType: 'text', data: writeData };

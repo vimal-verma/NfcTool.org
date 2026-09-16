@@ -71,6 +71,34 @@ export default function Header() {
                         <Link href="/games" onClick={() => setIsNavOpen(false)} className={pathname.startsWith('/games') || pathname === '/shufflehunt' ? styles.activeLink : ''}>🎮 Games</Link>
                         <Link href="/blog" onClick={() => setIsNavOpen(false)} className={pathname.startsWith('/blog') ? styles.activeLink : ''}>Blog</Link>
                         <Link href="/documentation" onClick={() => setIsNavOpen(false)} className={pathname.startsWith('/documentation') ? styles.activeLink : ''}>Documentation</Link>
+
+                        {/* Mobile Drawer Quick Tools Grid */}
+                        <div className={styles.mobileDrawerTools}>
+                            <div className={styles.mobileDrawerHeading}>Popular Tools</div>
+                            <div className={styles.mobileToolsGrid}>
+                                <Link href="/read-nfc" onClick={() => setIsNavOpen(false)} className={styles.mobileToolCard}>
+                                    <span>📖</span> Read NFC
+                                </Link>
+                                <Link href="/write-nfc" onClick={() => setIsNavOpen(false)} className={styles.mobileToolCard}>
+                                    <span>✍️</span> Write NFC
+                                </Link>
+                                <Link href="/vcard" onClick={() => setIsNavOpen(false)} className={styles.mobileToolCard}>
+                                    <span>📇</span> vCard
+                                </Link>
+                                <Link href="/wifi" onClick={() => setIsNavOpen(false)} className={styles.mobileToolCard}>
+                                    <span>📶</span> WiFi QR
+                                </Link>
+                                <Link href="/upi" onClick={() => setIsNavOpen(false)} className={styles.mobileToolCard}>
+                                    <span>💳</span> UPI Pay
+                                </Link>
+                                <Link href="/url" onClick={() => setIsNavOpen(false)} className={styles.mobileToolCard}>
+                                    <span>🔗</span> URL QR
+                                </Link>
+                            </div>
+                            <Link href="/nfc-tool" onClick={() => setIsNavOpen(false)} className={styles.mobileAllToolsLink}>
+                                ⚡ Open Advanced NFC Suite →
+                            </Link>
+                        </div>
                     </nav>
 
                     <div className={styles.headerActions}>

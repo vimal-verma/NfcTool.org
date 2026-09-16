@@ -41,9 +41,51 @@ export default function SmsPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'SMS QR Code Generator', item: 'https://nfctool.org/sms' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'What happens when someone scans an SMS QR code?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Scanning the QR code automatically opens the user\'s messaging application with the recipient phone number and message pre-populated, so they only need to tap send.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write an SMS action to an NFC tag?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes. On Chrome for Android, tap "Write to NFC" to write the sms: URI directly to any compatible NFC tag.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Does scanning an SMS QR code send the message automatically without user permission?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'No. For security and privacy, phone operating systems open the SMS drafting screen and require the user to explicitly tap the send button.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>SMS QR Code Generator</h1>

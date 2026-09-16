@@ -41,9 +41,51 @@ export default function EventPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'Event QR Code Generator', item: 'https://nfctool.org/event' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'What calendar apps support vEvent QR codes?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Standard vEvent (iCalendar format) QR codes are natively supported by Google Calendar, Apple Calendar, Microsoft Outlook, and standard device calendar apps on iOS and Android.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write event details to an NFC tag?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! Using Chrome on an Android phone with NFC enabled, clicking "Write to NFC" writes the formatted vEvent payload directly to your NFC tag.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Does an event QR code work offline?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes. The event title, time, date, location, and description are entirely contained in the QR code itself, so no internet connection is required to add the event to your calendar.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>Calendar Event QR Code Generator</h1>

@@ -21,7 +21,7 @@ export default function SecondaryNav() {
     }, [pathname]);
 
     return (
-        <nav id="tools-nav" aria-label="Tools" className={styles.secondaryNav}>
+        <nav id="tools-nav" aria-label="Tool suite navigation" className={styles.secondaryNav}>
             <div className={styles.scrollContainer}>
                 {tools.map((tool) => {
                     const normPath = pathname.toLowerCase().replace(/\/$/, '') || '/';
@@ -36,7 +36,8 @@ export default function SecondaryNav() {
                             className={`${styles.navLink} ${isActive ? styles.active : ''}`}
                             aria-current={isActive ? 'page' : undefined}
                         >
-                            {tool.name}
+                            {tool.icon && <span className={styles.toolIcon} aria-hidden="true">{tool.icon}</span>}
+                            <span>{tool.name}</span>
                         </Link>
                     );
                 })}

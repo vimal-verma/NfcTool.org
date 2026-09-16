@@ -63,11 +63,60 @@ export default function VCardPage() {
         }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'QR & NFC Tools', item: 'https://nfctool.org/qr' },
+            { '@type': 'ListItem', position: 3, name: 'vCard Generator', item: 'https://nfctool.org/vcard' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'What is a vCard and how does the QR code work?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'A vCard (.vcf) is a standard digital business card format. When someone scans your vCard QR code, their phone automatically prompts them to save your full name, phone number, email, and social links to their address book.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write my digital business card to an NFC tag?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! After filling in your contact details, tap \'Write to NFC Tag\' on Chrome for Android. When someone taps your physical NFC card, your contact card opens immediately.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Is it free to generate and download vCard QR codes?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes, 100% free with no account or sign-up needed. You can download the QR code image, save the .vcf file, or copy the shareable link.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
             />
             <div className={styles.container}>
                 <header className={styles.hero}>

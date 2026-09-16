@@ -69,7 +69,8 @@ export default function SmsToolClient() {
 
     const smsUrl = useMemo(() => {
         if (!phoneNumber) return '';
-        let url = `sms:${phoneNumber}`;
+        const cleaned = phoneNumber.trim().replace(/[\s()-]/g, '');
+        let url = `sms:${cleaned}`;
         if (message) {
             url += `?body=${encodeURIComponent(message)}`;
         }
@@ -93,7 +94,7 @@ export default function SmsToolClient() {
             addToLog('Scan started. Bring a tag close to your device to write.', 'info');
 
             await ndef.write({
-                records: [{ recordType: "url", data: (process.env.NEXT_PUBLIC_FRONTEND_URL || '') + '/redirect?url=' + encodeURIComponent(smsUrl) }]
+                records: [{ recordType: "url", data: smsUrl }]
             });
 
             addToLog(`✅ Successfully wrote SMS link to NFC tag!`, 'success');
@@ -136,11 +137,6 @@ export default function SmsToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>SMS QR &amp; NFC Writer</h1>
-                <p>Generate an instant SMS QR code or write SMS action triggers to NFC tags.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

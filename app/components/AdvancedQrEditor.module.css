@@ -1,36 +1,52 @@
 .qrEditor {
     width: 100%;
-    padding: 1rem;
+    padding: 1.5rem;
     border: 1px solid var(--card-border);
-    border-radius: 8px;
+    border-radius: 16px;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     margin-top: 1rem;
     background-color: var(--card-background);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(8px);
 }
 
 .expanderButton {
-    background: none;
-    border: 1px solid var(--button-secondary-border);
-    color: var(--text-secondary);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background: var(--card-background);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    padding: 0.75rem 1.25rem;
+    border-radius: 12px;
     cursor: pointer;
     width: 100%;
-    text-align: center;
+    font-weight: 600;
+    font-size: 0.95rem;
     margin-top: 1rem;
-    transition: background-color 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-sm);
 }
 
 .expanderButton:hover {
-    background-color: var(--button-secondary-hover);
+    background-color: var(--card-background-hover);
+    border-color: var(--primary-accent);
+    color: var(--primary-accent);
+    transform: translateY(-1px);
+}
+
+.expanderButton:focus-visible {
+    outline: 2px solid var(--primary-accent);
+    outline-offset: 2px;
 }
 
 .editorRow {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.25rem;
 }
 
 .inputGroup {
@@ -41,80 +57,135 @@
 
 .inputGroup label {
     margin-bottom: 0.5rem;
-    font-weight: 500;
-    font-size: 0.9rem;
+    font-weight: 600;
+    font-size: 0.88rem;
     color: var(--text-secondary);
 }
 
 .colorInput {
     width: 100%;
-    height: 40px;
-    padding: 0.25rem;
+    height: 44px;
+    padding: 4px;
     border: 1px solid var(--card-border);
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
     background-color: var(--background);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.colorInput:hover {
+    border-color: var(--primary-accent);
+}
+
+.colorInput:focus-visible {
+    outline: none;
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+.textInput {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    background-color: var(--background);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.textInput:focus {
+    outline: none;
+    border-color: var(--primary-accent);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
 }
 
 .fileInput {
-    font-size: 0.9rem;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
 }
 
 .fileInput::file-selector-button {
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    border: 1px solid var(--button-secondary-border);
-    background-color: var(--card-background);
+    padding: 0.6rem 1.15rem;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background-color: var(--button-secondary-hover);
     color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.85rem;
     cursor: pointer;
     margin-right: 1rem;
+    transition: all 0.2s ease;
+}
+
+.fileInput::file-selector-button:hover {
+    background-color: var(--card-background-hover);
+    border-color: var(--primary-accent);
 }
 
 .removeLogoButton {
     background: none;
-    color: var(--error-color, #ef4444);
+    color: var(--color-danger, #ef4444);
     border: none;
-    text-decoration: underline;
     cursor: pointer;
-    padding: 0;
+    padding: 0.25rem 0;
     margin-top: 0.5rem;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+    font-weight: 500;
     align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.removeLogoButton:hover {
+    opacity: 0.8;
 }
 
 .sliderInput {
     width: 100%;
+    accent-color: var(--primary-accent);
+    cursor: pointer;
+    height: 6px;
+    border-radius: 999px;
+    margin: 0.5rem 0;
 }
 
 .editorNote {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     color: var(--text-secondary);
-    line-height: 1.4;
+    line-height: 1.5;
     margin: 0;
+    padding: 0.75rem 1rem;
+    background: var(--button-secondary-hover);
+    border-radius: 10px;
+    border-left: 3px solid var(--color-warning, #f59e0b);
 }
 
 .divider {
     border: none;
     border-top: 1px solid var(--card-border);
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
 }
 
 .editorSubheading {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: -0.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
     color: var(--text-primary);
+    margin-top: 0.25rem;
 }
 
 .backgroundSelector {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-    gap: 0.5rem;
-    max-height: 150px;
+    grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+    gap: 0.65rem;
+    max-height: 160px;
     overflow-y: auto;
-    padding: 0.5rem;
+    padding: 0.65rem;
     border: 1px solid var(--card-border);
-    border-radius: 8px;
+    border-radius: 12px;
+    background: var(--background);
 }
 
 .backgroundPreview {
@@ -122,10 +193,15 @@
     aspect-ratio: 9 / 16;
     background-size: cover;
     background-position: center;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
     border: 2px solid transparent;
-    transition: border-color 0.2s;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.backgroundPreview:hover {
+    transform: scale(1.05);
 }
 
 .backgroundPreview:focus-visible {
@@ -135,41 +211,54 @@
 
 .backgroundSelected {
     border-color: var(--primary-accent);
+    box-shadow: 0 0 0 2px var(--primary-accent);
 }
 
 .stylishDownloadButton {
-    padding: 0.75rem 1.5rem;
-    background-color: #22c55e;
-    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.75rem;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
     border: none;
-    border-radius: 8px;
+    border-radius: 12px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
     margin-top: 0.5rem;
-    transition: opacity 0.2s;
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stylishDownloadButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.45);
 }
 
 .stylishDownloadButton:disabled {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
+    box-shadow: none;
 }
 
 .resetButton {
     background: transparent;
     border: 1px solid var(--button-secondary-border);
     color: var(--text-secondary);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 0.65rem 1.25rem;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 0.9rem;
-    margin-top: 0.5rem;
+    font-weight: 600;
+    margin-top: 0.25rem;
     width: 100%;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
 .resetButton:hover {
     background-color: var(--button-secondary-hover);
     color: var(--text-primary);
-    border-color: var(--text-secondary);
-}
+    border-color: var(--card-border);
+}

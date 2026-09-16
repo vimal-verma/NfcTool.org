@@ -27,21 +27,57 @@
   font-size: 1.375rem;
   letter-spacing: -0.03em;
   margin-bottom: 0.65rem;
-  display: block;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-decoration: none;
+  color: var(--text-primary);
 }
 
-.footerBrand p {
+.logoIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--primary-gradient);
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.brandDesc {
   color: var(--text-secondary);
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin: 0 0 1.25rem;
 }
 
-.socialIcons {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+.githubBadgeWrapper {
+  margin-top: 0.5rem;
+}
+
+.githubBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 9999px;
+  background: var(--card-background);
+  border: 1px solid var(--card-border);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.githubBadge:hover {
+  background: var(--button-secondary-hover);
+  border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
 }
 
 .socialIcons a {
@@ -143,12 +179,46 @@
   cursor: not-allowed;
 }
 
-.copyright {
-  text-align: center;
+.privacyNote {
+  display: block;
+  font-size: 0.78rem;
   color: var(--text-secondary);
-  font-size: 0.875rem;
+  margin-top: 0.6rem;
+  opacity: 0.85;
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   padding-top: 2rem;
+  margin-top: 2rem;
   border-top: 1px solid var(--card-border);
+}
+
+.copyright {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.bottomLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.bottomLinks a {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.bottomLinks a:hover {
+  color: var(--primary-accent);
 }
 
 .dark .footer {

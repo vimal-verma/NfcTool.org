@@ -68,11 +68,12 @@ export default function EmailToolClient() {
     }, []);
 
     const emailUrl = useMemo(() => {
-        if (!email) return '';
-        let url = `mailto:${email}`;
+        const cleanEmail = email.trim();
+        if (!cleanEmail) return '';
+        let url = `mailto:${cleanEmail}`;
         const params = [];
-        if (subject) params.push(`subject=${encodeURIComponent(subject)}`);
-        if (body) params.push(`body=${encodeURIComponent(body)}`);
+        if (subject.trim()) params.push(`subject=${encodeURIComponent(subject.trim())}`);
+        if (body.trim()) params.push(`body=${encodeURIComponent(body.trim())}`);
 
         if (params.length > 0) {
             url += `?${params.join('&')}`;
@@ -140,11 +141,6 @@ export default function EmailToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>Email QR & NFC Writer</h1>
-                <p>Generate an Email QR code and write it to an NFC tag.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

@@ -25,7 +25,8 @@ export async function generateMetadata({ params }) {
     const section = await getSectionContent(slug);
     const title = section?.title || sections[slug] || "Documentation";
     const description = section?.description || `Learn about ${title.toLowerCase()} with the Web NFC API on NfcTool.org.`;
-    const image = section?.image || '/og-logo.png';
+    const rawImage = section?.image || '/og-logo.png';
+    const imageUrl = rawImage.startsWith('http') ? rawImage : `https://nfctool.org${rawImage.startsWith('/') ? rawImage : `/${rawImage}`}`;
 
     let keywords = ["Web NFC", "NFC", "NFC tutorial", "WebNFC API", "NFC guide", title];
     if (section?.keywords) {
@@ -52,7 +53,7 @@ export async function generateMetadata({ params }) {
             authors: section?.author ? [section.author] : ['NfcTool Team'],
             images: [
                 {
-                    url: image,
+                    url: imageUrl,
                     width: 1200,
                     height: 630,
                     alt: title,
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }) {
             card: 'summary_large_image',
             title: `${title} | NfcTool.org`,
             description: description,
-            images: [image],
+            images: [imageUrl],
         },
     };
 }

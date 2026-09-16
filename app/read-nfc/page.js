@@ -43,9 +43,52 @@ export default function ReadNfcPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'NFC Tools', item: 'https://nfctool.org/nfc-tool' },
+            { '@type': 'ListItem', position: 3, name: 'Read NFC Tag', item: 'https://nfctool.org/read-nfc' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'How do I scan an NFC tag with my phone browser?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Open this page in Chrome for Android (v89+), ensure NFC is enabled in phone settings, click Start Scan, and hold the tag near the back of your phone.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Which NFC tags are compatible with this online reader?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'All standard NFC Forum Type 2 tags (such as NTAG213, NTAG215, NTAG216), Type 4, and Type 5 tags containing standard NDEF records.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Does Web NFC work on iPhone or iPad?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Currently, Apple does not support the Web NFC API in iOS browsers. You can use an Android device with Chrome or use our QR code tools on iPhone.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>Online NFC Tag Reader</h1>

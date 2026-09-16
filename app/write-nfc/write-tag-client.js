@@ -87,19 +87,24 @@ export default function WriteTagClient() {
                 case 'text':
                     record = { recordType: 'text', data: encoder.encode(textData) };
                     break;
-                case 'url':
-                    record = { recordType: 'url', data: urlData };
+                case 'url': {
+                    const normalizedUrl = /^https?:\/\//i.test(urlData.trim()) ? urlData.trim() : `https://${urlData.trim()}`;
+                    record = { recordType: 'url', data: normalizedUrl };
                     // Rough estimation for URL payload size (1 byte for prefix + URL string)
-                    payloadSize = 1 + new TextEncoder().encode(urlData).length;
+                    payloadSize = 1 + new TextEncoder().encode(normalizedUrl).length;
                     break;
+                }
                 case 'vcard': {
+                    const cleanWebsite = vCardData.website?.trim()
+                        ? (/^https?:\/\//i.test(vCardData.website.trim()) ? vCardData.website.trim() : `https://${vCardData.website.trim()}`)
+                        : null;
                     const vCardString = [
-                        'BEGIN:VCARD', 'VERSION:3.0', `FN:${vCardData.name}`,
-                        vCardData.organization ? `ORG:${vCardData.organization}` : null,
-                        vCardData.title ? `TITLE:${vCardData.title}` : null,
-                        vCardData.phone ? `TEL;TYPE=CELL:${vCardData.phone}` : null,
-                        vCardData.email ? `EMAIL:${vCardData.email}` : null,
-                        vCardData.website ? `URL:${vCardData.website}` : null,
+                        'BEGIN:VCARD', 'VERSION:3.0', `FN:${vCardData.name.trim()}`,
+                        vCardData.organization?.trim() ? `ORG:${vCardData.organization.trim()}` : null,
+                        vCardData.title?.trim() ? `TITLE:${vCardData.title.trim()}` : null,
+                        vCardData.phone?.trim() ? `TEL;TYPE=CELL:${vCardData.phone.trim()}` : null,
+                        vCardData.email?.trim() ? `EMAIL:${vCardData.email.trim()}` : null,
+                        cleanWebsite ? `URL:${cleanWebsite}` : null,
                         'END:VCARD'
                     ].filter(Boolean).join('\n');
                     record = { recordType: 'mime', mediaType: 'text/vcard', data: encoder.encode(vCardString) };

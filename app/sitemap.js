@@ -10,7 +10,7 @@ export default function sitemap() {
     const baseUrl = 'https://nfctool.org';
     // Use a static date for static pages to avoid signalling a change on every crawl.
     // Update this when you make meaningful content changes.
-    const staticLastModified = '2026-08-01T00:00:00.000Z';
+    const staticLastModified = '2026-09-16T00:00:00.000Z';
     const lastModified = staticLastModified;
 
     const staticRoutes = [

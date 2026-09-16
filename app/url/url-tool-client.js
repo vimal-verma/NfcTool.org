@@ -82,8 +82,15 @@ export default function UrlToolClient() {
         setLog(prev => [`<span class="${styles[type]}">[${new Date().toLocaleTimeString()}] ${formattedMessage}</span>`, ...prev]);
     }, []);
 
+    const normalizeUrl = (u) => {
+        const trimmed = u.trim();
+        if (!trimmed) return '';
+        if (/^https?:\/\//i.test(trimmed)) return trimmed;
+        return `https://${trimmed}`;
+    };
+
     const redirectUrl = useMemo(() => {
-        const validUrls = urls.map(u => u.trim()).filter(u => u !== '' && (u.startsWith('http://') || u.startsWith('https://')));
+        const validUrls = urls.map(normalizeUrl).filter(Boolean);
         if (validUrls.length === 0) return '';
         if (validUrls.length === 1) return validUrls[0];
 
@@ -93,7 +100,7 @@ export default function UrlToolClient() {
 
     const handleWriteNfc = async () => {
         if (!redirectUrl) {
-            addToLog('Please fill in at least one valid Website URL (starting with http:// or https://).', 'error');
+            addToLog('Please enter at least one website link or URL.', 'error');
             return;
         }
 
@@ -150,11 +157,6 @@ export default function UrlToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>URL QR &amp; NFC Writer</h1>
-                <p>Generate a QR code for one or more websites and write it directly to an NFC tag.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

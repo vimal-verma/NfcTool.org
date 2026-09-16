@@ -66,7 +66,8 @@ export default function CallToolClient() {
 
     const callUrl = useMemo(() => {
         if (!phoneNumber) return '';
-        return `tel:${phoneNumber}`;
+        const cleaned = phoneNumber.trim().replace(/[\s()-]/g, '');
+        return `tel:${cleaned}`;
     }, [phoneNumber]);
 
     const handleWriteNfc = async () => {
@@ -86,7 +87,7 @@ export default function CallToolClient() {
             addToLog('Scan started. Bring a tag close to your device to write.', 'info');
 
             await ndef.write({
-                records: [{ recordType: "url", data: process.env.NEXT_PUBLIC_FRONTEND_URL + '/redirect?url=' + callUrl }]
+                records: [{ recordType: "url", data: callUrl }]
             });
 
             addToLog(`✅ Successfully wrote Call link to NFC tag!`, 'success');
@@ -129,11 +130,6 @@ export default function CallToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>Call QR & NFC Writer</h1>
-                <p>Generate a Call QR code and write it to an NFC tag.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

@@ -71,13 +71,16 @@ export default function LocationToolClient() {
 
     const qrData = useMemo(() => {
         if (mode === 'coords') {
-            if (!latitude || !longitude) return '';
-            return `geo:${latitude},${longitude}`;
+            const lat = latitude.trim();
+            const lng = longitude.trim();
+            if (!lat || !lng) return '';
+            return `geo:${lat},${lng}`;
         }
         if (mode === 'digipin') {
-            if (!digipin) return '';
+            const pin = digipin.trim();
+            if (!pin) return '';
             // Using a community-driven resolver as official portal lacks direct linking
-            return `https://digi-pin.in/?pin=${digipin}`;
+            return `https://digi-pin.in/?pin=${encodeURIComponent(pin)}`;
         }
         return '';
     }, [mode, latitude, longitude, digipin]);
@@ -117,16 +120,12 @@ export default function LocationToolClient() {
             setIsWriting(true);
             addToLog('Scan started. Bring a tag close to your device to write.', 'info');
 
-            const dataToWrite = mode === 'coords'
-                ? process.env.NEXT_PUBLIC_FRONTEND_URL + '/redirect?url=' + qrData
-                : qrData;
-
             await ndef.write({
-                records: [{ recordType: "url", data: dataToWrite }]
+                records: [{ recordType: "url", data: qrData }]
             });
 
             addToLog(`✅ Successfully wrote link to NFC tag!`, 'success');
-            addToLog(`Data Written: ${dataToWrite}`, 'info');
+            addToLog(`Data Written: ${qrData}`, 'info');
 
         } catch (error) {
             if (error.name === 'NotAllowedError') {
@@ -167,11 +166,6 @@ export default function LocationToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>Location QR & NFC Writer</h1>
-                <p>Generate a Location QR code and write it to an NFC tag.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

@@ -41,9 +41,52 @@ export default function WIFIPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'QR & NFC Tools', item: 'https://nfctool.org/qr' },
+            { '@type': 'ListItem', position: 3, name: 'WiFi QR Generator', item: 'https://nfctool.org/wifi' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'How does scanning a WiFi QR code connect my phone?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'When scanned with an iPhone (Camera app) or Android device, the system recognizes the standardized WIFI: protocol, decodes the SSID and password, and prompts you to join the network with one tap.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Is my WiFi password sent to your servers?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'No. All QR code rendering and NFC writing happens strictly on your local device in client-side JavaScript. Your WiFi credentials are never transmitted over the internet.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write WiFi connection details to an NFC tag?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! Using Chrome on Android with Web NFC, tap \'Write to NFC Tag\' and tap your tag. Guests can tap your NFC tag or scan the QR code to join.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>WiFi QR Code Generator</h1>

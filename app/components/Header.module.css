@@ -275,4 +275,67 @@
   .hamburger {
     display: flex;
   }
+
+  .mobileDrawerTools {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--card-border);
+  }
+
+  .mobileDrawerHeading {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .mobileToolsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .mobileToolCard {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    padding: 0.6rem 0.75rem !important;
+    background: var(--card-background) !important;
+    border: 1px solid var(--card-border) !important;
+    border-radius: 10px !important;
+    font-size: 0.88rem !important;
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    min-height: auto !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .mobileToolCard:hover,
+  .mobileToolCard:active {
+    background: var(--button-secondary-hover) !important;
+    border-color: var(--primary-accent) !important;
+  }
+
+  .mobileAllToolsLink {
+    display: block !important;
+    margin-top: 0.85rem !important;
+    padding: 0.65rem 0.75rem !important;
+    background: rgba(99, 102, 241, 0.08) !important;
+    border: 1px solid rgba(99, 102, 241, 0.25) !important;
+    border-radius: 10px !important;
+    color: var(--primary-accent) !important;
+    font-size: 0.88rem !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    min-height: auto !important;
+  }
+}
+
+.mobileDrawerTools {
+  display: none;
 }

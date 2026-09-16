@@ -5,13 +5,15 @@ import PhonePreview from '../vcard/PhonePreview';
 import { useNfcLikelySupported } from '../lib/use-nfc-support';
 import styles from './page.module.css';
 
-// A tag can hold any string. Only ever treat plain web links as openable, so a
-// crafted tag can't slip a `javascript:` or `data:` URL into a link we render.
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:', 'tel:', 'sms:', 'mailto:', 'geo:']);
+
+// A tag can hold any string. Safely validate links, allowing standard web and
+// contact links while blocking dangerous schemes like `javascript:` or `data:`.
 const safeUrl = (value) => {
     if (typeof value !== 'string' || !value) return null;
     try {
         const parsed = new URL(value);
-        return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.href : null;
+        return ALLOWED_PROTOCOLS.has(parsed.protocol) ? parsed.href : null;
     } catch {
         return null;
     }

@@ -138,11 +138,6 @@ export default function WIFIToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>WiFi QR &amp; NFC Writer</h1>
-                <p>Generate a instant Wi-Fi QR code for tap-to-connect or scan-to-connect network sharing.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

@@ -45,9 +45,51 @@ export default function NfcToolPage() {
     publisher: { '@type': 'Organization', name: 'NfcTool' }
   };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+      { '@type': 'ListItem', position: 2, name: 'Advanced NFC Tool', item: 'https://nfctool.org/nfc-tool' }
+    ]
+  };
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What operations can I perform with the Advanced NFC Tool?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'You can read tag metadata and NDEF records, write URLs, text, and vCards, clone data between tags, erase payloads, format unformatted tags, and permanently lock tags to read-only.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Can this tool clone the hardware UID of an NFC tag?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The Unique Identifier (UID) is permanently burned into the silicon by the chip manufacturer at factory time. Only the NDEF user payload can be cloned.'
+        }
+      },
+      {
+        '@type': 'Question',
+        name: 'Does the Advanced NFC Tool require downloading an app?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No app download is required. It runs 100% in Chrome on Android via the standard Web NFC API.'
+        }
+      }
+    ]
+  };
+
   return (
     <Fragment>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <div className="toolPageWrapper">
         <header className="toolPageHero">
           <h1>Advanced NFC Tool</h1>

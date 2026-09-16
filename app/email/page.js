@@ -41,9 +41,51 @@ export default function EmailPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'Email QR Code Generator', item: 'https://nfctool.org/email' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'How does an email QR code work?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'When scanned with any smartphone camera, the QR code triggers a mailto link that opens the user\'s default mail client with your pre-defined recipient address, subject line, and body message automatically filled in.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write an email draft link to an NFC tag?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! Using Chrome on an Android device with NFC support, you can write the mailto URI directly to an NFC chip so tapping opens the email app immediately.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Do users need any special app to scan the email QR code?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'No. The standard camera app on modern iOS and Android devices natively recognizes mailto QR codes and prompts to open the email app.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>Email QR Code Generator</h1>

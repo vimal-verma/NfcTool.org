@@ -22,14 +22,14 @@ export const metadata = {
         description: 'A fun memory and sequence game using NFC tags. Register cards, shuffle them, and find them in the correct order.',
         url: 'https://nfctool.org/shufflehunt',
         siteName: 'NfcTool',
-        images: [{ url: '/og-logo.png', width: 1200, height: 630, alt: 'NFC Shuffle Hunt Game' }],
+        images: [{ url: 'https://nfctool.org/og-logo.png', width: 1200, height: 630, alt: 'NFC Shuffle Hunt Game' }],
         type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
         title: 'NFC Shuffle Hunt — Browser NFC Memory Game | NfcTool',
         description: 'A fun memory and sequence game using NFC tags. Play directly in Chrome on Android.',
-        images: ['/og-logo.png'],
+        images: ['https://nfctool.org/og-logo.png'],
     },
 };
 

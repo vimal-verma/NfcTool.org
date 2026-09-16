@@ -1,39 +1,34 @@
 .container {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem 1.5rem 4rem;
+  padding: 2rem 1rem;
 }
 
 .hero {
   text-align: center;
-  padding: 3rem 1rem 2.5rem;
-  margin-bottom: 0;
+  margin-bottom: 3rem;
 }
 
 .title {
-  font-size: clamp(2rem, 5vw, 2.75rem);
-  font-weight: 800;
+  font-size: 2.5rem;
+  font-weight: 700;
   margin-bottom: 1rem;
-  letter-spacing: -0.03em;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--primary-accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--primary-accent);
+  -webkit-text-stroke-width: 1px
+  
 }
 
 .subtitle {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: var(--text-secondary);
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
-  line-height: 1.65;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
 .card {
@@ -41,72 +36,51 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2rem 1.5rem;
+  padding: 2rem;
   border: 1px solid var(--card-border);
-  border-radius: 16px;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-  background: var(--card-background);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  background: transparent;
   text-decoration: none;
   color: inherit;
-  box-shadow: var(--shadow-sm);
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   border-color: var(--primary-accent);
 }
 
-.card:hover .icon {
-  transform: scale(1.2);
-}
-
 .icon {
-  font-size: 2.75rem;
+  font-size: 3rem;
   margin-bottom: 1rem;
-  line-height: 1;
-  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .cardTitle {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .cardDescription {
   color: var(--text-secondary);
-  line-height: 1.6;
-  font-size: 0.9rem;
-  flex-grow: 1;
+  line-height: 1.5;
 }
 
 .externalBadge {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
   font-size: 0.75rem;
-  color: var(--primary-accent);
-  border: 1px solid var(--primary-accent);
+  color: var(--text-secondary);
+  border: 1px solid var(--card-border);
   border-radius: 9999px;
-  padding: 0.2rem 0.65rem;
-  font-weight: 500;
+  padding: 0.2rem 0.6rem;
 }
 
 @media (max-width: 768px) {
   .title {
-    font-size: 1.75rem;
+    font-size: 2rem;
   }
-
-  .grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-
-  .card {
-    padding: 1.5rem 1rem;
-  }
-}
-
-@media (max-width: 480px) {
+  
   .grid {
     grid-template-columns: 1fr;
   }

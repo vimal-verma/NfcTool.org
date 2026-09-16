@@ -41,9 +41,51 @@ export default function CallPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'Call QR Code Generator', item: 'https://nfctool.org/call' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'How does a call QR code work?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'A call QR code encodes a standard tel: link. When a phone scans it, the device immediately opens the phone dialer with the encoded number pre-filled.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write a phone number to an NFC tag for tap-to-call?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! On Chrome for Android, click "Write to NFC" and tap your tag. The tag will encode a tel: URI that initiates a phone call when tapped.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Do call QR codes require internet access to scan?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'No internet access is required to scan or dial a call QR code. The phone dialer handles the tel: scheme entirely offline.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>Phone Call QR Code Generator</h1>

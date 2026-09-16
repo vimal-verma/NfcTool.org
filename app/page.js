@@ -3,6 +3,7 @@ import Link from "next/link";
 import styles from "./page.module.css";
 import { getLatestPosts } from "./lib/posts";
 import JsonLd from "./components/JsonLd";
+import HomeToolsFilter from "./components/HomeToolsFilter";
 
 export const metadata = {
   title: "NfcTool | Learn, Build, and Use Web NFC Technology",
@@ -171,7 +172,7 @@ export default function Home() {
         <div className={styles.heroContent}>
           <div className={styles.heroBadge}>
             <span className={`${styles.heroBadgeDot} pulseDot`}></span>
-            Works on Chrome for Android · No install needed
+            Web NFC &amp; Smart QR Platform · 100% In-Browser
           </div>
           <h1 className={styles.title}>
             Read &amp; Write NFC Tags
@@ -179,32 +180,31 @@ export default function Home() {
             Directly in Your Browser
           </h1>
           <p className={styles.subtitle}>
-            The free, open-source toolkit for Web NFC. Scan tags, write contact
-            cards, generate QR codes, and learn everything about Near Field
-            Communication — no app required.
+            The open-source toolkit for Web NFC and dynamic QR codes. Scan tags, program chips,
+            create digital business cards, and generate scannable codes — all without downloading an app.
           </p>
           <div className={styles.ctaContainer}>
             <Link href="/nfc-tool" className={styles.primary}>
-              Open NFC Tool
+              ⚡ Open NFC Tool
             </Link>
-            <Link href="/documentation" className={styles.secondary}>
-              Read the Docs
+            <Link href="/qr" className={styles.secondary}>
+              🔳 Explore QR Tools
             </Link>
           </div>
           <div className={styles.heroStats}>
             <div className={styles.heroStat}>
-              <strong>13+</strong>
+              <strong>17+</strong>
               <span>Free Tools</span>
             </div>
             <div className={styles.heroStatDivider}></div>
             <div className={styles.heroStat}>
               <strong>100%</strong>
-              <span>Browser-based</span>
+              <span>In-Browser</span>
             </div>
             <div className={styles.heroStatDivider}></div>
             <div className={styles.heroStat}>
-              <strong className={styles.heroStatZero}>✓</strong>
-              <span>No Sign-up</span>
+              <strong className={styles.heroStatZero}>0</strong>
+              <span>Sign-up Needed</span>
             </div>
           </div>
         </div>
@@ -212,19 +212,11 @@ export default function Home() {
 
       {/* ── All Tools at a Glance ── */}
       <section className={styles.allToolsSection}>
-        <h2 className={styles.sectionTitle}>All Tools at a Glance</h2>
+        <h2 className={styles.sectionTitle}>Explore All Tools</h2>
         <p className={styles.sectionSubtitle}>
-          13 free tools — NFC readers, writers, and QR generators for every use case.
+          17 free in-browser utilities — NFC readers, writers, and smart QR generators for every workflow.
         </p>
-        <div className={styles.allToolsGrid}>
-          {allTools.map((tool) => (
-            <Link key={tool.href} href={tool.href} className={styles.toolItem}>
-              <span className={styles.toolItemIcon}>{tool.icon}</span>
-              <span className={styles.toolItemName}>{tool.name}</span>
-              <span className={styles.toolItemDesc}>{tool.desc}</span>
-            </Link>
-          ))}
-        </div>
+        <HomeToolsFilter />
       </section>
 
       {/* ── Feature Highlights ── */}

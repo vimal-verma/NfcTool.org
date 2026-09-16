@@ -41,9 +41,51 @@ export default function UrlPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'URL QR Code Generator', item: 'https://nfctool.org/url' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'How do I create a URL QR code?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Simply enter or paste your website link (e.g., https://yourwebsite.com). The QR code is generated instantly in real time. You can customize colors, add logos, and download it as PNG.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write a website link to an NFC tag using this tool?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! On Chrome for Android, tap the "Write to NFC" button and bring your NFC tag near the back of your phone to write the URL directly into an NDEF URI record.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Do URL QR codes expire?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'No, static URL QR codes never expire. As long as your destination website URL remains active, the QR code will continue to work indefinitely.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>URL QR Code Generator</h1>

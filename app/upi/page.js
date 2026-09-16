@@ -41,9 +41,52 @@ export default function UpiPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'QR & NFC Tools', item: 'https://nfctool.org/qr' },
+            { '@type': 'ListItem', position: 3, name: 'UPI QR Generator', item: 'https://nfctool.org/upi' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'Which payment apps support scanning this UPI QR code?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'The generated QR code adheres to the official NPCI UPI specifications and works with Google Pay, PhonePe, Paytm, BHIM, CRED, Amazon Pay, and all banking UPI apps.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I set a fixed payment amount in the UPI QR code?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! You can enter an optional amount (INR) and transaction note. When customers scan it, the amount is pre-filled automatically.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write my UPI link to an NFC card for tap-to-pay?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes. On Chrome for Android, tap \'Write to NFC Tag\' and tap any compatible tag. Customers with NFC-enabled phones can tap to trigger their UPI payment app.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>UPI QR Code Generator</h1>

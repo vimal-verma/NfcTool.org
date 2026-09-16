@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import styles from './page.module.css';
+import JsonLd from '../components/JsonLd';
 
 export const metadata = {
     title: 'Free QR Code Generators & NFC Writers | NfcTool',
@@ -100,11 +101,26 @@ const tools = [
 ];
 
 export default function QrToolsPage() {
+    const itemListSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: 'Free QR Code Generators & NFC Writers',
+        description: 'A curated collection of free online QR code generators with NFC writing capabilities.',
+        numberOfItems: tools.length,
+        itemListElement: tools.map((tool, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: tool.title,
+            description: tool.description,
+            url: tool.href.startsWith('http') ? tool.href : `https://nfctool.org${tool.href}`,
+        })),
+    };
+
     return (
         <>
             <div className={styles.container}>
                 <header className={styles.hero}>
-                    <h1 className={styles.title}>QR Code Generators & NFC Writers</h1>
+                    <h1 className={styles.title}>QR Code Generators &amp; NFC Writers</h1>
                     <p className={styles.subtitle}>
                         Choose a tool below to generate a custom QR code and write the data to an NFC tag directly from your browser.
                     </p>
@@ -129,6 +145,7 @@ export default function QrToolsPage() {
                     })}
                 </div>
             </div>
+            <JsonLd data={itemListSchema} />
         </>
     );
 }

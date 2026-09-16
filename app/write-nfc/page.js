@@ -44,9 +44,52 @@ export default function WriteTagPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'NFC Tools', item: 'https://nfctool.org/nfc-tool' },
+            { '@type': 'ListItem', position: 3, name: 'Write NFC Tag', item: 'https://nfctool.org/write-nfc' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'What can I write to an NFC tag online?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'You can write website URLs, social profiles, plain text, and digital vCard contact cards directly from your Android browser.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'What NFC tag size do I need?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'For URLs and short text (under 130 bytes), standard NTAG213 tags (144 bytes) work great. For full vCard contact cards with photos or address info, NTAG215 (504 bytes) or NTAG216 (888 bytes) is recommended.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I overwrite an NFC tag later?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes, as long as the tag has not been permanently locked using makeReadOnly(), you can rewrite it as many times as you like.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>Online NFC Tag Writer</h1>

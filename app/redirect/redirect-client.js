@@ -3,13 +3,14 @@
 import { useSearchParams, redirect } from 'next/navigation';
 import styles from './redirect.module.css';
 
-// Only ever follow plain web links. Blocks `javascript:`, `data:` and other
-// schemes that a malicious tag could otherwise smuggle through this page.
+const ALLOWED_PROTOCOLS = new Set(['http:', 'https:', 'tel:', 'sms:', 'mailto:', 'geo:']);
+
+// Safely validate links. Blocks dangerous schemes like `javascript:` or `data:`.
 function safeUrl(value) {
     if (typeof value !== 'string' || !value) return null;
     try {
         const parsed = new URL(value);
-        return parsed.protocol === 'http:' || parsed.protocol === 'https:' ? parsed.href : null;
+        return ALLOWED_PROTOCOLS.has(parsed.protocol) ? parsed.href : null;
     } catch {
         return null;
     }
@@ -22,15 +23,30 @@ export default function RedirectClient() {
     if (single) {
         const target = safeUrl(single);
         if (target) {
-            // Throws a REDIRECT error, which Next.js handles.
-            redirect(target);
+            try {
+                const parsed = new URL(target);
+                if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+                    redirect(target);
+                } else if (typeof window !== 'undefined') {
+                    window.location.href = target;
+                }
+            } catch {
+                // If URL parsing fails, continue to fallback UI
+            }
+            return (
+                <div className={styles.linksContainer}>
+                    <h1 className={styles.title}>Opening Link…</h1>
+                    <p className={styles.error}>
+                        If you are not redirected automatically, <a href={target} className={styles.link}>tap here to continue</a>.
+                    </p>
+                </div>
+            );
         }
         return (
             <div className={styles.linksContainer}>
                 <h1 className={styles.title}>This link can&apos;t be opened</h1>
                 <p className={styles.error}>
-                    The tag contains a link that isn&apos;t a standard web address, so we
-                    didn&apos;t open it for your safety.
+                    The tag contains an unsupported or potentially unsafe link.
                 </p>
             </div>
         );

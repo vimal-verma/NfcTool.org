@@ -66,17 +66,29 @@
     font-size: 0.88rem;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
-    border: 1px solid transparent;
+    border: 1px solid var(--card-border);
+    background: var(--card-background);
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     scroll-margin: 0 1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.toolIcon {
+    font-size: 0.95rem;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .navLink:hover {
     background-color: var(--secondary-nav-hover-bg);
     color: var(--text-primary);
-    border-color: var(--card-border);
+    border-color: rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
 }
 
 .navLink:focus-visible {
@@ -89,7 +101,11 @@
     background: var(--primary-gradient);
     color: #ffffff;
     border-color: transparent;
-    box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
     transform: translateY(-1px);
+}
+
+.navLink.active .toolIcon {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25));
 }
 

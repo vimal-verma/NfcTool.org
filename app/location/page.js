@@ -42,9 +42,51 @@ export default function LocationPage() {
         publisher: { '@type': 'Organization', name: 'NfcTool' }
     };
 
+    const breadcrumbSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://nfctool.org' },
+            { '@type': 'ListItem', position: 2, name: 'Location QR Code Generator', item: 'https://nfctool.org/location' }
+        ]
+    };
+
+    const faqSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: [
+            {
+                '@type': 'Question',
+                name: 'What map applications open with a Geo QR code?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'When scanned, geo: URIs automatically open in Google Maps, Apple Maps, or whichever default navigation application is installed on the device.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'What is DigiPin support?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'DigiPin is India\'s digital address system that provides a precise alphanumeric code for any location. Our tool converts your DigiPin directly into coordinates and a scannable navigation QR code.'
+                }
+            },
+            {
+                '@type': 'Question',
+                name: 'Can I write coordinates to an NFC tag for tap-to-navigate?',
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Yes! On Chrome for Android, clicking "Write to NFC" writes a standard Geo URI directly to an NFC tag so anyone can tap it and instantly start navigation.'
+                }
+            }
+        ]
+    };
+
     return (
         <Fragment>
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareApplicationSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+            <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
             <div className="toolPageWrapper">
                 <header className="toolPageHero">
                     <h1>Location QR Code Generator</h1>

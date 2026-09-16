@@ -157,11 +157,6 @@ END:VCALENDAR`;
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>Event QR & NFC Writer</h1>
-                <p>Generate an Event QR code and write it to an NFC tag.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>

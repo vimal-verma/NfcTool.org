@@ -72,12 +72,14 @@ export default function UpiToolClient() {
     }, []);
 
     const upiUrl = useMemo(() => {
-        if (!upiId || !payeeName) return '';
+        const cleanId = upiId.trim();
+        const cleanName = payeeName.trim();
+        if (!cleanId || !cleanName) return '';
         const url = new URL('upi://pay');
-        url.searchParams.set('pa', upiId); // Payee VPA
-        url.searchParams.set('pn', payeeName); // Payee Name
-        if (amount) url.searchParams.set('am', amount); // Amount
-        if (note) url.searchParams.set('tn', note); // Transaction Note
+        url.searchParams.set('pa', cleanId); // Payee VPA
+        url.searchParams.set('pn', cleanName); // Payee Name
+        if (amount && !isNaN(Number(amount))) url.searchParams.set('am', amount.trim()); // Amount
+        if (note) url.searchParams.set('tn', note.trim()); // Transaction Note
         url.searchParams.set('cu', 'INR'); // Currency
         return url.toString();
     }, [upiId, payeeName, amount, note]);
@@ -142,11 +144,6 @@ export default function UpiToolClient() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <h1>UPI QR &amp; NFC Writer</h1>
-                <p>Generate a instant UPI payment QR code and program tap-to-pay NFC tags.</p>
-            </div>
-
             <div className={styles.toolLayout}>
                 {/* Input Form */}
                 <div className={styles.form}>
