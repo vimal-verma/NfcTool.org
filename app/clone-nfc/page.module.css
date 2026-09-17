@@ -152,6 +152,7 @@
     gap: 1rem;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     width: 100%;
 }
 
@@ -197,10 +198,105 @@
     font-size: 0.95rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .secondaryButton:hover {
     background: var(--card-border);
+}
+
+.waitingButton {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+    color: #ffffff;
+    padding: 1rem 1.75rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    animation: pulseGlow 1.8s infinite;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.cancelActionBtn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 0.9rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+}
+
+.cancelActionBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+        transform: scale(1);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(16, 185, 129, 0);
+        transform: scale(1.02);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .cloneCard {
+        padding: 1.75rem 1rem;
+        border-radius: 18px;
+    }
+
+    .stepProgress {
+        flex-direction: column;
+        gap: 0.5rem;
+        width: 100%;
+    }
+
+    .stepBadge {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .stepConnector {
+        display: none;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .actionButton,
+    .secondaryButton,
+    .waitingButton,
+    .cancelActionBtn {
+        width: 100%;
+        min-height: 48px;
+    }
 }
 
 /* ── Developer Console Terminal Log ── */

@@ -1,24 +1,47 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import styles from './page.module.css';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 export default function LockNfcClient() {
     const [log, setLog] = useState([]);
     const [isSupported, setIsSupported] = useState(true);
     const [isLocking, setIsLocking] = useState(false);
     const [showModal, setShowModal] = useState(false);
+    const abortControllerRef = useRef(null);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && !('NDEFReader' in window)) {
             setIsSupported(false);
         }
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
     }, []);
 
     const addToLog = useCallback((message, type = 'info') => {
         const formatted = message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         setLog(prev => [`<span class="${styles[type]}">[${new Date().toLocaleTimeString()}] ${formatted}</span>`, ...prev]);
     }, []);
+
+    const handleCancelLock = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsLocking(false);
+        addToLog('Lock operation cancelled by user.', 'info');
+    };
 
     const handleConfirmLock = async () => {
         setShowModal(false);
@@ -27,16 +50,25 @@ export default function LockNfcClient() {
             return;
         }
 
+        abortActiveNfcPush();
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsLocking(true);
+
         try {
             const ndef = new window.NDEFReader();
-            setIsLocking(true);
-            addToLog('Ready to lock tag. Hold your tag close to your device.', 'info');
-            await ndef.makeReadOnly();
+            addToLog('Ready to lock tag. Hold your tag close to your device...', 'info');
+            await ndef.makeReadOnly({ signal: controller.signal });
             addToLog('🔒 Tag locked successfully! It is now permanently read-only.', 'success');
         } catch (error) {
-            addToLog(`Lock failed: ${error.message}`, 'error');
+            const parsed = formatNfcError(error);
+            addToLog(`Lock failed: ${parsed.message}`, parsed.type);
         } finally {
-            setIsLocking(false);
+            if (abortControllerRef.current === controller) {
+                setIsLocking(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
@@ -48,13 +80,31 @@ export default function LockNfcClient() {
                 <p className={styles.cardDesc}>
                     <strong style={{color:'#f87171'}}>Warning:</strong> Locking an NFC tag is permanent and irreversible. Once locked, no user or software can edit, update, or erase the tag ever again.
                 </p>
-                <button
-                    onClick={() => setShowModal(true)}
-                    disabled={isLocking || !isSupported}
-                    className={styles.lockButton}
-                >
-                    {!isSupported ? '🚫 Web NFC Unsupported' : isLocking ? '📡 Waiting for Tag...' : '🔒 Lock NFC Tag'}
-                </button>
+                <div className={styles.buttonGroup}>
+                    {isLocking ? (
+                        <>
+                            <button className={styles.waitingButton} type="button">
+                                <span>📡</span> Waiting for Tag to Lock...
+                            </button>
+                            <button
+                                onClick={handleCancelLock}
+                                className={styles.cancelActionBtn}
+                                type="button"
+                                aria-label="Cancel locking"
+                            >
+                                Cancel
+                            </button>
+                        </>
+                    ) : (
+                        <button
+                            onClick={() => setShowModal(true)}
+                            disabled={!isSupported}
+                            className={styles.lockButton}
+                        >
+                            {!isSupported ? '🚫 Web NFC Unsupported' : '🔒 Lock NFC Tag'}
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Warning Confirmation Modal */}

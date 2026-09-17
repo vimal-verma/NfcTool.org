@@ -220,3 +220,66 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+.waitingButton {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    animation: eventPulseGlow 1.8s infinite ease-in-out;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+
+@keyframes eventPulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    }
+}
+
+.cancelButton {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.cancelButton:hover {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+@media (max-width: 480px) {
+    .buttonGroup {
+        max-width: 100%;
+        width: 100%;
+    }
+    .actionButton,
+    .downloadButton,
+    .copyButton,
+    .cancelButton {
+        width: 100%;
+        min-height: 48px;
+        font-size: 0.95rem;
+    }
+    .inputGroup input,
+    .inputGroup textarea {
+        font-size: 16px;
+    }
+    .container {
+        padding: 1.5rem 0.75rem;
+    }
+    .qrCodeWrapper {
+        max-width: 100%;
+    }
+    .qrCodeWrapper canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}

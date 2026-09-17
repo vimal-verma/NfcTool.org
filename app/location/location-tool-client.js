@@ -5,6 +5,13 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styles from './location.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
+import { useNfcLikelySupported } from '../lib/use-nfc-support';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 const availableBackgrounds = Array.from(
     { length: 1 },
@@ -18,6 +25,18 @@ export default function LocationToolClient() {
     const [digipin, setDigipin] = useState('');
     const [log, setLog] = useState([]);
     const [isWriting, setIsWriting] = useState(false);
+    const abortControllerRef = useRef(null);
+    const isNfcSupported = useNfcLikelySupported();
+
+    // Abort pending write on unmount
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
+    }, []);
     const [isQrEditorExpanded, setIsQrEditorExpanded] = useState(false);
     const [qrFgColor, setQrFgColor] = useState('#000000');
     const [qrBgColor, setQrBgColor] = useState('#ffffff');
@@ -104,6 +123,16 @@ export default function LocationToolClient() {
         );
     };
 
+    const handleCancelWrite = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsWriting(false);
+        addToLog('Write operation cancelled by user.', 'info');
+    };
+
     const handleWriteNfc = async () => {
         if (!qrData) {
             addToLog('Please fill in the required fields first.', 'error');
@@ -115,26 +144,30 @@ export default function LocationToolClient() {
             return;
         }
 
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsWriting(true);
+
         try {
             const ndef = new window.NDEFReader();
-            setIsWriting(true);
-            addToLog('Scan started. Bring a tag close to your device to write.', 'info');
+            addToLog('📡 Ready to write! Bring your NFC tag close to your phone or device.', 'info');
 
             await ndef.write({
                 records: [{ recordType: "url", data: qrData }]
-            });
+            }, { signal: controller.signal });
 
             addToLog(`✅ Successfully wrote link to NFC tag!`, 'success');
             addToLog(`Data Written: ${qrData}`, 'info');
 
         } catch (error) {
-            if (error.name === 'NotAllowedError') {
-                addToLog('Write operation cancelled by user.', 'error');
-            } else {
-                addToLog(`Error: ${error.message}`, 'error');
-            }
+            const parsed = formatNfcError(error);
+            addToLog(parsed.message, parsed.type);
         } finally {
-            setIsWriting(false);
+            if (abortControllerRef.current === controller) {
+                setIsWriting(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
@@ -284,11 +317,21 @@ export default function LocationToolClient() {
                     <div className={styles.buttonGroup}>
                         <button
                             onClick={handleWriteNfc}
-                            disabled={isWriting || !qrData}
-                            className={styles.actionButton}
+                            disabled={isWriting || !qrData || !isNfcSupported}
+                            className={`${styles.actionButton} ${isWriting ? styles.waitingButton : ''}`}
+                            title={!isNfcSupported ? 'Web NFC requires Chrome on Android' : undefined}
                         >
-                            {isWriting ? 'Writing...' : 'Write to NFC Tag'}
+                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? '📡 Waiting for Tag... Tap Device' : '📡 Write to NFC Tag'}
                         </button>
+                        {isWriting && (
+                            <button
+                                type="button"
+                                onClick={handleCancelWrite}
+                                className={styles.cancelButton}
+                            >
+                                ✕ Cancel
+                            </button>
+                        )}
                         <button
                             onClick={() => handleDownloadQR(false)}
                             disabled={!qrData}

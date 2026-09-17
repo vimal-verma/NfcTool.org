@@ -83,6 +83,15 @@
     margin: 0 0 2rem;
 }
 
+.buttonGroup {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 440px;
+}
+
 .actionButton {
     background: var(--primary-gradient);
     color: #ffffff;
@@ -99,6 +108,7 @@
     justify-content: center;
     gap: 0.5rem;
     min-width: 220px;
+    min-height: 52px;
 }
 
 .actionButton:hover:not(:disabled) {
@@ -113,6 +123,60 @@
     cursor: not-allowed;
     box-shadow: none;
     opacity: 0.7;
+}
+
+.waitingButton {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    animation: formatPulseGlow 1.8s infinite ease-in-out;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+
+@keyframes formatPulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    }
+}
+
+.cancelButton {
+    padding: 0.9rem 1.5rem;
+    border-radius: 9999px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-height: 52px;
+}
+
+.cancelButton:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .actionCard {
+        padding: 1.75rem 1rem;
+    }
+    .buttonGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+    .actionButton,
+    .cancelButton {
+        width: 100%;
+        min-width: 0;
+    }
+    .toolContainer {
+        padding: 1rem 0.5rem;
+    }
 }
 
 /* ── Developer Console Terminal Log ── */

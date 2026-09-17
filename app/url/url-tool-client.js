@@ -6,6 +6,12 @@ import styles from './url.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
 import { useNfcLikelySupported } from '../lib/use-nfc-support';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 const availableBackgrounds = Array.from(
     { length: 1 },
@@ -16,6 +22,7 @@ export default function UrlToolClient() {
     const [urls, setUrls] = useState(['']);
     const [log, setLog] = useState([]);
     const [isWriting, setIsWriting] = useState(false);
+    const [origin, setOrigin] = useState('');
     const [isQrEditorExpanded, setIsQrEditorExpanded] = useState(false);
     const [qrFgColor, setQrFgColor] = useState('#000000');
     const [qrBgColor, setQrBgColor] = useState('#ffffff');
@@ -25,7 +32,24 @@ export default function UrlToolClient() {
     const [stylishText, setStylishText] = useState('Scan to Visit');
     const [stylishTextColor, setStylishTextColor] = useState('#000000');
     const isNfcSupported = useNfcLikelySupported();
+    const abortControllerRef = useRef(null);
     const qrCodeRef = useRef(null);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.location.origin) {
+            setOrigin(window.location.origin);
+        }
+    }, []);
+
+    // Abort pending write on unmount
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
+    }, []);
 
     const handleUrlChange = (index, value) => {
         const newUrls = [...urls];
@@ -95,8 +119,19 @@ export default function UrlToolClient() {
         if (validUrls.length === 1) return validUrls[0];
 
         const encodedUrls = btoa(JSON.stringify(validUrls));
-        return `${process.env.NEXT_PUBLIC_FRONTEND_URL || ''}/redirect?urls=${encodedUrls}`;
-    }, [urls]);
+        const base = origin || (typeof window !== 'undefined' && window.location.origin ? window.location.origin : '') || process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://nfctool.org';
+        return `${base}/redirect?urls=${encodedUrls}`;
+    }, [urls, origin]);
+
+    const handleCancelWrite = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsWriting(false);
+        addToLog('Write operation cancelled by user.', 'info');
+    };
 
     const handleWriteNfc = async () => {
         if (!redirectUrl) {
@@ -109,26 +144,34 @@ export default function UrlToolClient() {
             return;
         }
 
+        const targetUrl = redirectUrl.startsWith('http://') || redirectUrl.startsWith('https://')
+            ? redirectUrl
+            : `${(typeof window !== 'undefined' && window.location.origin) ? window.location.origin : 'https://nfctool.org'}${redirectUrl.startsWith('/') ? '' : '/'}${redirectUrl}`;
+
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsWriting(true);
+
         try {
             const ndef = new window.NDEFReader();
-            setIsWriting(true);
-            addToLog('Scan started. Bring a tag close to your device to write.', 'info');
+            addToLog('📡 Ready to write! Bring your NFC tag close to your phone or device.', 'info');
 
             await ndef.write({
-                records: [{ recordType: "url", data: redirectUrl }]
-            });
+                records: [{ recordType: "url", data: targetUrl }]
+            }, { signal: controller.signal });
 
             addToLog(`✅ Successfully wrote URL to NFC tag!`, 'success');
-            addToLog(`URL Written: ${redirectUrl}`, 'info');
+            addToLog(`URL Written: ${targetUrl}`, 'info');
 
         } catch (error) {
-            if (error.name === 'NotAllowedError') {
-                addToLog('Write operation cancelled by user.', 'error');
-            } else {
-                addToLog(`Error: ${error.message}`, 'error');
-            }
+            const parsed = formatNfcError(error);
+            addToLog(parsed.message, parsed.type);
         } finally {
-            setIsWriting(false);
+            if (abortControllerRef.current === controller) {
+                setIsWriting(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
@@ -148,8 +191,11 @@ export default function UrlToolClient() {
 
     const handleCopyLink = () => {
         if (!redirectUrl) return;
-        navigator.clipboard.writeText(redirectUrl).then(() => {
-            addToLog('✅ URL copied to clipboard!', 'success');
+        const fullUrl = redirectUrl.startsWith('http://') || redirectUrl.startsWith('https://')
+            ? redirectUrl
+            : `${(typeof window !== 'undefined' && window.location.origin) ? window.location.origin : 'https://nfctool.org'}${redirectUrl.startsWith('/') ? '' : '/'}${redirectUrl}`;
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            addToLog(`✅ URL copied to clipboard: ${fullUrl}`, 'success');
         }, () => {
             addToLog('Failed to copy URL.', 'error');
         });
@@ -229,11 +275,20 @@ export default function UrlToolClient() {
                         <button
                             onClick={handleWriteNfc}
                             disabled={isWriting || !redirectUrl || !isNfcSupported}
-                            className={styles.actionButton}
+                            className={`${styles.actionButton} ${isWriting ? styles.waitingButton : ''}`}
                             title={!isNfcSupported ? 'Web NFC requires Chrome on Android' : undefined}
                         >
-                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? 'Writing to Tag…' : '📡 Write to NFC Tag'}
+                            {!isNfcSupported ? '🚫 NFC Unavailable Here' : isWriting ? '📡 Waiting for Tag... Tap Device' : '📡 Write to NFC Tag'}
                         </button>
+                        {isWriting && (
+                            <button
+                                type="button"
+                                onClick={handleCancelWrite}
+                                className={styles.cancelButton}
+                            >
+                                ✕ Cancel
+                            </button>
+                        )}
                         <button
                             onClick={() => handleDownloadQR(false)}
                             disabled={!redirectUrl}

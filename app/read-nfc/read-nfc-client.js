@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import PhonePreview from '../vcard/PhonePreview';
 import { useNfcLikelySupported } from '../lib/use-nfc-support';
+import { abortActiveNfcPush, formatNfcError } from '../utils/nfc-writer';
 import styles from './page.module.css';
 
 const ALLOWED_PROTOCOLS = new Set(['http:', 'https:', 'tel:', 'sms:', 'mailto:', 'geo:']);
@@ -30,6 +31,24 @@ export default function ReadNfcClient() {
     const [scannedUrl, setScannedUrl] = useState(null);
     const [scannedVCardData, setScannedVCardData] = useState(null);
     const [tagDetails, setTagDetails] = useState(null);
+    const abortControllerRef = useRef(null);
+
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+        };
+    }, []);
+
+    const handleCancelScan = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        setIsScanning(false);
+        addToLog('NFC scanning cancelled by user.', 'info');
+    };
 
     const addToLog = useCallback((message, type = 'info') => {
         const formattedMessage = message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -106,35 +125,22 @@ export default function ReadNfcClient() {
             return;
         }
 
+        abortActiveNfcPush();
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        setIsScanning(true);
+
         try {
             const ndef = new window.NDEFReader();
-            setIsScanning(true);
-            addToLog('Scan started. Bring a tag close to your device.', 'info');
+            addToLog('Scan started. Bring an NFC tag close to your device...', 'info');
 
-            await ndef.scan();
+            await ndef.scan({ signal: controller.signal });
 
             ndef.addEventListener("reading", async ({ message, serialNumber }) => {
                 addToLog(`✅ Tag detected! Serial Number: ${serialNumber}`, 'success');
                 let firstRecordContent = null;
                 let totalSize = 0;
-                let isWritable = null;
                 const recordTypes = [];
-
-                // Check writability
-                try {
-                    const controller = new AbortController();
-                    setTimeout(() => controller.abort(), 500); // Timeout to prevent getting stuck
-                    await ndef.write({ records: [{ recordType: "empty" }] }, { signal: controller.signal, overwrite: false });
-                    isWritable = true;
-                    addToLog('Tag is writable.', 'info');
-                    // This is a trick: if write succeeds with overwrite:false, it means it's writable but we didn't actually write anything.
-                    // However, the simplest check is to just try writing and see if it fails with a read-only error.
-                } catch (error) {
-                    if (error.name === 'NotAllowedError') {
-                        isWritable = false;
-                        addToLog('Tag is read-only.', 'info');
-                    }
-                }
 
                 for (const record of message.records) {
                     recordTypes.push(record.recordType);
@@ -164,19 +170,19 @@ export default function ReadNfcClient() {
                         case "url": {
                             const textDecoder = new TextDecoder();
                             currentRecordContent = textDecoder.decode(record.data);
-                            const openable = safeUrl(currentRecordContent);
-                            setScannedUrl(openable);
-                            if (openable) {
-                                addToLog(`> URL: ${openable} — use the “Open URL” button below.`, 'info');
-                            } else {
-                                addToLog(`> URL is not a standard web link, so it wasn't opened: ${currentRecordContent}`, 'warning');
+                            addToLog(`> URL: ${currentRecordContent}`, 'info');
+                            const validated = safeUrl(currentRecordContent);
+                            if (validated) {
+                                setScannedUrl(validated);
                             }
                             break;
                         }
                         case "mime":
-                            if (record.mediaType === "text/vcard") {
-                                const vcardText = new TextDecoder().decode(record.data);
+                            if (record.mediaType === "text/vcard" || record.mediaType === "text/x-vcard") {
+                                const textDecoder = new TextDecoder();
+                                const vcardText = textDecoder.decode(record.data);
                                 currentRecordContent = vcardText;
+                                addToLog(`> vCard Data Detected`, 'info');
                                 const parsedData = parseVCard(vcardText);
                                 setScannedVCardData(parsedData);
                                 addToLog(`Parsed vCard for: ${parsedData.name || 'Unknown'}`, 'success');
@@ -201,12 +207,15 @@ export default function ReadNfcClient() {
                     serialNumber,
                     size: totalSize,
                     type: tagType,
-                    isWritable: isWritable === null ? 'Unknown' : (isWritable ? 'Yes' : 'No'),
+                    isWritable: 'Standard NDEF Tag',
                     recordCount: message.records.length,
                     recordTypes: recordTypes.join(', ') || 'N/A',
                 });
                 setLastScannedContent(firstRecordContent);
-                setIsScanning(false); // Stop scanning after first read
+                setIsScanning(false);
+                if (abortControllerRef.current === controller) {
+                    abortControllerRef.current = null;
+                }
             });
 
             ndef.addEventListener("readingerror", () => {
@@ -215,7 +224,8 @@ export default function ReadNfcClient() {
             });
 
         } catch (error) {
-            addToLog(`Error: ${error.message}`, 'error');
+            const parsed = formatNfcError(error);
+            addToLog(`Error: ${parsed.message}`, parsed.type);
             setIsScanning(false);
         }
     };
@@ -267,6 +277,16 @@ export default function ReadNfcClient() {
                             </span>
                         ) : '📡 Start Scan'}
                 </button>
+                {isScanning && (
+                    <button
+                        onClick={handleCancelScan}
+                        className={styles.cancelActionBtn}
+                        type="button"
+                        aria-label="Cancel scanning"
+                    >
+                        Cancel Scan
+                    </button>
+                )}
                 {lastScannedContent && (
                     <button onClick={handleCopy} className={styles.copyButton}>
                         📋 Copy Content

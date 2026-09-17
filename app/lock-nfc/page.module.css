@@ -273,7 +273,105 @@
 
 .log::-webkit-scrollbar-thumb {
     background: #334155;
-    border-radius: 3px;
+.buttonGroup {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.waitingButton {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #ffffff;
+    padding: 1rem 1.75rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: default;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    animation: lockPulseGlow 1.8s infinite;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
+}
+
+.cancelActionBtn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 0.9rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+}
+
+.cancelActionBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+}
+
+@keyframes lockPulseGlow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6);
+        transform: scale(1);
+    }
+    70% {
+        box-shadow: 0 0 0 14px rgba(245, 158, 11, 0);
+        transform: scale(1.02);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(245, 158, 11, 0);
+        transform: scale(1);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .actionCard {
+        padding: 2rem 1.25rem;
+        border-radius: 18px;
+    }
+
+    .buttonGroup {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .lockButton,
+    .waitingButton,
+    .cancelActionBtn {
+        width: 100%;
+        min-height: 48px;
+    }
+
+    .modalContent {
+        padding: 1.5rem 1.25rem;
+        border-radius: 16px;
+    }
+
+    .modalActions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .confirmButton,
+    .cancelButton {
+        width: 100%;
+        min-height: 48px;
+    }
 }
 
 .log .success { color: #34d399; font-weight: 600; }

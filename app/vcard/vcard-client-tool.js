@@ -7,6 +7,12 @@ import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { downloadQRCode } from '../utils/qr-downloader';
 import AdvancedQrEditor from '../components/AdvancedQrEditor';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 const initialVCardState = {
     name: '', phone: '', email: '', website: '', organization: '',
@@ -28,7 +34,25 @@ export default function VCardClientTool() {
     const [vCardSize, setVCardSize] = useState(0);
     const [tagSuggestionMessage, setTagSuggestionMessage] = useState('');
     const [templates, setTemplates] = useState([]);
-    const [selectedTemplate, setSelectedTemplate] = useState('');
+    const [isWriting, setIsWriting] = useState(false);
+    const [origin, setOrigin] = useState('');
+    const abortControllerRef = useRef(null);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && window.location.origin) {
+            setOrigin(window.location.origin);
+        }
+    }, []);
+
+    // Cleanup active pending write on component unmount
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
+    }, []);
 
     const [isQrEditorExpanded, setIsQrEditorExpanded] = useState(false);
     const [qrFgColor, setQrFgColor] = useState('#000000');
@@ -170,6 +194,16 @@ export default function VCardClientTool() {
         return 'You need a tag with a larger capacity.';
     };
 
+    const handleCancelWrite = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsWriting(false);
+        addToLog('Write operation cancelled by user.', 'info');
+    };
+
     const handleWriteVCard = async () => {
         if (!('NDEFReader' in window)) {
             addToLog('Web NFC is not supported on this browser. Please use Chrome on Android.', 'error');
@@ -181,6 +215,12 @@ export default function VCardClientTool() {
             return;
         }
 
+        // Abort any existing pending write and register new controller
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsWriting(true);
+
         try {
             const ndef = new window.NDEFReader();
 
@@ -189,17 +229,22 @@ export default function VCardClientTool() {
 
             // Use the already calculated vCardSize and tagSuggestionMessage
             addToLog(`Data size: ${vCardSize} bytes. ${tagSuggestionMessage}`);
-            addToLog('Ready to write. Bring your NFC tag close to your device.');
+            addToLog('📡 Ready to write! Bring your NFC tag close to your phone or device.', 'info');
 
             await ndef.write({
                 records: [record]
-            });
+            }, { signal: controller.signal });
 
-            addToLog(`✅ Successfully wrote vCard for "${vCardData.name}" to the tag.`, 'success');
+            addToLog(`✅ Successfully wrote vCard for "${vCardData.name}" to the tag!`, 'success');
 
         } catch (error) {
-            console.error('NFC Write Error:', error);
-            addToLog(`Write failed: ${error.message}` + 'Refresh the page and try again.', 'error');
+            const parsed = formatNfcError(error);
+            addToLog(parsed.message, parsed.type);
+        } finally {
+            if (abortControllerRef.current === controller) {
+                setIsWriting(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
@@ -246,12 +291,16 @@ export default function VCardClientTool() {
                 params.set(key, value);
             }
         });
-        return `${process.env.NEXT_PUBLIC_FRONTEND_URL || ''}/vcard?${params.toString()}`;
-    }, [vCardData]);
+        const base = origin || (typeof window !== 'undefined' && window.location.origin ? window.location.origin : '') || process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://nfctool.org';
+        return `${base}/vcard?${params.toString()}`;
+    }, [vCardData, origin]);
 
     const handleCopyToClipboard = () => {
-        navigator.clipboard.writeText(shareUrl).then(() => {
-            addToLog('✅ Share link copied to clipboard!', 'success');
+        const fullUrl = shareUrl.startsWith('http://') || shareUrl.startsWith('https://')
+            ? shareUrl
+            : `${(typeof window !== 'undefined' && window.location.origin) ? window.location.origin : 'https://nfctool.org'}${shareUrl.startsWith('/') ? '' : '/'}${shareUrl}`;
+        navigator.clipboard.writeText(fullUrl).then(() => {
+            addToLog(`✅ Share link copied to clipboard: ${fullUrl}`, 'success');
         }, () => {
             addToLog('Failed to copy share link.', 'error');
         });
@@ -470,9 +519,24 @@ export default function VCardClientTool() {
                             </div>
                         </div>
                     </div>
-                    <button onClick={handleWriteVCard} className={styles.actionButton} disabled={!vCardData.name}>
-                        Write to NFC Tag
-                    </button>
+                    <div className={styles.buttonGroup}>
+                        <button
+                            onClick={handleWriteVCard}
+                            className={`${styles.actionButton} ${isWriting ? styles.waitingButton : ''}`}
+                            disabled={!vCardData.name || isWriting}
+                        >
+                            {isWriting ? '📡 Waiting for Tag... Tap Device' : '✍️ Write to NFC Tag'}
+                        </button>
+                        {isWriting && (
+                            <button
+                                type="button"
+                                onClick={handleCancelWrite}
+                                className={styles.cancelButton}
+                            >
+                                ✕ Cancel
+                            </button>
+                        )}
+                    </div>
                     <div className={styles.phonePreviewContainer}>
                         <PhonePreview vCardData={vCardData} />
                     </div>

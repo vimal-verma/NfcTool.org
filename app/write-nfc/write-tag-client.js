@@ -1,7 +1,13 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import styles from './page.module.css';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 function VCardForm({ vCardData, setVCardData }) {
     return (
@@ -42,10 +48,22 @@ export default function WriteTagClient() {
     const [vCardData, setVCardData] = useState({
         name: '', phone: '', email: '', website: '', organization: '', title: ''
     });
+    const [isWriting, setIsWriting] = useState(false);
+    const abortControllerRef = useRef(null);
 
     const addToLog = useCallback((message, type = 'info') => {
         const formattedMessage = message.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         setLog(prev => [`<span class="${styles[type]}">[${new Date().toLocaleTimeString()}] ${formattedMessage}</span>`, ...prev]);
+    }, []);
+
+    // Cleanup active pending write on component unmount
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
     }, []);
 
     const isWriteDisabled = () => {
@@ -70,11 +88,27 @@ export default function WriteTagClient() {
         return 'You need a tag with a larger capacity.';
     };
 
+    const handleCancelWrite = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsWriting(false);
+        addToLog('Write operation cancelled by user.', 'info');
+    };
+
     const handleWrite = async () => {
         if (!('NDEFReader' in window)) {
             addToLog('Web NFC is not supported on this browser. Please use Chrome on Android.', 'error');
             return;
         }
+
+        // Abort any existing pending write and register new controller
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsWriting(true);
 
         try {
             const ndef = new window.NDEFReader();
@@ -90,7 +124,6 @@ export default function WriteTagClient() {
                 case 'url': {
                     const normalizedUrl = /^https?:\/\//i.test(urlData.trim()) ? urlData.trim() : `https://${urlData.trim()}`;
                     record = { recordType: 'url', data: normalizedUrl };
-                    // Rough estimation for URL payload size (1 byte for prefix + URL string)
                     payloadSize = 1 + new TextEncoder().encode(normalizedUrl).length;
                     break;
                 }
@@ -113,20 +146,26 @@ export default function WriteTagClient() {
                 }
                 default:
                     addToLog('Invalid record type selected.', 'error');
+                    setIsWriting(false);
                     return;
             }
 
             const dataSize = payloadSize || record.data.byteLength;
             const tagSuggestion = getTagSuggestion(dataSize);
             addToLog(`Data size: ${dataSize} bytes. ${tagSuggestion}`);
-            addToLog('Ready to write. Bring your NFC tag close to your device.');
+            addToLog('📡 Ready to write! Bring your NFC tag close to your phone or device.', 'info');
 
-            await ndef.write({ records: [record] });
-            addToLog(`✅ Successfully wrote ${recordType} record to the tag.`, 'success');
+            await ndef.write({ records: [record] }, { signal: controller.signal });
+            addToLog(`✅ Successfully wrote ${recordType} record to the tag!`, 'success');
 
         } catch (error) {
-            console.error('NFC Write Error:', error);
-            addToLog(`Write failed: ${error.message}`, 'error');
+            const parsed = formatNfcError(error);
+            addToLog(parsed.message, parsed.type);
+        } finally {
+            if (abortControllerRef.current === controller) {
+                setIsWriting(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
@@ -171,10 +210,25 @@ export default function WriteTagClient() {
                 <div className={styles.formContent}>
                     {renderForm()}
                 </div>
-                <button onClick={handleWrite} disabled={isWriteDisabled()} className={styles.actionButton}>
-                    ✍️ Write to NFC Tag
-                </button>
-                {isWriteDisabled() && (
+                <div className={styles.buttonGroup}>
+                    <button
+                        onClick={handleWrite}
+                        disabled={isWriteDisabled() || isWriting}
+                        className={`${styles.actionButton} ${isWriting ? styles.waitingButton : ''}`}
+                    >
+                        {isWriting ? '📡 Waiting for Tag... Tap Device' : '✍️ Write to NFC Tag'}
+                    </button>
+                    {isWriting && (
+                        <button
+                            type="button"
+                            onClick={handleCancelWrite}
+                            className={styles.cancelButton}
+                        >
+                            ✕ Cancel
+                        </button>
+                    )}
+                </div>
+                {isWriteDisabled() && !isWriting && (
                     <p className={styles.writeHint}>
                         {recordType === 'vcard' ? 'Full Name is required to write a contact card.' : 'Fill in the field above to enable writing.'}
                     </p>

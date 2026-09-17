@@ -143,8 +143,15 @@
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
 }
 
-.actionButton {
+.buttonGroup {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
     width: 100%;
+}
+
+.actionButton {
+    flex: 1;
     background: var(--primary-gradient);
     color: #ffffff;
     padding: 1rem 1.8rem;
@@ -159,6 +166,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    min-height: 52px;
 }
 
 .actionButton:hover:not(:disabled) {
@@ -173,6 +181,62 @@
     cursor: not-allowed;
     box-shadow: none;
     opacity: 0.7;
+}
+
+.waitingButton {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    animation: pulseGlow 1.8s infinite ease-in-out;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    }
+}
+
+.cancelButton {
+    padding: 0.9rem 1.5rem;
+    border-radius: 9999px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-height: 52px;
+}
+
+.cancelButton:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+}
+
+@media (max-width: 480px) {
+    .buttonGroup {
+        flex-direction: column;
+    }
+    .cancelButton {
+        width: 100%;
+        text-align: center;
+    }
+    .actionButton {
+        width: 100%;
+        font-size: 0.98rem;
+        padding: 0.85rem 1.25rem;
+    }
+    .formGroup input,
+    .formGroup textarea,
+    .formGroup select {
+        font-size: 16px; /* prevent iOS auto-zoom */
+    }
 }
 
 /* ── Developer Console Terminal Log ── */

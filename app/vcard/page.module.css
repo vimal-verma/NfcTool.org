@@ -407,7 +407,83 @@
 
 .success { color: var(--color-success); }
 .error { color: var(--color-danger); }
-.info { color: var(--text-secondary); }
+.buttonGroup {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    width: 100%;
+}
+
+.actionButton {
+    flex: 1;
+    width: 100%;
+    background: var(--primary-gradient);
+    color: #ffffff;
+    padding: 0.95rem 1.75rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 52px;
+}
+
+.actionButton:hover:not(:disabled) {
+    background: var(--primary-gradient-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5);
+}
+
+.actionButton:disabled {
+    background: var(--button-secondary-border);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+.waitingButton {
+    background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+    animation: vcardPulseGlow 1.8s infinite ease-in-out;
+    color: #ffffff !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
+}
+
+@keyframes vcardPulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+    }
+    50% {
+        box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    }
+}
+
+.cancelButton {
+    padding: 0.9rem 1.5rem;
+    border-radius: 9999px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-height: 52px;
+}
+
+.cancelButton:hover {
+    background: rgba(239, 68, 68, 0.2);
+    transform: translateY(-1px);
+}
+
 @media (min-width: 768px) {
     .formGrid {
         grid-template-columns: 1fr 1fr;
@@ -417,5 +493,37 @@
 @media (max-width: 992px) {
     .mainContent {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .downloadButtonsContainer {
+        grid-template-columns: 1fr;
+    }
+    .socialShareButtons {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .buttonGroup {
+        flex-direction: column;
+    }
+    .cancelButton {
+        width: 100%;
+        text-align: center;
+    }
+    .actionButton {
+        width: 100%;
+        font-size: 0.98rem;
+        padding: 0.85rem 1.25rem;
+    }
+    .toolContainer {
+        padding: 1rem 0.5rem;
+    }
+    .formGroup input,
+    .formGroup select,
+    .formGroup textarea {
+        font-size: 16px;
     }
 }

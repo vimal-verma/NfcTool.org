@@ -387,23 +387,54 @@
     border: 1px solid var(--card-border);
     box-shadow: var(--shadow-md);
     padding: 0 1.5rem 1.5rem;
-    background: var(--card-background-glass);
-    backdrop-filter: blur(12px);
-}
-
-.wifiCardHeader {
-    display: flex;
+.cancelActionBtn {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 0.9rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 1.25rem 0 0.85rem;
-    border-bottom: 1px solid var(--card-border);
-    margin-bottom: 0;
-    font-size: 1.2rem;
-    font-weight: 700;
+    justify-content: center;
+    min-height: 48px;
 }
 
-.wifiCardHeader h3 {
-    margin: 0;
-    font-size: 1.1rem;
-    color: var(--text-primary);
+.cancelActionBtn:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1.25rem 0.75rem;
+    }
+
+    .actionButtonsContainer {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .actionButton,
+    .copyButton,
+    .cancelActionBtn,
+    .saveVcfButton,
+    .openUrlButton {
+        width: 100%;
+        min-height: 48px;
+        box-sizing: border-box;
+        text-align: center;
+        justify-content: center;
+    }
+
+    .tagHud {
+        grid-template-columns: 1fr;
+    }
+
+    .hudItem {
+        padding: 0.85rem;
+    }
 }

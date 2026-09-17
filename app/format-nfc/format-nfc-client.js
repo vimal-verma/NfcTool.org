@@ -1,17 +1,30 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import styles from './page.module.css';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 export default function FormatNfcClient() {
     const [log, setLog] = useState([]);
     const [isSupported, setIsSupported] = useState(true);
     const [isFormatting, setIsFormatting] = useState(false);
+    const abortControllerRef = useRef(null);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && !('NDEFReader' in window)) {
             setIsSupported(false);
         }
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
     }, []);
 
     const addToLog = useCallback((message, type = 'info') => {
@@ -19,22 +32,40 @@ export default function FormatNfcClient() {
         setLog(prev => [`<span class="${styles[type]}">[${new Date().toLocaleTimeString()}] ${formatted}</span>`, ...prev]);
     }, []);
 
+    const handleCancelFormat = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsFormatting(false);
+        addToLog('Format operation cancelled by user.', 'info');
+    };
+
     const handleFormat = async () => {
         if (!('NDEFReader' in window)) {
             addToLog('Web NFC API is not supported in this browser.', 'error');
             return;
         }
 
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsFormatting(true);
+
         try {
             const ndef = new window.NDEFReader();
-            setIsFormatting(true);
-            addToLog('Ready to format. Bring your NFC tag close to your device.', 'info');
-            await ndef.write("");
+            addToLog('📡 Ready to format. Bring your NFC tag close to your device.', 'info');
+            await ndef.write("", { signal: controller.signal });
             addToLog('✅ Tag formatted successfully! Ready for NDEF data operations.', 'success');
         } catch (error) {
-            addToLog(`Format failed: ${error.message}`, 'error');
+            const parsed = formatNfcError(error);
+            addToLog(parsed.message, parsed.type);
         } finally {
-            setIsFormatting(false);
+            if (abortControllerRef.current === controller) {
+                setIsFormatting(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
@@ -46,13 +77,24 @@ export default function FormatNfcClient() {
                 <p className={styles.cardDesc}>
                     Formatting resets the memory structure of an NFC tag so it can reliably store Web NDEF data records like URLs, contacts, and text messages.
                 </p>
-                <button
-                    onClick={handleFormat}
-                    disabled={isFormatting || !isSupported}
-                    className={styles.actionButton}
-                >
-                    {!isSupported ? '🚫 Web NFC Unsupported' : isFormatting ? '📡 Bring Tag Close...' : '🛠️ Format NFC Tag'}
-                </button>
+                <div className={styles.buttonGroup}>
+                    <button
+                        onClick={handleFormat}
+                        disabled={isFormatting || !isSupported}
+                        className={`${styles.actionButton} ${isFormatting ? styles.waitingButton : ''}`}
+                    >
+                        {!isSupported ? '🚫 Web NFC Unsupported' : isFormatting ? '📡 Waiting for Tag... Tap Now' : '🛠️ Format NFC Tag'}
+                    </button>
+                    {isFormatting && (
+                        <button
+                            type="button"
+                            onClick={handleCancelFormat}
+                            className={styles.cancelButton}
+                        >
+                            ✕ Cancel
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Developer Console */}

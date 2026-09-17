@@ -1,19 +1,33 @@
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import styles from './page.module.css';
+import {
+    abortActiveNfcPush,
+    registerActiveNfcController,
+    releaseActiveNfcController,
+    formatNfcError
+} from '../utils/nfc-writer';
 
 export default function CloneNfcClient() {
     const [log, setLog] = useState([]);
     const [isSupported, setIsSupported] = useState(true);
     const [step, setStep] = useState(1); // 1 = Read Source, 2 = Write Target
     const [isScanning, setIsScanning] = useState(false);
+    const [isWriting, setIsWriting] = useState(false);
     const [clonedMessage, setClonedMessage] = useState(null);
+    const abortControllerRef = useRef(null);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && !('NDEFReader' in window)) {
             setIsSupported(false);
         }
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort();
+            }
+            abortActiveNfcPush();
+        };
     }, []);
 
     const addToLog = useCallback((message, type = 'info') => {
@@ -21,17 +35,40 @@ export default function CloneNfcClient() {
         setLog(prev => [`<span class="${styles[type]}">[${new Date().toLocaleTimeString()}] ${formatted}</span>`, ...prev]);
     }, []);
 
+    const handleCancelScan = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        setIsScanning(false);
+        addToLog('Source scan cancelled by user.', 'info');
+    };
+
+    const handleCancelWrite = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
+        setIsWriting(false);
+        addToLog('Target clone write cancelled by user.', 'info');
+    };
+
     const handleReadSource = async () => {
         if (!('NDEFReader' in window)) {
             addToLog('Web NFC API is not supported in this browser.', 'error');
             return;
         }
 
+        abortActiveNfcPush();
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        setIsScanning(true);
+
         try {
             const ndef = new window.NDEFReader();
-            setIsScanning(true);
             addToLog('STEP 1: Scanning source tag. Hold the original NFC tag near your device.', 'info');
-            await ndef.scan();
+            await ndef.scan({ signal: controller.signal });
 
             ndef.addEventListener('reading', ({ message }) => {
                 setClonedMessage(message);
@@ -46,7 +83,8 @@ export default function CloneNfcClient() {
                 setIsScanning(false);
             });
         } catch (error) {
-            addToLog(`Read error: ${error.message}`, 'error');
+            const parsed = formatNfcError(error);
+            addToLog(`Read error: ${parsed.message}`, parsed.type);
             setIsScanning(false);
         }
     };
@@ -57,20 +95,38 @@ export default function CloneNfcClient() {
             return;
         }
 
+        abortActiveNfcPush();
+        const controller = new AbortController();
+        abortControllerRef.current = controller;
+        registerActiveNfcController(controller);
+        setIsWriting(true);
+
         try {
             const ndef = new window.NDEFReader();
-            addToLog('STEP 2: Ready to write. Bring the destination NFC tag near your device.', 'info');
-            await ndef.write(clonedMessage);
+            addToLog('STEP 2: Ready to write. Bring the destination NFC tag near your device...', 'info');
+            await ndef.write(clonedMessage, { signal: controller.signal });
             addToLog('🎉 Target tag cloned successfully! Data written identical to source tag.', 'success');
         } catch (error) {
-            addToLog(`Write failed: ${error.message}`, 'error');
+            const parsed = formatNfcError(error);
+            addToLog(`Write failed: ${parsed.message}`, parsed.type);
+        } finally {
+            if (abortControllerRef.current === controller) {
+                setIsWriting(false);
+                releaseActiveNfcController(controller);
+            }
         }
     };
 
     const resetCloneProcess = () => {
+        if (abortControllerRef.current) {
+            abortControllerRef.current.abort();
+            abortControllerRef.current = null;
+        }
+        abortActiveNfcPush();
         setStep(1);
         setClonedMessage(null);
         setIsScanning(false);
+        setIsWriting(false);
         addToLog('Clone workflow reset. Ready to read a new source tag.', 'info');
     };
 
@@ -94,13 +150,31 @@ export default function CloneNfcClient() {
                         <p className={styles.stepDesc}>
                             Tap the button below and hold the original NFC tag against your device to copy its NDEF message.
                         </p>
-                        <button
-                            onClick={handleReadSource}
-                            disabled={isScanning || !isSupported}
-                            className={styles.actionButton}
-                        >
-                            {!isSupported ? '🚫 Web NFC Unsupported' : isScanning ? '📡 Scanning Source Tag...' : '📡 Read Source Tag'}
-                        </button>
+                        <div className={styles.buttonGroup}>
+                            {isScanning ? (
+                                <>
+                                    <button className={styles.waitingButton} type="button">
+                                        <span>📡</span> Scanning for Source Tag...
+                                    </button>
+                                    <button
+                                        onClick={handleCancelScan}
+                                        className={styles.cancelActionBtn}
+                                        type="button"
+                                        aria-label="Cancel source scan"
+                                    >
+                                        Cancel
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={handleReadSource}
+                                    disabled={!isSupported}
+                                    className={styles.actionButton}
+                                >
+                                    {!isSupported ? '🚫 Web NFC Unsupported' : '📡 Read Source Tag'}
+                                </button>
+                            )}
+                        </div>
                     </div>
                 )}
 
@@ -112,16 +186,34 @@ export default function CloneNfcClient() {
                             Source data captured ({clonedMessage?.records.length || 0} records). Place your blank destination NFC tag near your device.
                         </p>
                         <div className={styles.buttonGroup}>
-                            <button
-                                onClick={handleWriteTarget}
-                                disabled={!isSupported}
-                                className={styles.actionButton}
-                            >
-                                ✍️ Write Cloned Data
-                            </button>
-                            <button onClick={resetCloneProcess} className={styles.secondaryButton}>
-                                🔄 Start Over
-                            </button>
+                            {isWriting ? (
+                                <>
+                                    <button className={styles.waitingButton} type="button">
+                                        <span>📡</span> Waiting for Target Tag...
+                                    </button>
+                                    <button
+                                        onClick={handleCancelWrite}
+                                        className={styles.cancelActionBtn}
+                                        type="button"
+                                        aria-label="Cancel target write"
+                                    >
+                                        Cancel
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <button
+                                        onClick={handleWriteTarget}
+                                        disabled={!isSupported}
+                                        className={styles.actionButton}
+                                    >
+                                        ✍️ Write Cloned Data
+                                    </button>
+                                    <button onClick={resetCloneProcess} className={styles.secondaryButton} type="button">
+                                        🔄 Start Over
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 )}
